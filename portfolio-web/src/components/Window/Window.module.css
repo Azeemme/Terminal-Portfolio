@@ -1,0 +1,78 @@
+/* Outer frame around the whole draggable/resizable window */
+.windowFrame {
+  border: 1px solid #333;
+}
+
+.windowWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.windowTitleBar {
+  height: 30px;
+  background: #1f1f1f;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+/* react-rnd uses this plain class name to detect drag */
+:global(.window-drag-handle:hover) {
+  cursor: grab;
+}
+
+.titleLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 8px;
+}
+
+.appIcon {
+  width: 16px;
+  height: 16px;
+  border-radius: 0;
+  background: #4ec9b0;
+  display: inline-block;
+}
+
+.titleText {
+  color: white;
+  font-size: 12px;
+}
+
+.titleRight {
+  display: flex;
+}
+
+.controlButton {
+  width: 46px;
+  height: 30px;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  color: #d4d4d4;
+  padding: 0;
+}
+
+.controlButton:hover {
+  background: #3d3d3d;
+  color: white;
+}
+
+.closeButton:hover {
+  background: #c42b1c;
+  color: white;
+}
+
+.windowContent {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+/* empty */
