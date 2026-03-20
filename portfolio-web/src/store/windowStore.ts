@@ -31,7 +31,7 @@ const INITIAL_WINDOWS: Record<string, AppWindow> = {
   terminal: {
     id: 'terminal',
     title: 'Terminal',
-    isOpen: false,
+    isOpen: true,
     isMinimized: false,
     position: { x: 80, y: 60 },
     size: { width: 720, height: 480 },

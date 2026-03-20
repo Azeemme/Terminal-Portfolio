@@ -43,7 +43,7 @@ export default function Dock() {
           onClick={onTerminalClick}
         >
           <span aria-hidden="true">&gt;_</span>
-          {windows.terminal?.isOpen && !windows.terminal?.isMinimized ? (
+          {windows.terminal?.isOpen ? (
             <span className={styles.indicator} />
           ) : null}
         </button>
