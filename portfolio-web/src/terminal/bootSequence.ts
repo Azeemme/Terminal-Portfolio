@@ -38,6 +38,7 @@ function buildInfoLines(): string[] {
     `  ${c(82, 'whoami')}  ${c(240, 'about me')}`,
     `  ${c(82, 'social')}  ${c(240, 'links & contact')}`,
     `  ${c(82, 'open')}    ${c(240, 'open repo on GitHub')}`,
+    `  ${c(82, 'sudo')}    ${c(240, 'easter eggs')}`,
   ]
 }
 

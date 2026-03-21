@@ -128,6 +128,7 @@ export default function TerminalApp() {
       await command.execute(args, ctx)
     }
 
+    // PRD §7.1: populate commandRegistry before boot so help/autocomplete see all commands
     initializeCommands()
 
     if (!hasBooted.current) {
@@ -233,7 +234,7 @@ export default function TerminalApp() {
               const pathKey = currentPath.current.join('/')
               const cached = dirCache.current.get(pathKey)
               const entry = cached?.find((e) => e.name === match)
-              if (entry?.type === 'dir') suffix = '/'
+              if (entry?.type === 'dir' && commandName !== 'open') suffix = '/'
             }
 
             // Replace the partial token in the buffer with the full match
@@ -277,7 +278,7 @@ export default function TerminalApp() {
           let entriesForCompletion = cached
           if (commandName === 'cat') {
             entriesForCompletion = cached.filter((e) => e.type === 'file')
-          } else if (commandName === 'cd') {
+          } else if (commandName === 'cd' || commandName === 'open') {
             entriesForCompletion = cached.filter((e) => e.type === 'dir')
           }
 
