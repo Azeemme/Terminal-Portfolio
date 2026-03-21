@@ -38,11 +38,21 @@
   border-radius: 0;
   background: #4ec9b0;
   display: inline-block;
+  flex-shrink: 0;
+}
+
+.appIconImg {
+  width: 16px;
+  height: 16px;
+  display: block;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .titleText {
   color: white;
   font-size: 12px;
+  font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
 }
 
 .titleRight {

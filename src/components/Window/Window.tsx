@@ -52,7 +52,16 @@ export default function Window({ id, children }: WindowProps) {
       <div className={styles.windowWrapper}>
         <div className={`${styles.windowTitleBar} window-drag-handle`}>
           <div className={styles.titleLeft}>
-            <span className={styles.appIcon} aria-hidden="true" />
+            {id === 'terminal' ? (
+              <img
+                className={styles.appIconImg}
+                src="/terminal-window-icon.png"
+                alt=""
+                aria-hidden
+              />
+            ) : (
+              <span className={styles.appIcon} aria-hidden="true" />
+            )}
             <span className={styles.titleText}>{window.title}</span>
           </div>
           <div className={styles.titleRight}>
