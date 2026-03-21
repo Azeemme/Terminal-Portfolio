@@ -260,7 +260,11 @@ export const catCommand: Command = {
     }
 
     const entry = dirEntries.find((e) => e.name === filename)
-    if (entry?.type === 'dir') {
+    if (entry === undefined) {
+      ctx.writeError(`cat: ${filename}: No such file or directory`)
+      return
+    }
+    if (entry.type === 'dir') {
       ctx.writeError(`cat: ${filename}: Is a directory`)
       return
     }
@@ -272,7 +276,7 @@ export const catCommand: Command = {
 
     const repoName = getRepoName(ctx.currentPath)
     if (!repoName) {
-      ctx.writeError(`cat: ${filename}: No such file or directory`)
+      // Safeguard: GitHub fetch only applies inside a repo; fake files at ~/ are handled above.
       return
     }
 

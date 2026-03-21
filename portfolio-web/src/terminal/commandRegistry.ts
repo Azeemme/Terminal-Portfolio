@@ -1,5 +1,6 @@
 import type { Command } from './types'
 import { catCommand, cdCommand, lsCommand, pwdCommand } from './commands/filesystem'
+import { helpCommand, socialCommand, whoamiCommand } from './commands/info'
 
 export const commandRegistry: Record<string, Command> = {}
 
@@ -14,4 +15,7 @@ export function initializeCommands(): void {
   registerCommand(cdCommand)
   registerCommand(catCommand)
   registerCommand(pwdCommand)
+  registerCommand(helpCommand)
+  registerCommand(whoamiCommand)
+  registerCommand(socialCommand)
 }

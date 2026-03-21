@@ -208,6 +208,8 @@ export default function TerminalApp() {
         if (!buffer) return // empty buffer -- do nothing
 
         const parts = buffer.split(/\s+/)
+        const significantParts = parts.filter((p) => p.length > 0)
+        const commandName = significantParts[0] ?? ''
         const isCommandPosition = parts.length <= 1
 
         function handleAutocompleteResult(
@@ -241,11 +243,23 @@ export default function TerminalApp() {
             return
           }
 
-          // FR-045: multiple matches
-          terminalInstance.write('\r\n')
-          terminalInstance.write(candidates.join('  ') + '\r\n')
-          // Reprint prompt with current buffer (unmodified)
-          terminalInstance.write(promptString.current + fullBuffer)
+          // FR-045: multiple matches — complete to longest common prefix, then list
+          const lcp = candidates.reduce((acc, c) => {
+            let i = 0
+            while (i < acc.length && i < c.length && acc[i] === c[i]) i++
+            return acc.slice(0, i)
+          })
+          const beforePartial = fullBuffer.slice(0, fullBuffer.length - partial.length)
+          if (lcp.length > partial.length) {
+            // Advance the buffer to the common prefix without printing candidates yet
+            inputBuffer.current = beforePartial + lcp
+            replaceInputLine(terminalInstance, promptString.current, inputBuffer.current)
+          } else {
+            // Already at the divergence point — print candidates
+            terminalInstance.write('\r\n')
+            terminalInstance.write(candidates.join('  ') + '\r\n')
+            terminalInstance.write(promptString.current + fullBuffer)
+          }
         }
 
         if (isCommandPosition) {
@@ -260,7 +274,16 @@ export default function TerminalApp() {
           const cached = dirCache.current.get(pathKey)
           if (!cached) return // no cached entries -- do NOT trigger network request (FR-043)
 
-          const candidates = cached.map((e) => e.name).filter((name) => name.startsWith(partial))
+          let entriesForCompletion = cached
+          if (commandName === 'cat') {
+            entriesForCompletion = cached.filter((e) => e.type === 'file')
+          } else if (commandName === 'cd') {
+            entriesForCompletion = cached.filter((e) => e.type === 'dir')
+          }
+
+          const candidates = entriesForCompletion
+            .map((e) => e.name)
+            .filter((name) => name.startsWith(partial))
           handleAutocompleteResult(terminal, candidates, partial, buffer, false)
         }
         return
