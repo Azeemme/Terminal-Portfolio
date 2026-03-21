@@ -1,1 +1,14 @@
-/* empty */
+.terminalContainer {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #1a1a1a; /* fills the char-gap at the bottom */
+}
+
+/* hide xterm.js scrollbar */
+.terminalContainer :global(.xterm-viewport)::-webkit-scrollbar {
+  display: none;
+}
+.terminalContainer :global(.xterm-viewport) {
+  scrollbar-width: none;
+}

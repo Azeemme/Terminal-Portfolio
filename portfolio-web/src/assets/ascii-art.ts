@@ -1,1 +1,4 @@
-export const ASCII_ART = '// TODO: Replace with real ASCII art\n'.repeat(35)
+import rawArt from './Azeem-ascii-ansi.txt?raw'
+
+// ANSI color codes are already embedded by ascii-image-converter -C
+export const ASCII_ART = rawArt

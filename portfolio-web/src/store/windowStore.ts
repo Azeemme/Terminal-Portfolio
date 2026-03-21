@@ -33,10 +33,10 @@ const INITIAL_WINDOWS: Record<string, AppWindow> = {
     title: 'Terminal',
     isOpen: true,
     isMinimized: false,
-    position: { x: 80, y: 60 },
-    size: { width: 720, height: 480 },
+    position: { x: 0, y: 0 },
+    size: { width: window.innerWidth, height: window.innerHeight - DOCK_HEIGHT },
     zIndex: 100,
-    isMaximized: false,
+    isMaximized: true,
   },
   aichat: {
     id: 'aichat',
@@ -133,13 +133,21 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
       return
     }
 
+    const restoreSize = win.prevSize ?? {
+      width: Math.round(window.innerWidth * 0.8),
+      height: Math.round((window.innerHeight - DOCK_HEIGHT) * 0.8),
+    }
+    const restorePos = win.prevPosition ?? {
+      x: Math.round(window.innerWidth * 0.1),
+      y: Math.round((window.innerHeight - DOCK_HEIGHT) * 0.1),
+    }
     set((state) => ({
       windows: {
         ...state.windows,
         [id]: {
           ...state.windows[id],
-          position: state.windows[id].prevPosition ?? state.windows[id].position,
-          size: state.windows[id].prevSize ?? state.windows[id].size,
+          position: restorePos,
+          size: restoreSize,
           prevPosition: undefined,
           prevSize: undefined,
           isMaximized: false,

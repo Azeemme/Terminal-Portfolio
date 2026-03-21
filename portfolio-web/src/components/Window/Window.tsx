@@ -17,13 +17,17 @@ export default function Window({ id, children }: WindowProps) {
   const updatePosition = useWindowStore((s) => s.updatePosition)
   const updateSize = useWindowStore((s) => s.updateSize)
 
-  if (!window || !window.isOpen || window.isMinimized) return null
+  if (!window || !window.isOpen) return null
 
   return (
     <Rnd
       position={window.position}
       size={window.size}
-      style={{ zIndex: window.zIndex }}
+      style={{
+        zIndex: window.zIndex,
+        visibility: window.isMinimized ? 'hidden' : undefined,
+        pointerEvents: window.isMinimized ? 'none' : undefined,
+      }}
       dragHandleClassName="window-drag-handle"
       minWidth={400}
       minHeight={300}
