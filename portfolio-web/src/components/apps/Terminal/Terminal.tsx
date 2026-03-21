@@ -102,6 +102,23 @@ export default function TerminalApp() {
     terminal.open(containerRef.current)
     fitAddon.fit()
 
+    // Ctrl/Cmd+C: copy selection before xterm consumes the key (onData runs too late — selection is already cleared).
+    terminal.attachCustomKeyEventHandler((ev: KeyboardEvent) => {
+      if (ev.type !== 'keydown') return true
+      const copyChord =
+        (ev.ctrlKey || ev.metaKey) && (ev.key === 'c' || ev.key === 'C')
+      if (!copyChord || !terminal.hasSelection()) return true
+      ev.preventDefault()
+      const text = terminal.getSelection()
+      void navigator.clipboard
+        .writeText(text)
+        .then(() => {
+          terminal.clearSelection()
+        })
+        .catch(() => {})
+      return false
+    })
+
     terminalRef.current = terminal
     fitAddonRef.current = fitAddon
 
