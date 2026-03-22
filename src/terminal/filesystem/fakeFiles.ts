@@ -14,7 +14,7 @@ export const PORTFOLIO_OWNER = "Azeemme";
 
 export const WHOAMI_CONTENT = `Hi, I'm Azeem Ehtisham — a Software and IT Engineer at Purdue
 studying Computer Information Technology. I build agentic AI
-systems, full-stack apps, and infrastructure that actually ships.
+systems, full-stack apps, and reliable infrastructure.
 Currently leading a 12-person research team for the U.S. Space
 Force through Purdue's Data Mine program.`;
 
