@@ -1,7 +1,7 @@
 import type { DirEntry } from "../types";
 
 // TODO: Replace with real resume URL before deploy
-export const RESUME_URL = "/resume.pdf";
+export const RESUME_URL = "/Resume.pdf";
 
 export const GITHUB_USERNAME = "Azeemme"; // also available via import.meta.env.VITE_GITHUB_USERNAME
 
