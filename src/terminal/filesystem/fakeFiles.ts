@@ -12,11 +12,11 @@ export const PORTFOLIO_PHOTO_URL = "https://ehtishamphoto.pixieset.com";
 export const PORTFOLIO_REPO_NAME = "Terminal-Portfolio";
 export const PORTFOLIO_OWNER = "Azeemme";
 
-export const WHOAMI_CONTENT = `Hi, I'm Azeem Ehtisham — a software engineer with a passion for
-building things that sit at the intersection of technology and
-creativity. I work across full-stack web, mobile AR, and systems
-programming. Currently exploring creative tech, spatial computing,
-and whatever problem seems most interesting this week.`;
+export const WHOAMI_CONTENT = `Hi, I'm Azeem Ehtisham — a Software and IT Engineer at Purdue
+studying Computer Information Technology. I build agentic AI
+systems, full-stack apps, and infrastructure that actually ships.
+Currently leading a 12-person research team for the U.S. Space
+Force through Purdue's Data Mine program.`;
 
 export const CONTACT_CONTENT = `Email:    azeemmehtisham@gmail.com
 GitHub:   https://github.com/Azeemme
