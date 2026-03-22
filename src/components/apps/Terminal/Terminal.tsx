@@ -68,7 +68,7 @@ export default function TerminalApp() {
       fontSize: 14,
       lineHeight: 1.0,
       theme: {
-        background: '#1a1a1a',
+        background: 'transparent',
         foreground: '#d4d4d4',
         cursor: '#d4d4d4',
         cursorAccent: '#1a1a1a',
@@ -90,7 +90,7 @@ export default function TerminalApp() {
         brightWhite: '#ffffff',
       },
       scrollback: 1000,
-      allowTransparency: false,
+      allowTransparency: true,
       convertEol: true,
     })
 

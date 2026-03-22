@@ -33,10 +33,16 @@ const INITIAL_WINDOWS: Record<string, AppWindow> = {
     title: 'Terminal',
     isOpen: true,
     isMinimized: false,
-    position: { x: 0, y: 0 },
-    size: { width: window.innerWidth, height: window.innerHeight - DOCK_HEIGHT },
+    position: {
+      x: Math.round(window.innerWidth * 0.1),
+      y: Math.round((window.innerHeight - DOCK_HEIGHT) * 0.1),
+    },
+    size: {
+      width: Math.round(window.innerWidth * 0.8),
+      height: Math.round((window.innerHeight - DOCK_HEIGHT) * 0.8),
+    },
     zIndex: 100,
-    isMaximized: true,
+    isMaximized: false,
   },
   aichat: {
     id: 'aichat',
@@ -124,7 +130,7 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
             position: { x: 0, y: 0 },
             size: {
               width: window.innerWidth,
-              height: window.innerHeight - DOCK_HEIGHT,
+              height: window.innerHeight,
             },
             isMaximized: true,
           },

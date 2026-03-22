@@ -4,6 +4,7 @@ import styles from './Dock.module.css'
 
 export default function Dock() {
   const { windows, openApp, focusApp } = useWindowStore()
+  const isHidden = Object.values(windows).some((w) => w.isOpen && w.isMaximized)
   const [showModal, setShowModal] = useState(false)
 
   const onTerminalClick = () => {
@@ -34,7 +35,7 @@ export default function Dock() {
 
   return (
     <>
-      <div className={styles.dock}>
+      <div className={`${styles.dock}${isHidden ? ` ${styles.dockHidden}` : ''}`}>
         <button
           type="button"
           className={styles.iconButton}

@@ -15,6 +15,10 @@
   z-index: 9999;
 }
 
+.dockHidden {
+  display: none;
+}
+
 .iconButton {
   position: relative;
   width: 44px;
