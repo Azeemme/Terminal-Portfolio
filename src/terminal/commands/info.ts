@@ -18,6 +18,7 @@ export const helpCommand: Command = {
       ['whoami', 'About me'],
       ['social', 'Social links and contact'],
       ['open [repo]', 'Open a GitHub repository in browser'],
+      ['resume', 'Open resume (PDF)'],
       ['help', 'Show this help message'],
       ['clear', 'Clear the terminal'],
     ]

@@ -1,5 +1,10 @@
 import type { Command, TerminalContext } from '../types'
-import { FAKE_FILES, PORTFOLIO_OWNER, PORTFOLIO_REPO_NAME } from '../filesystem/fakeFiles'
+import {
+  FAKE_FILES,
+  PORTFOLIO_OWNER,
+  PORTFOLIO_REPO_NAME,
+  RESUME_URL,
+} from '../filesystem/fakeFiles'
 import { apiErrorMessage, fetchRepos } from '../filesystem/githubApi'
 import { pathKey } from '../filesystem/virtualFs'
 
@@ -62,6 +67,15 @@ export const openCommand: Command = {
 
     window.open(`https://github.com/${username}/${repoArg}`, '_blank')
     ctx.writeOutput(`Opening github.com/${username}/${repoArg}...`)
+  },
+}
+
+export const resumeCommand: Command = {
+  name: 'resume',
+  description: 'Open resume (PDF)',
+  execute: async (_args: string[], ctx: TerminalContext) => {
+    window.open(RESUME_URL, '_blank')
+    ctx.writeOutput('Opening resume...')
   },
 }
 

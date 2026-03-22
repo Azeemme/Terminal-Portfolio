@@ -20,8 +20,8 @@ function buildInfoLines(): string[] {
     c(82,  'Azeem Ehtisham'),
     c(238, '─'.repeat(14)),
     '',
-    `${c(82, 'Role')}     ${c(255, 'Software Engineer')}`,
-    `         ${c(255, '& Creative Technologist')}`,
+    `${c(82, 'Role')}     ${c(255, 'Software & IT Engineer')}`,
+    `         ${c(255, 'AI/Agentic Systems | Full-Stack | Infrastructure')}`,
     '',
     `${c(82, 'GitHub')}   ${c(39, 'github.com/Azeemme')}`,
     `${c(82, 'LinkedIn')} ${c(39, 'linkedin.com/in/azeemehtisham')}`,
@@ -38,6 +38,7 @@ function buildInfoLines(): string[] {
     `  ${c(82, 'whoami')}  ${c(240, 'about me')}`,
     `  ${c(82, 'social')}  ${c(240, 'links & contact')}`,
     `  ${c(82, 'open')}    ${c(240, 'open repo on GitHub')}`,
+    `  ${c(82, 'resume')}  ${c(240, 'open resume PDF')}`,
     `  ${c(82, 'sudo')}    ${c(240, 'easter eggs')}`,
   ]
 }

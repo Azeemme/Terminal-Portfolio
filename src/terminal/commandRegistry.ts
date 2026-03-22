@@ -1,7 +1,7 @@
 import type { Command } from './types'
 import { lsCommand, cdCommand, catCommand, pwdCommand } from './commands/filesystem'
 import { helpCommand, whoamiCommand, socialCommand } from './commands/info'
-import { openCommand, clearCommand } from './commands/actions'
+import { clearCommand, openCommand, resumeCommand } from './commands/actions'
 import {
   aptUpdateCommand,
   exitCommand,
@@ -34,6 +34,7 @@ export function initializeCommands(): void {
 
   // Action commands
   registerCommand(openCommand)
+  registerCommand(resumeCommand)
   registerCommand(clearCommand)
 
   // Easter egg commands (includes apt — extra easter egg beyond PRD list)
