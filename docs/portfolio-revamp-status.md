@@ -153,12 +153,107 @@ Config:
 - Third featured project slug `stylegentsia` chosen from the plan's two named options; Stage 2
   confirms the final selection and all content.
 
+## Batch 2+3 — Portfolio app + routing/window-state integration (COMPLETE)
+
+Combined because Portfolio needs routes and routes need Portfolio to render.
+
+Added:
+
+- `react-router-dom@6.30.6`. `BrowserRouter` in `src/main.tsx`.
+- `src/App.tsx` — top-level route view. Lazy-loads four branch chunks
+  (`Desktop`, `NotFound`, `ResumeRedirect`, `Hi`) so `/hi` + 404 don't pull the desktop shell.
+- `src/routing/RouteBridge.tsx` — the **only** route→store effect. Idempotently opens+focuses the
+  primary app the URL names; never calls `navigate()`.
+- `src/routing/useRouteControls.ts` — store→route helpers, called from event handlers only:
+  `goToPrimary`, `openProject`, `closeWindow` (with `nextPrimaryAfterClose` fallback).
+- `src/components/apps/Portfolio/` — `Portfolio.tsx` (hero + Resume/LinkedIn actions + featured
+  cards + experience + about + contact), `ProjectCard.tsx`, `ProjectDetail.tsx`
+  (focus-on-mount, Escape-to-close), `Portfolio.module.css`.
+- `src/components/routes/` — `NotFound.tsx` (404), `ResumeRedirect.tsx` (`/resume` → `/Resume.pdf`
+  via `window.location.replace`), `Hi.tsx` (lightweight `/hi` card; imports only profile+links).
+- `src/components/common/AppErrorBoundary.tsx` — non-crashing fallback for lazy app load/render
+  failure (plan §11); wraps each windowed app with `Suspense`.
+
+Changed:
+
+- `src/store/windowStore.ts` — added `portfolio` window (isOpen:false, centered ~1200×760 via new
+  `centeredRect`); `terminal.isOpen` `true`→**false** (plan §3).
+- `src/components/Desktop/Desktop.tsx` — `appComponents` = `{ portfolio, terminal }`; Terminal is
+  `React.lazy`; renders `<RouteBridge>`; each app wrapped in `AppErrorBoundary` + `Suspense`.
+- `src/components/Window/Window.tsx` — close button → `closeWindow` (route-aware fallback);
+  `onMouseDown` focus → `goToPrimary` for routed apps so focus updates the URL; title controls
+  `stopPropagation` on mousedown. Drag/resize/min/max unchanged.
+- `src/components/Dock/Dock.tsx` — dock is now `Portfolio | Terminal | Resume ↗ | AI`.
+  Portfolio/Terminal call `goToPrimary`; Resume is a plain `<a target="_blank">` (no indicator);
+  AI keeps the "coming soon" modal (+ focus return, Escape). `<nav aria-label>`, `aria-current`.
+- `src/reset.css` — removed global `overflow:hidden` (mobile/standalone need document scroll; the
+  desktop shell clips itself). Added `.sr-only` + `:focus-visible` outline + body bg.
+
+### Validation
+
+- npm test: PASS (43/43)
+- npm run lint: PASS
+- npm run build: PASS — **documented >500 kB chunk warning is GONE**. Entry JS 564 kB → 159 kB
+  (gzip 52 kB); Terminal split to its own 363 kB lazy chunk; Desktop chunk 70 kB;
+  `/hi` chunk ~1.5 kB (+ profile 0.7 + links 0.45), no desktop/terminal code.
+- Independent architecture review (architecture-reviewer subagent): COMPLETE. Anti-loop design
+  confirmed sound. Findings addressed below.
+
+### Review findings & resolution
+
+- **C1 (critical, confirmed) — restore-from-minimize broken via dock/title-bar for the app already
+  on its route.** `focusApp` never clears `isMinimized`, and the URL was already correct so no
+  navigation / RouteBridge re-run occurred. FIXED: routed-app focus now goes through `openApp`
+  (clears `isMinimized` + `isOpen`). Extracted pure `primaryFocusAction(win, topZ)` →
+  `open|focus|noop`, used by `RouteBridge`, unit tested (incl. the minimized-but-top-z case).
+- **I2 (confirmed) — global `keydown` Escape listeners collide** (ProjectDetail vs AI modal).
+  FIXED: ProjectDetail's Escape listener is now scoped to its container element (only fires when
+  focus is within the detail subtree); the Dock modal listener moved to capture phase +
+  `stopPropagation`.
+- **I3 (confirmed) — one gesture on a non-primary routed window created two history entries.**
+  FIXED: raw window focus-follow (`focusWindow`) uses a *replace* navigation, so the mousedown→click
+  sequence on a background Portfolio card no longer leaves a phantom `/` entry. Deliberate
+  navigations (dock buttons, card clicks, direct URLs) still push. See limitation note below.
+- **I4 — wiring layer (`RouteBridge`/`useRouteControls`/`focusWindow`) has no automated coverage.**
+  Partially mitigated by the pure `primaryFocusAction` tests; the remaining event-handler behaviour
+  is recorded under "Manual verification needed" (no jsdom/RTL per plan §15).
+- **I5 — stale status / uncommitted batch.** Resolved by this update + checkpoint commit.
+- **M1** — `<Suspense>` root fallback is now a full-bleed dark panel, not `null` (plan §11).
+- **M3** — `window` shadowing in `Window.tsx` renamed to `win`.
+- **M4** — removed the duplicate `RESUME_PATH` from `routes.ts`; single source is `data/links.ts`.
+- **M5** — trimmed `useRouteControls` return surface to what consumers use.
+- **M6** — Portfolio scroll reset now keyed on `useLocation().pathname` (covers slug→slug).
+- **M2 / M7** — no code change (see limitations); M2 recorded under manual verification.
+
+### Routing behaviour verified by inspection + unit tests
+
+- `/` → Portfolio (RouteBridge opens it). `/desktop` → bare desktop, nothing auto-opens.
+  `/terminal` → Terminal only. `/projects` → Portfolio, focus moves to Featured heading.
+  `/projects/:slug` known → ProjectDetail (focus to container). Unknown slug → in-Portfolio
+  "Project not found". Unknown route → standalone `NotFound`. `/resume` → replace to `/Resume.pdf`.
+- Close routed app → `nextPrimaryAfterClose` → other routed app or `/desktop` (unit tested).
+- Back/Forward: `parseRoute`/`pathForPrimary` round-trip unit tested; secondary windows preserved
+  because RouteBridge only ever opens/focuses, never closes.
+
+### Known limitations / decisions
+
+- **Raw window focus-follow uses `replace` navigation.** Clicking a background (non-primary) routed
+  window updates the primary URL without adding a history entry, and does not restore that app's
+  previous sub-route (e.g. `/projects/suits`). Plan §4 only requires focus to "update the primary
+  URL"; deliberate navigations (dock, cards, direct URLs) still build history normally. Revisit in
+  Stage 2 if a "remember last sub-route" behaviour is wanted.
+- **`/desktop` reached by in-session navigation is not forcibly bare.** `RouteBridge` never *closes*
+  windows (plan §4: "Do not close unrelated windows merely because the URL changes"), so windows
+  opened earlier in the session stay open if you navigate/Back into `/desktop`. Direct load /
+  refresh of `/desktop` is deterministically bare (store resets to all-closed).
+- One dark frame before the desktop paints on first load (root Suspense fallback; body bg is dark,
+  not white). Stage 2 may add a splash.
+
 ## Completed
 
 - [x] Batch 0 - Repository reconnaissance
 - [x] Batch 1 - Shared data + route core + tests
-- [ ] Batch 2 - Portfolio application
-- [ ] Batch 3 - Routing/window state integration
+- [x] Batch 2+3 - Portfolio application + routing/window state integration
 - [ ] Batch 4 - Terminal integration
 - [ ] Batch 5 - Mobile and /hi
 - [ ] Batch 6 - Accessibility, errors, metadata, deployment
@@ -170,9 +265,26 @@ None beyond documented baseline.
 
 ## Manual verification needed (running list)
 
-- (none yet)
+- **NEEDS MANUAL VERIFICATION:** Portfolio window visually centered at ~1200×760 when space allows.
+- **NEEDS MANUAL VERIFICATION:** Portfolio content is internally scrollable and not clipped.
+- **NEEDS MANUAL VERIFICATION:** No stray document scrollbars on the desktop route after the
+  `reset.css` `overflow` change; animated gradient background still renders full-bleed.
+- **NEEDS MANUAL VERIFICATION:** Dock appearance with the new 4-item layout + glyphs.
+- **NEEDS MANUAL VERIFICATION:** Project detail focus ring / Escape-to-close feels right.
+- **NEEDS MANUAL VERIFICATION:** First-load dark frame before desktop paints is not jarring.
+- **NEEDS MANUAL VERIFICATION:** Terminal still boots correctly on first (lazy) open.
+- **NEEDS MANUAL VERIFICATION:** `/hi` mobile layout and one-tap targets.
+- **NEEDS MANUAL VERIFICATION (behaviour, no browser):** the event-handler wiring in
+  `RouteBridge` / `useRouteControls` / `Window.focusWindow` for these §4 invariants —
+  Back/Forward restores focus; refresh restores primary only; closing the routed app falls back
+  correctly; unrelated secondary windows are not closed on URL change; minimize→restore via dock;
+  Escape scoping between project detail and AI modal. Pure sub-logic (`parseRoute`,
+  `pathForPrimary`, `primaryAppOf`, `primaryFocusAction`, `nextPrimaryAfterClose`) IS unit tested.
+- **NEEDS MANUAL VERIFICATION:** `/desktop` bare state — deterministic on direct load/refresh;
+  in-session navigation intentionally keeps already-open windows (see limitations).
 
 ## Last validated commit
 
 - Baseline: `b3ed9e5`
-- Batch 1: pending checkpoint commit
+- Batch 1: `fb4f616`
+- Batch 2+3: pending checkpoint commit (this update)

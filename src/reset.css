@@ -1,2 +1,28 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body, #root { width: 100%; height: 100%; overflow: hidden; }
+html, body, #root { width: 100%; min-height: 100%; }
+body { background: #0a1830; color: #d4d4d4; }
+img { max-width: 100%; }
+
+/* Visually hidden but available to assistive tech. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:focus-visible {
+  outline: 2px solid #4ec9b0;
+  outline-offset: 2px;
+}
+
+/*
+ * The desktop shell owns its own overflow (`.desktop` is position:fixed;
+ * overflow:hidden). Standalone routes (`/hi`, 404) and the mobile Portfolio
+ * bypass rely on normal document scrolling, so overflow is NOT clamped here.
+ */

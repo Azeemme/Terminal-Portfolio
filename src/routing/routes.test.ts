@@ -3,6 +3,7 @@ import {
   parseRoute,
   pathForPrimary,
   primaryAppOf,
+  primaryFocusAction,
   nextPrimaryAfterClose,
   type ParsedRoute,
 } from './routes'
@@ -123,6 +124,25 @@ describe('round-trip: parseRoute <-> pathForPrimary (Back/Forward stability)', (
           ? 'projects'
           : null
     expect(pathForPrimary(primary as 'portfolio' | 'terminal', slug)).toBe(path)
+  })
+})
+
+describe('primaryFocusAction', () => {
+  it('opens a closed window', () => {
+    expect(primaryFocusAction(undefined, 5)).toBe('open')
+    expect(primaryFocusAction({ isOpen: false, isMinimized: false, zIndex: 5 }, 5)).toBe('open')
+  })
+
+  it('opens a minimized window even when it is already top-z (restore path)', () => {
+    expect(primaryFocusAction({ isOpen: true, isMinimized: true, zIndex: 9 }, 9)).toBe('open')
+  })
+
+  it('focuses a visible window that is not on top', () => {
+    expect(primaryFocusAction({ isOpen: true, isMinimized: false, zIndex: 4 }, 9)).toBe('focus')
+  })
+
+  it('does nothing when already open, visible, and on top', () => {
+    expect(primaryFocusAction({ isOpen: true, isMinimized: false, zIndex: 9 }, 9)).toBe('noop')
   })
 })
 

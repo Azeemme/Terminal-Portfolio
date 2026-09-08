@@ -27,11 +27,37 @@ export interface WindowStore {
 
 export const DOCK_HEIGHT = 60
 
+function centeredRect(maxW: number, maxH: number, marginX: number, marginY: number) {
+  const width = Math.min(maxW, window.innerWidth - marginX * 2)
+  const height = Math.min(maxH, window.innerHeight - DOCK_HEIGHT - marginY * 2)
+  return {
+    size: { width, height },
+    position: {
+      x: Math.max(0, Math.round((window.innerWidth - width) / 2)),
+      y: Math.max(0, Math.round((window.innerHeight - DOCK_HEIGHT - height) / 2)),
+    },
+  }
+}
+
+const portfolioRect = centeredRect(1200, 760, 40, 40)
+
 const INITIAL_WINDOWS: Record<string, AppWindow> = {
+  portfolio: {
+    id: 'portfolio',
+    title: 'Portfolio',
+    // Opened by the route bridge based on the URL — not mounted invisibly (plan §3).
+    isOpen: false,
+    isMinimized: false,
+    position: portfolioRect.position,
+    size: portfolioRect.size,
+    zIndex: 100,
+    isMaximized: false,
+  },
   terminal: {
     id: 'terminal',
     title: 'Terminal',
-    isOpen: true,
+    // Registered but closed initially (plan §3); opened via route / dock.
+    isOpen: false,
     isMinimized: false,
     position: {
       x: Math.round(window.innerWidth * 0.1),

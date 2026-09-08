@@ -1,0 +1,63 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 40px 20px calc(40px + env(safe-area-inset-bottom));
+  background: linear-gradient(344deg, #0a1830, #1a2a4a, #0d3b66);
+  color: #e6ebf2;
+  font-family: 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
+  text-align: center;
+}
+
+.name {
+  font-size: clamp(24px, 7vw, 34px);
+  font-weight: 700;
+}
+
+.title {
+  font-size: 13px;
+  color: #4ec9b0;
+  letter-spacing: 0.02em;
+}
+
+.edu {
+  font-size: 13px;
+  color: #a8b3c4;
+  margin-bottom: 20px;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 14px 18px;
+  border: 1px solid #3a4a63;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e6ebf2;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.link:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.primary {
+  border-color: #4ec9b0;
+  color: #4ec9b0;
+  font-weight: 700;
+}

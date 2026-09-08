@@ -1,6 +1,7 @@
 import React from 'react'
 import { Rnd } from 'react-rnd'
 import { useWindowStore } from '../../store/windowStore'
+import { useRouteControls } from '../../routing/useRouteControls'
 import styles from './Window.module.css'
 
 interface WindowProps {
@@ -9,31 +10,30 @@ interface WindowProps {
 }
 
 export default function Window({ id, children }: WindowProps) {
-  const window = useWindowStore((s) => s.windows[id])
-  const focusApp = useWindowStore((s) => s.focusApp)
+  const win = useWindowStore((s) => s.windows[id])
   const minimizeApp = useWindowStore((s) => s.minimizeApp)
   const maximizeApp = useWindowStore((s) => s.maximizeApp)
-  const closeApp = useWindowStore((s) => s.closeApp)
   const updatePosition = useWindowStore((s) => s.updatePosition)
   const updateSize = useWindowStore((s) => s.updateSize)
+  const { focusWindow, closeWindow } = useRouteControls()
 
-  if (!window || !window.isOpen) return null
+  if (!win || !win.isOpen) return null
 
   return (
     <Rnd
-      position={window.position}
-      size={window.size}
+      position={win.position}
+      size={win.size}
       style={{
-        zIndex: window.zIndex,
-        visibility: window.isMinimized ? 'hidden' : undefined,
-        pointerEvents: window.isMinimized ? 'none' : undefined,
+        zIndex: win.zIndex,
+        visibility: win.isMinimized ? 'hidden' : undefined,
+        pointerEvents: win.isMinimized ? 'none' : undefined,
       }}
       dragHandleClassName="window-drag-handle"
       minWidth={400}
       minHeight={300}
       bounds="window"
-      enableResizing={!window.isMaximized}
-      disableDragging={window.isMaximized}
+      enableResizing={!win.isMaximized}
+      disableDragging={win.isMaximized}
       onDragStop={(e, d) => {
         void e
         updatePosition(id, { x: d.x, y: d.y })
@@ -46,7 +46,7 @@ export default function Window({ id, children }: WindowProps) {
         updateSize(id, newSize)
         updatePosition(id, { x: position.x, y: position.y })
       }}
-      onMouseDown={() => focusApp(id)}
+      onMouseDown={() => focusWindow(id)}
       className={styles.windowFrame}
     >
       <div className={styles.windowWrapper}>
@@ -62,9 +62,12 @@ export default function Window({ id, children }: WindowProps) {
             ) : (
               <span className={styles.appIcon} aria-hidden="true" />
             )}
-            <span className={styles.titleText}>{window.title}</span>
+            <span className={styles.titleText}>{win.title}</span>
           </div>
-          <div className={styles.titleRight}>
+          <div
+            className={styles.titleRight}
+            onMouseDown={(e) => e.stopPropagation()}
+          >
             <button
               type="button"
               className={`${styles.controlButton}`}
@@ -86,7 +89,7 @@ export default function Window({ id, children }: WindowProps) {
             <button
               type="button"
               className={`${styles.controlButton} ${styles.closeButton}`}
-              onClick={() => closeApp(id)}
+              onClick={() => closeWindow(id)}
               aria-label="Close"
               title="Close"
             >

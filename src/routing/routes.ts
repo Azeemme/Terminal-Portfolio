@@ -16,7 +16,8 @@ export const DESKTOP_PATH = '/desktop'
 export const TERMINAL_PATH = '/terminal'
 export const HI_PATH = '/hi'
 export const HOME_PATH = '/'
-export const RESUME_PATH = '/Resume.pdf'
+// The static resume path lives in the shared data layer (`src/data/links.ts`);
+// it is intentionally not re-exported here to keep a single source of truth.
 
 export type ParsedRoute =
   /** `/` and `/projects` — Portfolio with no / list selection. */
@@ -101,6 +102,30 @@ export function pathForPrimary(
   if (slug === 'projects') return PROJECTS_PATH
   if (slug) return `${PROJECTS_PATH}/${encodeURIComponent(slug)}`
   return HOME_PATH
+}
+
+interface RoutedWindowState {
+  isOpen: boolean
+  isMinimized: boolean
+  zIndex: number
+}
+
+/**
+ * What the route → store bridge should do to make `win` the visible, focused
+ * primary app for the current URL. Pure so the decision is unit tested without
+ * a DOM (covers the "restore from minimized" path in particular).
+ *
+ * - `'open'`   — window is closed OR minimized: needs a full open (clears both).
+ * - `'focus'`  — window is visible but not on top: raise it.
+ * - `'noop'`   — already open, not minimized, already on top.
+ */
+export function primaryFocusAction(
+  win: RoutedWindowState | undefined,
+  topZ: number,
+): 'open' | 'focus' | 'noop' {
+  if (!win || !win.isOpen || win.isMinimized) return 'open'
+  if (win.zIndex !== topZ) return 'focus'
+  return 'noop'
 }
 
 interface ClosableWindow {

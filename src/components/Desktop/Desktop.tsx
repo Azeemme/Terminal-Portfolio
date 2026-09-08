@@ -1,25 +1,47 @@
-import type { ComponentType } from 'react'
+import { lazy, Suspense, type ComponentType } from 'react'
 import { useWindowStore } from '../../store/windowStore'
 import Window from '../Window/Window'
 import Dock from '../Dock/Dock'
-import Terminal from '../apps/Terminal/Terminal'
+import Portfolio from '../apps/Portfolio/Portfolio'
+import AppErrorBoundary from '../common/AppErrorBoundary'
+import RouteBridge from '../../routing/RouteBridge'
 import styles from './Desktop.module.css'
 
+// Terminal (xterm.js) is heavy and optional — never in the entry chunk (plan §3).
+const Terminal = lazy(() => import('../apps/Terminal/Terminal'))
+
 const appComponents: Record<string, ComponentType> = {
+  portfolio: Portfolio,
   terminal: Terminal,
 }
 
+const appTitles: Record<string, string> = {
+  portfolio: 'Portfolio',
+  terminal: 'Terminal',
+}
+
+function AppLoading() {
+  return (
+    <div style={{ padding: '24px', color: '#808080', fontSize: '13px' }}>Loading…</div>
+  )
+}
+
 export default function Desktop() {
-  const { windows } = useWindowStore()
+  const windows = useWindowStore((s) => s.windows)
 
   return (
     <div className={styles.desktop}>
+      <RouteBridge />
       {Object.values(windows).map((win) => {
         const AppComponent = appComponents[win.id]
-        if (!AppComponent) return null // aichat currently has no app component
+        if (!AppComponent) return null // aichat is a dock modal, not a window
         return (
           <Window key={win.id} id={win.id}>
-            <AppComponent />
+            <AppErrorBoundary appName={appTitles[win.id] ?? win.title}>
+              <Suspense fallback={<AppLoading />}>
+                <AppComponent />
+              </Suspense>
+            </AppErrorBoundary>
           </Window>
         )
       })}
