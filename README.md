@@ -19,9 +19,9 @@ repositories live.
   links, projects, and experience stay consistent.
 - Fully static, no backend. Deploys to **GitHub Pages** at `azeemme.com`.
 
-> **Content status:** project copy, media, and some experience details are
-> functional placeholders while the design/content pass is finalized. No metrics
-> or outcomes are claimed until then.
+> **Media:** the three project images live in `public/projects/` — see the README
+> there. If a file is absent the card/hero shows a labelled graph-paper
+> placeholder (no broken image, no layout shift).
 
 ## Routes
 
@@ -31,7 +31,7 @@ repositories live.
 | `/desktop` | Bare desktop |
 | `/terminal` | Terminal |
 | `/projects` | Portfolio, project list |
-| `/projects/:slug` | Portfolio, project detail (e.g. `/projects/bioreactorxr`, `/projects/suits`) |
+| `/projects/:slug` | Portfolio, project detail — `bioreactorxr`, `off-grid-telemetry`, `suits` |
 | `/hi` | Lightweight networking card |
 | `/resume` | Redirects to `/Resume.pdf` |
 | `/Resume.pdf` | Static résumé asset (never routed) |
@@ -163,11 +163,16 @@ src/
 ## Development Notes
 
 - **CSS Modules only** — no Tailwind, no styled-components. Styles co-located as
-  `*.module.css`.
+  `*.module.css`. Shared design tokens (the "Console / instrumentation"
+  vocabulary — surfaces, rules, corner-tick panels, section rails, accents) live
+  as CSS custom properties in `src/styles/tokens.css`.
+- **Type** — Archivo (names / titles / summaries / body) + JetBrains Mono
+  (metadata / labels / tags / buttons / anything structural), one combined
+  Google Fonts request.
 - **URL ↔ window state** — the URL owns the primary app and selected project;
   Zustand owns window open/minimize/maximize/geometry/z-order. `navigate()` is
   called only from event handlers; `RouteBridge` is the only URL-reactive effect.
-- **Mobile** — below 820px (`useIsMobile`) the desktop shell, windows, and dock
+- **Mobile** — below 768px (`useIsMobile`) the desktop shell, windows, and dock
   are bypassed; Portfolio renders inline.
 - **No backend, no SSR** — fully static. The GitHub token is embedded in the
   bundle; use a minimal read-only scope.

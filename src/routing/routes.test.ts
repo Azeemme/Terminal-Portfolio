@@ -8,7 +8,7 @@ import {
   type ParsedRoute,
 } from './routes'
 
-const SLUGS = ['bioreactorxr', 'suits', 'stylegentsia'] as const
+const SLUGS = ['bioreactorxr', 'off-grid-telemetry', 'suits'] as const
 
 describe('parseRoute', () => {
   it('maps / to Portfolio home', () => {

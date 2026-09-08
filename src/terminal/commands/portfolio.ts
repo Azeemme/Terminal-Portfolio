@@ -92,11 +92,13 @@ export const experienceCommand: Command = {
   description: 'Work and research experience',
   execute: async (_args: string[], ctx: TerminalContext) => {
     for (const entry of experience) {
-      ctx.writeOutput(GREEN(entry.role))
+      const range = `${entry.start} — ${entry.end ?? 'Present'}`
+      ctx.writeOutput(`${GREEN(entry.role)}  ${DIM(range)}`)
       ctx.writeOutput(DIM(entry.organization))
       ctx.writeOutput(entry.summary)
       ctx.writeOutput('')
     }
+    ctx.writeOutput(DIM('Full history: open resume'))
   },
 }
 
@@ -119,16 +121,12 @@ export const skillsCommand: Command = {
     ctx.writeOutput(`${GREEN('Focus')}   ${profile.focusAreas.join(' · ')}`)
 
     const tech = Array.from(
-      new Set(
-        projects
-          .flatMap((p) => p.technologies)
-          .filter((t) => !/placeholder/i.test(t)),
-      ),
+      new Set(projects.flatMap((p) => [...p.technologies, ...p.detailTechnologies])),
     )
     if (tech.length > 0) {
       ctx.writeOutput(`${GREEN('Tech')}    ${tech.join(', ')}`)
     }
     ctx.writeOutput('')
-    ctx.writeOutput(DIM('A fuller breakdown lands with the Stage 2 content pass.'))
+    ctx.writeOutput(DIM('Full skill list: open resume'))
   },
 }
