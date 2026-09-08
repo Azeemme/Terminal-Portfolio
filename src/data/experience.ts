@@ -1,30 +1,47 @@
 /**
- * Shared experience data. Stage 1 seeds only the one role documented in the
- * repository; finalized history, dates, and bullet points are a Stage 2 task.
- * Do not invent roles, dates, or outcomes.
+ * Shared experience data — Stage 2. Compressed on purpose; the full history
+ * lives in the résumé. Every entry is verified against `master_resume.typ`.
  */
 
 export interface ExperienceEntry {
   id: string
   role: string
   organization: string
-  /** Human-readable date range. `null` end means current. */
-  start: string | null
+  /** Human-readable start, e.g. "May 2026". */
+  start: string
+  /** Human-readable end, or `null` when ongoing. */
   end: string | null
   summary: string
-  /** `true` while finalized copy/dates are pending (Stage 2). */
-  placeholder: boolean
+  current: boolean
 }
 
 export const experience: ExperienceEntry[] = [
   {
-    id: 'datamine-space-force',
-    role: 'Research Team Lead',
-    organization: "U.S. Space Force — Purdue Data Mine",
-    start: null,
-    end: null,
+    id: 'datamine-ussf',
+    role: 'Team Lead / Scrum Master',
+    organization: 'The Data Mine · U.S. Space Force',
+    start: 'Jan 2026',
+    end: 'Jul 2026',
     summary:
-      'Leads a 12-person research team for the U.S. Space Force through Purdue University’s Data Mine program.',
-    placeholder: true,
+      'Directed a 12-person team delivering a resilient cyber-defense ecosystem across three research workstreams.',
+    current: false,
+  },
+  {
+    id: 'surf-bioreactorxr',
+    role: 'Undergraduate Research Fellow',
+    organization: 'Purdue SURF · OUR Scholars Program',
+    start: 'May 2026',
+    end: null,
+    summary: 'Building the BioreactorXR mixed-reality training application.',
+    current: true,
+  },
+  {
+    id: 'brand-studio-photo',
+    role: 'Boiler Ambassador Photographer',
+    organization: 'Purdue University · Brand Studio',
+    start: 'Oct 2024',
+    end: null,
+    summary: 'Event photography for Purdue Marketing and Student Life.',
+    current: true,
   },
 ]

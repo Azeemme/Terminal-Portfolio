@@ -1,10 +1,7 @@
 /**
- * Shared profile data. Consumed by Portfolio, Terminal, mobile presentation,
- * routing metadata, and /hi.
- *
- * Stage 1 keeps only facts that already existed in the repository
- * (see `src/terminal/filesystem/fakeFiles.ts` history). Finalized copy is a
- * Stage 2 concern — do not invent metrics, outcomes, or experience here.
+ * Shared profile data — Stage 2 finalized copy (approved Stage 2 design).
+ * Consumed by Portfolio, Terminal, the mobile presentation, routing metadata,
+ * and `/hi`.
  */
 
 export interface ProfileLink {
@@ -16,34 +13,47 @@ export interface ProfileLink {
 
 export interface Profile {
   name: string
-  /** Primary positioning line (plan §9). */
+  /** Primary positioning line. */
   title: string
-  /** Secondary positioning line (plan §9). */
+  /** Secondary positioning line (mono, uppercase). */
   tagline: string
+  focusAreas: string[]
   education: string
-  /** Short introduction. Placeholder copy is replaced in Stage 2. */
+  /** Short introduction (hero). */
   intro: string
-  /** Longer "About" copy. Placeholder copy is replaced in Stage 2. */
+  /** Short "About" copy. */
   about: string
   location: string
-  /** Headline focus areas (from the plan §9 positioning line — not an invented skill list). */
-  focusAreas: string[]
+  /** Right-side profile "facts" panel. */
+  facts: {
+    school: string
+    based: string
+    /** Current engagement — must stay accurate to today's date. */
+    now: { role: string; org: string }
+  }
 }
 
 export const profile: Profile = {
   name: 'Azeem Ehtisham',
   title: 'Software & Systems Engineer',
-  tagline: 'XR | Full-Stack | Infrastructure',
+  tagline: 'XR · Full-Stack · Infrastructure',
+  focusAreas: ['XR', 'Full-Stack', 'Infrastructure'],
   education: 'Purdue University — Computer Information Technology',
   intro:
-    "I build XR experiences, full-stack applications, and reliable infrastructure. " +
-    "Currently leading a 12-person research team for the U.S. Space Force through " +
-    "Purdue's Data Mine program.",
+    'I build mixed-reality training software, full-stack telemetry systems, and the ' +
+    'infrastructure that keeps them running — from Quest headsets to a solar-powered ' +
+    'cabin in the Ozarks.',
   about:
-    "I'm a Software & Systems Engineer studying Computer Information Technology at " +
-    "Purdue University. My work spans mixed-reality applications, full-stack product " +
-    "development, and infrastructure. I currently lead a 12-person research team for " +
-    "the U.S. Space Force through Purdue's Data Mine program.",
+    'Computer Information Technology at Purdue. My work spans mixed-reality applications, ' +
+    'full-stack product development, and infrastructure — usually where software has to ' +
+    'meet real hardware.',
   location: 'West Lafayette, Indiana',
-  focusAreas: ['XR', 'Full-Stack', 'Infrastructure'],
+  facts: {
+    school: 'Purdue University — Computer Information Technology',
+    based: 'West Lafayette, Indiana',
+    now: {
+      role: 'Undergraduate Research Fellow',
+      org: 'Purdue SURF · OUR Scholars Program',
+    },
+  },
 }

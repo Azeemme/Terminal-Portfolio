@@ -1,125 +1,274 @@
 /**
- * Shared project data.
+ * Shared project data — Stage 2 finalized content.
  *
- * Stage 1 rules:
- * - Every project below is a PLACEHOLDER. Finalized copy, media, links, metrics,
- *   and outcomes are added in Stage 2 (plan Stage 2 §3).
- * - Do not invent metrics or outcomes. Summaries and technology lists here are
- *   drawn only from the approved implementation plan.
- * - `status` / `featured` are presentation logic only. Client-bundled data is
- *   NOT an access-control mechanism — never put confidential content here.
+ * Content rules (see docs/portfolio-revamp-status.md → Stage 2 → verified-fact
+ * decisions):
+ * - Every field below is drawn from the approved Stage 2 design and/or the
+ *   master resume. No invented metrics or outcomes.
+ * - Optional fields that could not be verified are OMITTED, not faked, and are
+ *   recorded in the status doc.
+ * - `status` / `featured` are presentation logic only, not access control.
  */
 
 export type ProjectStatus = 'public' | 'hidden' | 'coming-soon'
 
-export interface ProjectLink {
+/** A structured metadata field — homepage 3-field grid, facts rail, system flow. */
+export interface FactField {
+  label: string
+  value: string
+  /** Render the value in the teal "reading" colour. */
+  highlight?: boolean
+}
+
+export interface ProjectAction {
   label: string
   href: string
+  kind: 'primary' | 'secondary' | 'ghost-teal'
   external: boolean
+  /** Internal router link (renders <Link>); mutually exclusive with `external`. */
+  internal?: boolean
+}
+
+export interface ProjectMedia {
+  /** Path under /public. A labelled graph-paper placeholder shows until the file exists. */
+  src: string
+  alt: string
+  /** CSS object-position for the capture crop. */
+  objectPosition?: string
+  /** Overlay caption on the capture panel (uppercase mono). */
+  caption?: string
 }
 
 export interface CaseStudySection {
   heading: string
-  /** Placeholder-friendly prose. Replaced with real case-study copy in Stage 2. */
   body: string
-}
-
-export interface ProjectMedia {
-  kind: 'image' | 'video' | 'placeholder'
-  /** Omitted for `kind: 'placeholder'`. */
-  src?: string
-  /** Required for a11y even on placeholder blocks. */
-  alt: string
-  poster?: string
 }
 
 export interface Project {
   slug: string
+  /** Display index, e.g. "01". */
+  index: string
   title: string
+  /** e.g. "Mixed Reality", "Full-Stack · Infrastructure". */
   category: string
-  summary: string
+  /** Small chip beside the index, e.g. "Live demo". */
+  tag?: string
   featured: boolean
   status: ProjectStatus
-  role: string
-  /** Human-readable date or range. */
-  date: string
+
+  /** One-line card summary. */
+  cardSummary: string
+  /** Fuller detail-page summary. */
+  summary: string
+
+  /** Homepage 3-field (or 2-field) grid. */
+  facts: FactField[]
+  /** Homepage technology chips. */
   technologies: string[]
+  /** Homepage card actions. */
+  actions: ProjectAction[]
+  media: ProjectMedia
+
+  /* ---- project detail ---- */
+  /** Breadcrumb-strip external actions. */
+  detailActions: ProjectAction[]
+  /** Detail hero capture caption. */
+  detailCaption?: string
+  /** Facts rail fields. */
+  detailFacts: FactField[]
+  /** Facts rail technology chips. */
+  detailTechnologies: string[]
+  /** Prose sections (Archivo body copy). */
   sections: CaseStudySection[]
-  links: ProjectLink[]
-  media: ProjectMedia[]
-  /** Demo needs desktop keyboard/mouse; annotated differently on mobile (plan §6). */
+  /** Instrument-style system-flow strip (omit unknown stages). */
+  systemFlow?: FactField[]
+  /** Demo notice block (teal left border) — replaces the system-flow strip. */
+  demoNotice?: string
+
+  /** Demo needs a desktop keyboard/mouse; annotated differently on mobile (plan §6). */
   desktopOnlyDemo: boolean
-  /** External demo URL. Labelled "Desktop Demo" in the UI (plan §6). */
+  /** External demo URL. */
   demoUrl?: string
-  /** `true` while finalized content/media is pending (Stage 2). */
-  placeholder: boolean
 }
 
-const PLACEHOLDER_SECTIONS: CaseStudySection[] = [
-  {
-    heading: 'Overview',
-    body: 'Placeholder — a finalized case study (context, contribution, technical approach, challenges, and results) is added in Stage 2.',
-  },
-]
+const DETAIL_LINK = (slug: string): ProjectAction => ({
+  label: 'View Project →',
+  href: `/projects/${slug}`,
+  kind: 'secondary',
+  external: false,
+  internal: true,
+})
 
 export const projects: Project[] = [
   {
     slug: 'bioreactorxr',
+    index: '01',
     title: 'BioreactorXR',
     category: 'Mixed Reality',
-    summary:
-      'Multiplayer mixed-reality education and training around a life-size virtual bioreactor with shared sessions.',
+    tag: 'Live demo',
     featured: true,
     status: 'public',
-    role: 'Placeholder — finalized in Stage 2',
-    date: 'Placeholder',
-    technologies: ['Unity', 'Meta Quest 3', 'Unity Relay', 'Netcode for GameObjects'],
-    sections: PLACEHOLDER_SECTIONS,
-    links: [],
-    media: [
-      { kind: 'placeholder', alt: 'BioreactorXR media placeholder — added in Stage 2' },
+    cardSummary: 'Multiplayer mixed-reality training on a life-size virtual bioreactor.',
+    summary:
+      'Multiplayer mixed-reality training on a life-size virtual bioreactor, with 35 interactive components and shared sessions.',
+    facts: [
+      { label: 'Platform', value: 'Quest 3' },
+      { label: 'Components', value: '35', highlight: true },
+      { label: 'Session', value: 'Multiplayer' },
     ],
+    technologies: ['Unity', 'Netcode', 'Unity Relay', 'WebGL build'],
+    actions: [
+      {
+        label: 'Try Live Demo ↗',
+        href: 'https://bioreactorxr.azeemme.com',
+        kind: 'primary',
+        external: true,
+      },
+      DETAIL_LINK('bioreactorxr'),
+    ],
+    media: {
+      src: '/projects/bioreactorxr.png',
+      alt: 'BioreactorXR — inspecting the peristaltic feed pumps on a life-size virtual bioreactor',
+      objectPosition: 'center 42%',
+      caption: 'Capture 01 · component inspection',
+    },
+    detailActions: [
+      {
+        label: 'Try Live Demo ↗',
+        href: 'https://bioreactorxr.azeemme.com',
+        kind: 'primary',
+        external: true,
+      },
+    ],
+    detailCaption: 'Capture 01 · component inspection, 1 of 35',
+    detailFacts: [
+      { label: 'Role', value: 'Undergrad Research Fellow' },
+      { label: 'Since', value: 'May 2026', highlight: true },
+      { label: 'Platform', value: 'Quest 3 · WebGL' },
+      { label: 'Components', value: '35 interactive', highlight: true },
+    ],
+    detailTechnologies: ['Unity', 'Netcode', 'Unity Relay'],
+    sections: [
+      {
+        heading: 'Context',
+        body: 'Industrial bioreactors are expensive, scarce and hazardous to learn on. BioreactorXR puts a full-scale one in a headset so several people can walk around the same vessel, open panels and rehearse procedures together.',
+      },
+    ],
+    demoNotice:
+      'Runs in the browser at bioreactorxr.azeemme.com and opens in a new tab. Keyboard and mouse recommended — the headset build is not required to understand the project.',
     desktopOnlyDemo: true,
-    demoUrl: undefined,
-    placeholder: true,
+    demoUrl: 'https://bioreactorxr.azeemme.com',
   },
+
+  {
+    slug: 'off-grid-telemetry',
+    index: '02',
+    title: 'Off-Grid Telemetry Platform',
+    category: 'Full-Stack · Infrastructure',
+    featured: true,
+    status: 'public',
+    cardSummary:
+      'Real-time monitoring and historical analytics for a solar-powered remote cabin.',
+    summary:
+      'Real-time monitoring and historical analytics for a solar-powered remote cabin in the Ozarks.',
+    facts: [
+      { label: 'Data', value: 'Live + Historical' },
+      { label: 'Stack', value: 'PHP 8 · MySQL', highlight: true },
+      { label: 'Deploy', value: 'Remote / Web' },
+    ],
+    technologies: ['PHP 8', 'MySQL', 'Chart.js', 'REST'],
+    actions: [
+      DETAIL_LINK('off-grid-telemetry'),
+      {
+        label: 'Live Dashboard ↗',
+        href: 'https://ziae.net/app/dashboard-light.html',
+        kind: 'ghost-teal',
+        external: true,
+      },
+    ],
+    media: {
+      src: '/projects/offgrid-dashboard.png',
+      alt: 'Off-Grid Telemetry dashboard — live battery, solar and temperature readings',
+      objectPosition: 'top center',
+      caption: 'Live dashboard',
+    },
+    detailActions: [
+      {
+        label: 'Live Dashboard ↗',
+        href: 'https://ziae.net/app/dashboard-light.html',
+        kind: 'primary',
+        external: true,
+      },
+    ],
+    detailCaption: 'Capture 01 · live readings + battery banks',
+    detailFacts: [
+      { label: 'Hosting', value: 'Shared · FTP deploy' },
+      { label: 'Build step', value: 'None', highlight: true },
+    ],
+    detailTechnologies: ['PHP 8', 'MySQL', 'Vanilla JS', 'Chart.js', 'Docker'],
+    sections: [
+      {
+        heading: 'Context',
+        body: 'The cabin runs entirely on solar, with no one on site most of the year. The platform pulls telemetry off the batteries and arrays, keeps the history, and puts current state and trends behind one dashboard you can check from anywhere.',
+      },
+    ],
+    systemFlow: [
+      { label: '01 Source', value: 'Solar cabin' },
+      { label: '02 Store', value: 'MySQL', highlight: true },
+      { label: '03 Serve', value: 'PHP 8 · 11 endpoints', highlight: true },
+      { label: '04 Present', value: '6 pages · Chart.js', highlight: true },
+    ],
+    desktopOnlyDemo: false,
+  },
+
   {
     slug: 'suits',
+    index: '03',
     title: 'NASA SUITS',
-    category: 'Systems / XR',
-    summary:
-      'NASA Spacesuit User Interface Technologies challenge — systems design and hardware/software integration for an HMD and rover mission workflow.',
+    category: 'XR Systems · Leadership',
     featured: true,
     status: 'public',
-    role: 'Placeholder — finalized in Stage 2',
-    date: 'Placeholder',
-    technologies: ['Placeholder — finalized in Stage 2'],
-    sections: PLACEHOLDER_SECTIONS,
-    links: [],
-    media: [
-      { kind: 'placeholder', alt: 'NASA SUITS media placeholder — added in Stage 2' },
-    ],
-    desktopOnlyDemo: false,
-    placeholder: true,
-  },
-  {
-    slug: 'stylegentsia',
-    title: 'Stylegentsia',
-    category: 'Software / Systems',
+    cardSummary:
+      'VISOR — an astronaut-facing HoloLens 2 interface with a wrist-mounted display and a voice assistant, built to NASA mission requirements.',
     summary:
-      'Placeholder — a complementary software/systems project. Final selection and content confirmed in Stage 2 (plan Stage 2 §3).',
-    featured: true,
-    status: 'coming-soon',
-    role: 'Placeholder — finalized in Stage 2',
-    date: 'Placeholder',
-    technologies: ['Placeholder — finalized in Stage 2'],
-    sections: PLACEHOLDER_SECTIONS,
-    links: [],
-    media: [
-      { kind: 'placeholder', alt: 'Project media placeholder — added in Stage 2' },
+      'VISOR — an astronaut-facing HoloLens 2 interface with a wrist-mounted display and an on-device voice assistant, built to NASA SUITS mission requirements.',
+    facts: [
+      { label: 'Hardware', value: 'HoloLens 2 · Pi' },
+      { label: 'Duration', value: '2025 – Present', highlight: true },
+    ],
+    technologies: ['HoloLens 2', 'Raspberry Pi', 'RAG', 'HW/SW integration'],
+    actions: [DETAIL_LINK('suits')],
+    media: {
+      src: '/projects/suits-hardware.png',
+      alt: 'VISOR — HoloLens 2 head-mounted display worn, and the wrist-mounted display on the forearm',
+      objectPosition: 'center center',
+      caption: 'HoloLens 2 HMD + wrist-mounted display',
+    },
+    detailActions: [],
+    detailCaption: 'Capture 01 · HoloLens 2 HMD + wrist-mounted display',
+    detailFacts: [
+      { label: 'Role', value: 'Team Lead' },
+      { label: 'Since', value: 'Sep 2025', highlight: true },
+      { label: 'Hardware', value: 'HoloLens 2 · Raspberry Pi 5' },
+    ],
+    detailTechnologies: ['HoloLens 2', 'Raspberry Pi 5', 'On-device LLM', 'HW/SW integration'],
+    sections: [
+      {
+        heading: 'Context',
+        body: "NASA's SUITS challenge asks student teams to design the astronaut-facing interface for an EVA — the displays, audio and guidance an astronaut would use during a spacewalk. VISOR is Purdue's entry: a HoloLens 2 heads-up interface backed by a wrist-mounted display and an on-device voice assistant.",
+      },
+      {
+        heading: 'Contribution',
+        body: 'As team lead I directed the system architecture and the on-site test week with NASA’s evaluators, co-authored the 40-plus-page technical proposal, and aligned the subteams on the data flow between the suit telemetry system, mission control, the Raspberry Pi edge node and the headset.',
+      },
+    ],
+    systemFlow: [
+      { label: '01 Suit telemetry', value: 'TSS' },
+      { label: '02 Mission control', value: 'Ground station' },
+      { label: '03 Edge node', value: 'Raspberry Pi 5', highlight: true },
+      { label: '04 Display', value: 'HoloLens 2', highlight: true },
     ],
     desktopOnlyDemo: false,
-    placeholder: true,
   },
 ]
 

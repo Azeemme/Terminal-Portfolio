@@ -6,8 +6,9 @@ export { profile } from './profile'
 export type {
   Project,
   ProjectStatus,
-  ProjectLink,
+  ProjectAction,
   ProjectMedia,
+  FactField,
   CaseStudySection,
 } from './projects'
 export {

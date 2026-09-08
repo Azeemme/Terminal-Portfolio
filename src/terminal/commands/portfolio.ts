@@ -17,14 +17,24 @@ function printProjectDetail(ctx: TerminalContext, slug: string): void {
     return
   }
 
+  const role = project.detailFacts.find((f) => f.label === 'Role')?.value
+  const since =
+    project.detailFacts.find((f) => f.label === 'Since')?.value ??
+    project.detailFacts.find((f) => f.label === 'Duration')?.value
+
   ctx.writeOutput(GREEN(project.title))
-  ctx.writeOutput(DIM(`${project.category}  ·  ${project.role}  ·  ${project.date}`))
+  ctx.writeOutput(
+    DIM([project.category, role, since].filter(Boolean).join('  ·  ')),
+  )
   ctx.writeOutput('')
   ctx.writeOutput(project.summary)
 
-  if (project.technologies.length > 0) {
+  const tech = project.detailTechnologies.length
+    ? project.detailTechnologies
+    : project.technologies
+  if (tech.length > 0) {
     ctx.writeOutput('')
-    ctx.writeOutput(`${GREEN('Tech')}   ${project.technologies.join(', ')}`)
+    ctx.writeOutput(`${GREEN('Tech')}   ${tech.join(', ')}`)
   }
 
   for (const section of project.sections) {
@@ -33,16 +43,27 @@ function printProjectDetail(ctx: TerminalContext, slug: string): void {
     ctx.writeOutput(section.body)
   }
 
-  if (project.desktopOnlyDemo) {
+  if (project.systemFlow) {
     ctx.writeOutput('')
+    ctx.writeOutput(GREEN('System flow'))
     ctx.writeOutput(
-      DIM('Desktop Demo — best with a keyboard and mouse.') +
-        (project.demoUrl ? ` ${CYAN(project.demoUrl)}` : DIM(' Link coming in Stage 2.')),
+      project.systemFlow.map((s) => `${s.label} → ${s.value}`).join('  |  '),
     )
   }
 
-  for (const link of project.links) {
-    ctx.writeOutput(`  ${link.label.padEnd(12)}${CYAN(link.href)}`)
+  if (project.desktopOnlyDemo && project.demoUrl) {
+    ctx.writeOutput('')
+    ctx.writeOutput(
+      DIM('Desktop Demo — keyboard and mouse recommended. ') + CYAN(project.demoUrl),
+    )
+  }
+
+  const external = [...project.detailActions, ...project.actions].filter((a) => a.external)
+  const seen = new Set<string>()
+  for (const link of external) {
+    if (seen.has(link.href)) continue
+    seen.add(link.href)
+    ctx.writeOutput(`  ${link.label.replace(/\s*↗$/, '').padEnd(18)}${CYAN(link.href)}`)
   }
 }
 
@@ -58,8 +79,8 @@ export const projectsCommand: Command = {
     ctx.writeOutput('Featured projects:')
     ctx.writeOutput('')
     for (const project of visibleProjects()) {
-      ctx.writeOutput(`  ${GREEN(project.slug.padEnd(16))}${project.title}`)
-      ctx.writeOutput(`  ${' '.repeat(16)}${DIM(project.summary)}`)
+      ctx.writeOutput(`  ${GREEN((project.index + ' ' + project.slug).padEnd(24))}${project.title}`)
+      ctx.writeOutput(`  ${' '.repeat(24)}${DIM(project.cardSummary)}`)
     }
     ctx.writeOutput('')
     ctx.writeOutput(DIM('Details: projects <slug>'))
