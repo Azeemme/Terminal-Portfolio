@@ -1,16 +1,19 @@
 # Portfolio Revamp Status
 
 Stage 1 (technical foundation) is **complete** on branch `feature/portfolio-revamp`.
-Stage 2 (design + content replacement) is **not started**.
+Stage 2 (design + content replacement) is **complete** on the same branch
+(checkpoints S2-1 … S2-12, last commit `d99c006`). One outstanding handoff:
+three project image files (see the BLOCKER section) — the site degrades
+gracefully without them.
 
-## Validation (current, at Batch 7)
+## Validation (current, at Stage 2 completion)
 
 | Check | Result |
 |---|---|
 | `npm test` | PASS — 56 tests (`routes` 35, `data` 15, terminal `portfolio` commands 6) |
 | `npm run lint` | PASS |
 | `npm run build` | PASS — **no chunk-size warning** (was a documented baseline issue) |
-| Bundle | entry JS 564 kB (Stage 1 baseline) → **161 kB** (gzip 52.6 kB) after Stage 2; xterm.js in its own 366 kB lazy chunk; `data` 8 kB shared chunk (project prose, `manualChunks`); `Portfolio` 22 kB; `Desktop` 57 kB; `/hi` ~1.5 kB JS + ~1.6 kB CSS, no desktop/terminal code |
+| Bundle | entry JS 564 kB (Stage 1 baseline) → **161 kB** (gzip 52.6 kB) after Stage 2; xterm.js in its own 366 kB lazy chunk; `data` 8 kB shared chunk (project prose, split out via `manualChunks`, emitted as `<link rel="modulepreload">` in `index.html` so `/` fetches it in parallel — no serial round-trip); `Portfolio` 22 kB; `Desktop` 57 kB; `/hi` ~1.5 kB JS + ~1.6 kB CSS, no desktop/terminal code. First paint on `/` pulls entry + `data` + `Desktop` + `Portfolio` (all preloaded); the `data` split is a straight win for `/hi`, `/terminal`, `/desktop`, and `404.html`, which no longer carry the case-study prose. |
 | `dist/404.html` | present, byte-identical to `dist/index.html` |
 | `dist/Resume.pdf`, `dist/og-image.png` | present, untouched by the build |
 
@@ -223,7 +226,7 @@ The approved design references three project images plus two secondary SUITS ass
 files **cannot be pulled into the repo from this session** (verified directly).
 
 **Handoff:** the implementation wires the expected paths and degrades gracefully when a file is
-absent (see `public/projects/README.md`). To finish the visual pass, drop these files into
+absent (see `docs/project-media-handoff.md`). To finish the visual pass, drop these files into
 `public/projects/`:
 
 | File | Used as | Design `alt` / caption |
