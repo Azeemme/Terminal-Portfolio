@@ -1,6 +1,8 @@
 import type { Command, TerminalContext } from '../types'
 import {
   FAKE_FILES,
+  GITHUB_URL,
+  LINKEDIN_URL,
   PORTFOLIO_OWNER,
   PORTFOLIO_REPO_NAME,
   RESUME_URL,
@@ -8,11 +10,25 @@ import {
 import { apiErrorMessage, fetchRepos } from '../filesystem/githubApi'
 import { pathKey } from '../filesystem/virtualFs'
 
+/** Named shortcuts for `open` beyond GitHub repositories (plan §9). */
+const OPEN_SHORTCUTS: Record<string, { url: string; label: string }> = {
+  github: { url: GITHUB_URL, label: 'GitHub profile' },
+  linkedin: { url: LINKEDIN_URL, label: 'LinkedIn' },
+  resume: { url: RESUME_URL, label: 'resume' },
+}
+
 export const openCommand: Command = {
   name: 'open',
-  description: 'Open a GitHub repository in browser',
+  description: 'Open a GitHub repo, or: open github | linkedin | resume',
   execute: async (args: string[], ctx: TerminalContext) => {
     const username = ctx.username
+
+    const shortcut = args[0] ? OPEN_SHORTCUTS[args[0].toLowerCase()] : undefined
+    if (shortcut) {
+      window.open(shortcut.url, '_blank')
+      ctx.writeOutput(`Opening ${shortcut.label}...`)
+      return
+    }
 
     if (args.length === 0) {
       if (ctx.currentPath.length === 1) {

@@ -26,6 +26,8 @@ export interface Profile {
   /** Longer "About" copy. Placeholder copy is replaced in Stage 2. */
   about: string
   location: string
+  /** Headline focus areas (from the plan §9 positioning line — not an invented skill list). */
+  focusAreas: string[]
 }
 
 export const profile: Profile = {
@@ -43,4 +45,5 @@ export const profile: Profile = {
     "development, and infrastructure. I currently lead a 12-person research team for " +
     "the U.S. Space Force through Purdue's Data Mine program.",
   location: 'West Lafayette, Indiana',
+  focusAreas: ['XR', 'Full-Stack', 'Infrastructure'],
 }

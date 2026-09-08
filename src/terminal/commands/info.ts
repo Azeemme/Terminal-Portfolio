@@ -1,10 +1,6 @@
 import type { Command, TerminalContext } from '../types'
-import {
-  EMAIL_ADDRESS,
-  LINKEDIN_URL,
-  PORTFOLIO_PHOTO_URL,
-  WHOAMI_CONTENT,
-} from '../filesystem/fakeFiles'
+import { WHOAMI_CONTENT } from '../filesystem/fakeFiles'
+import { contactLinks } from '../../data/links'
 
 export const helpCommand: Command = {
   name: 'help',
@@ -16,8 +12,12 @@ export const helpCommand: Command = {
       ['cat [file]', 'Display file contents'],
       ['pwd', 'Print working directory'],
       ['whoami', 'About me'],
+      ['projects [slug]', 'List featured projects, or show one'],
+      ['experience', 'Work and research experience'],
+      ['skills', 'Focus areas and technologies'],
+      ['contact', 'Contact details'],
       ['social', 'Social links and contact'],
-      ['open [repo]', 'Open a GitHub repository in browser'],
+      ['open [target]', 'Open a GitHub repo, or github | linkedin | resume'],
       ['resume', 'Open resume (PDF)'],
       ['help', 'Show this help message'],
       ['clear', 'Clear the terminal'],
@@ -45,14 +45,11 @@ export const socialCommand: Command = {
   name: 'social',
   description: 'Social links and contact',
   execute: async (_args: string[], ctx: TerminalContext) => {
-    const links: [string, string][] = [
-      ['GitHub   ', `https://github.com/${ctx.username}`],
-      ['LinkedIn ', LINKEDIN_URL],
-      ['Portfolio', PORTFOLIO_PHOTO_URL],
-      ['Email    ', EMAIL_ADDRESS],
-    ]
-    for (const [label, value] of links) {
-      ctx.writeOutput(`  ${label}  \x1b[36m→\x1b[0m  ${value}`)
+    for (const link of contactLinks) {
+      const value = link.href.startsWith('mailto:')
+        ? link.href.slice('mailto:'.length)
+        : link.href
+      ctx.writeOutput(`  ${link.label.padEnd(10)}\x1b[36m→\x1b[0m  ${value}`)
     }
   },
 }

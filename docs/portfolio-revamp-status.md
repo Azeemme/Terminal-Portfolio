@@ -249,11 +249,45 @@ Changed:
 - One dark frame before the desktop paints on first load (root Suspense fallback; body bg is dark,
   not white). Stage 2 may add a splash.
 
+## Batch 4 — Terminal → shared data + new commands (COMPLETE)
+
+- `src/terminal/filesystem/fakeFiles.ts` is now a thin adapter over `src/data`
+  (`profile`, `links`, `contactLinks`). `WHOAMI_CONTENT`, `CONTACT_CONTENT`, `RESUME_URL`,
+  `LINKEDIN_URL`, `EMAIL_ADDRESS`, `PORTFOLIO_PHOTO_URL`, `GITHUB_URL`, `GITHUB_USERNAME`,
+  `POSITIONING_TITLE/TAGLINE` all derive from shared data. GitHub-API-specific bits
+  (`FAKE_FILES`, `PORTFOLIO_OWNER/REPO_NAME`) kept.
+- `src/terminal/bootSequence.ts` info panel: name/role/tagline/links from shared data;
+  positioning line is now `Software & Systems Engineer` / `XR | Full-Stack | Infrastructure`
+  (plan §9). Hint list updated (`whoami`, `projects`, `experience`, `skills`, `ls`, `open`, `sudo`).
+- `src/terminal/commands/portfolio.ts` (new): `projects` (list + `projects <slug>` detail),
+  `experience`, `contact`, `skills` (focus areas + non-placeholder technologies). Registered in
+  `commandRegistry.ts`.
+- `open` gained shortcuts: `open github | linkedin | resume` (plan §9). `resume` command unchanged.
+- `social` rewritten to consume `contactLinks`; `help` lists the new commands.
+- Preserved: virtual filesystem, live GitHub browsing (`ls`/`cd`/`cat`/`open <repo>` still use the
+  env-configurable `ctx.username`), tab autocomplete (reads `commandRegistry` keys — new commands
+  picked up automatically), history, and all easter eggs (`sudo rm hack exit vim vi nano apt`).
+- Behaviour change: `social`/`contact` now use the shared GitHub username (`Azeemme`) instead of the
+  env var; repo browsing still honours `VITE_GITHUB_USERNAME`.
+
+### Validation
+
+- npm test: PASS (53/53 — added `src/terminal/commands/portfolio.test.ts`, 6 tests with a mock ctx)
+- npm run lint: PASS
+- npm run build: PASS (no chunk warning; Terminal lazy chunk 363→365 kB from the added data)
+
+### Manual verification (added)
+
+- **NEEDS MANUAL VERIFICATION:** boot ASCII-art + info-panel column alignment after the copy change.
+- **NEEDS MANUAL VERIFICATION:** `projects` / `experience` / `skills` / `contact` output formatting
+  in the real xterm view.
+
 ## Completed
 
 - [x] Batch 0 - Repository reconnaissance
 - [x] Batch 1 - Shared data + route core + tests
 - [x] Batch 2+3 - Portfolio application + routing/window state integration
+- [x] Batch 4 - Terminal integration
 - [ ] Batch 4 - Terminal integration
 - [ ] Batch 5 - Mobile and /hi
 - [ ] Batch 6 - Accessibility, errors, metadata, deployment
@@ -287,4 +321,5 @@ None beyond documented baseline.
 
 - Baseline: `b3ed9e5`
 - Batch 1: `fb4f616`
-- Batch 2+3: pending checkpoint commit (this update)
+- Batch 2+3: `42cb136`
+- Batch 4: pending checkpoint commit
