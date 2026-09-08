@@ -22,7 +22,7 @@ export default function Portfolio({ bare = false }: Props) {
   const { route, openProject, goToPrimary } = useRouteControls()
   const { pathname } = useLocation()
   const projectsHeadingRef = useRef<HTMLHeadingElement>(null)
-  const rootRef = useRef<HTMLDivElement>(null)
+  const rootRef = useRef<HTMLElement>(null)
 
   const backToList = useCallback(
     () => goToPrimary('portfolio', 'projects'),
@@ -159,8 +159,13 @@ export default function Portfolio({ bare = false }: Props) {
   }
 
   return (
-    <div className={bare ? styles.rootBare : styles.root} ref={rootRef}>
+    <main
+      id="main"
+      aria-label="Portfolio"
+      className={bare ? styles.rootBare : styles.root}
+      ref={rootRef}
+    >
       <div className={styles.inner}>{content}</div>
-    </div>
+    </main>
   )
 }

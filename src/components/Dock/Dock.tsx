@@ -99,7 +99,17 @@ export default function Dock() {
           aria-modal="true"
           aria-label="AI Chat"
         >
-          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+          <div
+            className={styles.modalContent}
+            onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => {
+              // Minimal focus containment: the modal has one control (plan §10).
+              if (e.key === 'Tab') {
+                e.preventDefault()
+                closeModalRef.current?.focus()
+              }
+            }}
+          >
             <div className={styles.modalHeader}>
               <div className={styles.modalTitle}>AI Chat — Coming Soon</div>
               <button

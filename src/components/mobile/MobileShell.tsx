@@ -17,5 +17,12 @@ export default function MobileShell() {
   if (route.type === 'terminal') return <TerminalUnavailable />
 
   // portfolio / project / project-not-found / desktop → Portfolio inline.
-  return <Portfolio bare />
+  return (
+    <>
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <Portfolio bare />
+    </>
+  )
 }

@@ -21,6 +21,26 @@ img { max-width: 100%; }
   outline-offset: 2px;
 }
 
+/* Keyboard skip link — hidden until focused. */
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -48px;
+  z-index: 100000;
+  padding: 10px 14px;
+  background: #0a1830;
+  color: #4ec9b0;
+  border: 1px solid #4ec9b0;
+  border-radius: 6px;
+  font: 13px/1 'JetBrains Mono', ui-monospace, monospace;
+  text-decoration: none;
+  transition: top 0.15s;
+}
+
+.skip-link:focus {
+  top: 8px;
+}
+
 /*
  * The desktop shell owns its own overflow (`.desktop` is position:fixed;
  * overflow:hidden). Standalone routes (`/hi`, 404) and the mobile Portfolio

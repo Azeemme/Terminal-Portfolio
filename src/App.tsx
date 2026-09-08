@@ -4,6 +4,8 @@ import { useLocation } from 'react-router-dom'
 import { projectSlugs } from './data/projects'
 import { parseRoute } from './routing/routes'
 import { useIsMobile } from './routing/useIsMobile'
+import DocumentTitle from './routing/DocumentTitle'
+import RootErrorBoundary from './components/common/RootErrorBoundary'
 
 // Each top-level branch is its own chunk so `/hi` and the 404 page do not pull
 // in the desktop shell / Portfolio / xterm.js (plan §14 "independently lightweight").
@@ -32,7 +34,12 @@ export default function App() {
   else if (isMobile) view = <MobileShell />
   else view = <Desktop />
 
-  return <Suspense fallback={<RouteFallback />}>{view}</Suspense>
+  return (
+    <RootErrorBoundary>
+      <DocumentTitle />
+      <Suspense fallback={<RouteFallback />}>{view}</Suspense>
+    </RootErrorBoundary>
+  )
 }
 
 /** Full-bleed dark placeholder while a route chunk loads — never a blank white screen (plan §11). */
