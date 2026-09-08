@@ -45,27 +45,33 @@ export default function Dock() {
       >
         <button
           type="button"
-          className={styles.iconButton}
+          className={`${styles.iconButton}${
+            currentPrimary === 'portfolio' ? ` ${styles.iconButtonActive}` : ''
+          }`}
           aria-label="Portfolio"
           aria-pressed={currentPrimary === 'portfolio'}
           title="Portfolio"
           onClick={() => goToPrimary('portfolio', route.type === 'project' ? 'projects' : null)}
         >
-          <span aria-hidden="true">▦</span>
+          <span aria-hidden="true">▤</span>
           {portfolioActive ? <span className={styles.indicator} /> : null}
         </button>
 
         <button
           type="button"
-          className={styles.iconButton}
+          className={`${styles.iconButton}${
+            currentPrimary === 'terminal' ? ` ${styles.iconButtonActive}` : ''
+          }`}
           aria-label="Terminal"
           aria-pressed={currentPrimary === 'terminal'}
           title="Terminal"
           onClick={() => goToPrimary('terminal')}
         >
-          <span aria-hidden="true">&gt;_</span>
+          <span className={styles.mono} aria-hidden="true">&gt;_</span>
           {terminalActive ? <span className={styles.indicator} /> : null}
         </button>
+
+        <span className={styles.dockDivider} aria-hidden="true" />
 
         <a
           className={styles.iconButton}
@@ -81,14 +87,14 @@ export default function Dock() {
         <button
           ref={aiButtonRef}
           type="button"
-          className={styles.iconButton}
+          className={`${styles.iconButton} ${styles.iconButtonMuted}`}
           aria-label="AI Chat"
           aria-haspopup="dialog"
           aria-expanded={showModal}
           title="AI Chat"
           onClick={() => setShowModal(true)}
         >
-          <span aria-hidden="true">AI</span>
+          <span className={styles.mono} aria-hidden="true">AI</span>
         </button>
       </nav>
 

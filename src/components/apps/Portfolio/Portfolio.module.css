@@ -7,22 +7,12 @@
    ============================================================================ */
 
 /* ---- shell ---- */
-.root {
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  color: var(--text-body);
-  font-family: var(--font-sans);
-  scroll-behavior: smooth;
-}
-
-.rootBare {
-  min-height: 100vh;
-}
-
-/* Both windowed and mobile roots get the graph-paper ground. */
+/* Windowed and mobile roots share one set of tokens so the two paths cannot
+   drift (design: graph-paper ground on the 24px desktop pitch). */
 .root,
 .rootBare {
+  color: var(--text-body);
+  font-family: var(--font-sans);
   background-color: var(--surface-window);
   background-image:
     linear-gradient(var(--grid-line) 1px, transparent 1px),
@@ -30,8 +20,39 @@
   background-size: var(--grid-pitch) var(--grid-pitch);
 }
 
+.root {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+.rootBare {
+  min-height: 100vh;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .root { scroll-behavior: auto; }
+}
+
+/* Instrument-style scrollbar (windowed Portfolio only; mobile keeps the OS bar). */
+.root {
+  scrollbar-width: thin;
+  scrollbar-color: #43434a var(--surface-cell);
+}
+.root::-webkit-scrollbar {
+  width: 10px;
+}
+.root::-webkit-scrollbar-track {
+  background: var(--surface-cell);
+  border-left: 1px solid var(--rule);
+}
+.root::-webkit-scrollbar-thumb {
+  background: #43434a;
+  border: 2px solid var(--surface-cell);
+}
+.root::-webkit-scrollbar-thumb:hover {
+  background: #55565e;
 }
 
 /* ---- app header strip ---- */

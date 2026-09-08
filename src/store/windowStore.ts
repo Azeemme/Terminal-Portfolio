@@ -39,7 +39,8 @@ function centeredRect(maxW: number, maxH: number, marginX: number, marginY: numb
   }
 }
 
-const portfolioRect = centeredRect(1200, 760, 40, 40)
+// Larger approved Stage 2 default (design: 1250 × 858) while still visibly a window.
+const portfolioRect = centeredRect(1250, 858, 32, 40)
 
 const INITIAL_WINDOWS: Record<string, AppWindow> = {
   portfolio: {

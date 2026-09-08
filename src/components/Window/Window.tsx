@@ -2,6 +2,7 @@ import React from 'react'
 import { Rnd } from 'react-rnd'
 import { useWindowStore } from '../../store/windowStore'
 import { useRouteControls } from '../../routing/useRouteControls'
+import { getProject } from '../../data'
 import styles from './Window.module.css'
 
 interface WindowProps {
@@ -16,9 +17,16 @@ export default function Window({ id, children }: WindowProps) {
   const maximizeApp = useWindowStore((s) => s.maximizeApp)
   const updatePosition = useWindowStore((s) => s.updatePosition)
   const updateSize = useWindowStore((s) => s.updateSize)
-  const { focusWindow, raiseWindow, closeWindow } = useRouteControls()
+  const { route, focusWindow, raiseWindow, closeWindow } = useRouteControls()
 
   if (!win || !win.isOpen) return null
+
+  // The Portfolio title bar reflects the routed project (design 2b/2c).
+  let displayTitle = win.title
+  if (id === 'portfolio' && route.type === 'project') {
+    const project = getProject(route.slug)
+    if (project) displayTitle = `${win.title} — ${project.title}`
+  }
 
   // Title-bar controls: raise the window (z-order) without triggering a route
   // navigation. `stopPropagation` also blocks react-rnd's drag-start and the
@@ -73,7 +81,7 @@ export default function Window({ id, children }: WindowProps) {
             ) : (
               <span className={styles.appIcon} aria-hidden="true" />
             )}
-            <span className={styles.titleText}>{win.title}</span>
+            <span className={styles.titleText}>{displayTitle}</span>
           </div>
           <div className={styles.titleRight} onMouseDown={raiseOnly}>
             <button

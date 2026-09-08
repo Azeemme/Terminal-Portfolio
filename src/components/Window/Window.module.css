@@ -1,6 +1,7 @@
 /* Outer frame around the whole draggable/resizable window */
 .windowFrame {
-  border: 1px solid #333;
+  border: 1px solid var(--border-window, #333);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
 }
 
 .windowWrapper {
@@ -86,4 +87,3 @@
   flex-direction: column;
   background: #1a1a1a;
 }
-/* empty */
