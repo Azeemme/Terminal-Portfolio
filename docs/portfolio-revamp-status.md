@@ -216,4 +216,4 @@ Live deploy:
 | 4 — Terminal → shared data + commands | `908da37` |
 | 5 — mobile bypass + `/hi` | `ccc47f2` |
 | 6 — a11y, errors, metadata, SPA fallback | `4ed1c12` |
-| 7 — review fixes + README + validation | `242a5ec` |
+| 7 — review fixes + README + validation | `242a5ec` (+ `79adf99`, `8e1308f`) |
