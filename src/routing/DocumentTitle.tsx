@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { profile } from '../data/profile'
-import { getProject, projectSlugs } from '../data/projects'
+import { projectSlugs, projectTitles } from '../data/projects'
 import { parseRoute } from './routes'
 
 const SUFFIX = profile.name
@@ -22,9 +22,9 @@ function metaFor(pathname: string): RouteMeta {
         ? { title: `Projects — ${SUFFIX}`, label: 'Projects' }
         : { title: HOME_TITLE, label: 'Portfolio' }
     case 'project': {
-      const project = getProject(route.slug)
-      return project
-        ? { title: `${project.title} — ${SUFFIX}`, label: `${project.title} project` }
+      const title = projectTitles[route.slug]
+      return title
+        ? { title: `${title} — ${SUFFIX}`, label: `${title} project` }
         : { title: `Project not found — ${SUFFIX}`, label: 'Project not found' }
     }
     case 'project-not-found':

@@ -272,7 +272,23 @@ export const projects: Project[] = [
   },
 ]
 
-export const projectSlugs: readonly string[] = projects.map((p) => p.slug)
+/**
+ * Standalone literal (not `projects.map(...)`) so route parsing can import just
+ * the slug list without pulling the full project prose into the entry bundle.
+ * `data.test.ts` asserts this stays in sync with `projects`.
+ */
+export const projectSlugs = ['bioreactorxr', 'off-grid-telemetry', 'suits'] as const
+
+/**
+ * Slug → display title. A tiny standalone map so `DocumentTitle` / route parsing
+ * can label a project route without importing the full case-study prose.
+ * `data.test.ts` asserts it stays in sync with `projects`.
+ */
+export const projectTitles: Record<string, string> = {
+  bioreactorxr: 'BioreactorXR',
+  'off-grid-telemetry': 'Off-Grid Telemetry Platform',
+  suits: 'NASA SUITS',
+}
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug)

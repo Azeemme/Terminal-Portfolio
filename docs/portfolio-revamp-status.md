@@ -7,10 +7,10 @@ Stage 2 (design + content replacement) is **not started**.
 
 | Check | Result |
 |---|---|
-| `npm test` | PASS — 55 tests (`routes` 35, `data` 14, terminal `portfolio` commands 6) |
+| `npm test` | PASS — 56 tests (`routes` 35, `data` 15, terminal `portfolio` commands 6) |
 | `npm run lint` | PASS |
 | `npm run build` | PASS — **no chunk-size warning** (was a documented baseline issue) |
-| Bundle | entry JS 564 kB → **163 kB** (gzip 53 kB); xterm.js split to its own 365 kB lazy chunk; `Portfolio` 15 kB shared chunk; `Desktop` 56 kB; `/hi` ~1.4 kB |
+| Bundle | entry JS 564 kB (Stage 1 baseline) → **161 kB** (gzip 52.6 kB) after Stage 2; xterm.js in its own 366 kB lazy chunk; `data` 8 kB shared chunk (project prose, `manualChunks`); `Portfolio` 22 kB; `Desktop` 57 kB; `/hi` ~1.5 kB JS + ~1.6 kB CSS, no desktop/terminal code |
 | `dist/404.html` | present, byte-identical to `dist/index.html` |
 | `dist/Resume.pdf`, `dist/og-image.png` | present, untouched by the build |
 

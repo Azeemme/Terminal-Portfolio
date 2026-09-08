@@ -33,6 +33,18 @@ function spaFallback(): Plugin {
 export default defineConfig({
   plugins: [react(), spaFallback()],
   base: '/',
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // The shared data layer (project case-study prose etc.) is needed by
+          // several lazy chunks; keep it out of the entry bundle so first paint
+          // only pays for what `/` needs.
+          data: ['./src/data/index.ts', './src/data/projects.ts'],
+        },
+      },
+    },
+  },
   test: {
     environment: 'node',
     include: ['src/**/*.test.ts'],

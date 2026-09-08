@@ -3,6 +3,7 @@ import { profile } from './profile'
 import {
   projects,
   projectSlugs,
+  projectTitles,
   getProject,
   visibleProjects,
   featuredProjects,
@@ -29,6 +30,12 @@ describe('projects', () => {
     expect(projectSlugs).toEqual(['bioreactorxr', 'off-grid-telemetry', 'suits'])
     expect(projects.map((p) => p.index)).toEqual(['01', '02', '03'])
     expect(projects.every((p) => p.featured && p.status === 'public')).toBe(true)
+  })
+
+  it('standalone slug / title lookups stay in sync with the project list', () => {
+    expect([...projectSlugs]).toEqual(projects.map((p) => p.slug))
+    for (const p of projects) expect(projectTitles[p.slug]).toBe(p.title)
+    expect(Object.keys(projectTitles).sort()).toEqual([...projectSlugs].sort())
   })
 
   it('has unique, url-safe slugs', () => {
