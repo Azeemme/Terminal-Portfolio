@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import type { Project } from '../../../data'
 import styles from './Portfolio.module.css'
 
@@ -38,17 +39,17 @@ export default function ProjectDetail({ project, onBack }: Props) {
       ref={containerRef}
       className={styles.detail}
       tabIndex={-1}
-      role="group"
+      role="region"
       aria-labelledby="project-detail-heading"
     >
-      <button type="button" className={styles.backButton} onClick={onBack}>
+      <Link to="/projects" className={styles.backButton}>
         ← Back to projects
-      </button>
+      </Link>
 
       <div>
-        <h2 id="project-detail-heading" className={styles.detailHeading}>
+        <h1 id="project-detail-heading" className={styles.detailHeading}>
           {project.title}
-        </h2>
+        </h1>
         <div className={styles.detailMeta}>
           <span>{project.category}</span>
           <span>{project.role}</span>

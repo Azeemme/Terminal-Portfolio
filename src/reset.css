@@ -41,6 +41,17 @@ img { max-width: 100%; }
   top: 8px;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /*
  * The desktop shell owns its own overflow (`.desktop` is position:fixed;
  * overflow:hidden). Standalone routes (`/hi`, 404) and the mobile Portfolio

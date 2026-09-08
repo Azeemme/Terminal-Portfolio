@@ -47,7 +47,7 @@ export default function Dock() {
           type="button"
           className={styles.iconButton}
           aria-label="Portfolio"
-          aria-current={currentPrimary === 'portfolio' ? 'page' : undefined}
+          aria-pressed={currentPrimary === 'portfolio'}
           title="Portfolio"
           onClick={() => goToPrimary('portfolio', route.type === 'project' ? 'projects' : null)}
         >
@@ -59,7 +59,7 @@ export default function Dock() {
           type="button"
           className={styles.iconButton}
           aria-label="Terminal"
-          aria-current={currentPrimary === 'terminal' ? 'page' : undefined}
+          aria-pressed={currentPrimary === 'terminal'}
           title="Terminal"
           onClick={() => goToPrimary('terminal')}
         >
@@ -84,6 +84,7 @@ export default function Dock() {
           className={styles.iconButton}
           aria-label="AI Chat"
           aria-haspopup="dialog"
+          aria-expanded={showModal}
           title="AI Chat"
           onClick={() => setShowModal(true)}
         >
@@ -92,15 +93,12 @@ export default function Dock() {
       </nav>
 
       {showModal ? (
-        <div
-          className={styles.modal}
-          onClick={closeModal}
-          role="dialog"
-          aria-modal="true"
-          aria-label="AI Chat"
-        >
+        <div className={styles.modal} onClick={closeModal}>
           <div
             className={styles.modalContent}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="ai-modal-title"
             onClick={(e) => e.stopPropagation()}
             onKeyDown={(e) => {
               // Minimal focus containment: the modal has one control (plan §10).
@@ -111,7 +109,7 @@ export default function Dock() {
             }}
           >
             <div className={styles.modalHeader}>
-              <div className={styles.modalTitle}>AI Chat — Coming Soon</div>
+              <h2 id="ai-modal-title" className={styles.modalTitle}>AI Chat — Coming Soon</h2>
               <button
                 ref={closeModalRef}
                 type="button"

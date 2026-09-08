@@ -22,16 +22,22 @@ const appTitles: Record<string, string> = {
 
 function AppLoading() {
   return (
-    <div style={{ padding: '24px', color: '#808080', fontSize: '13px' }}>Loading…</div>
+    <div style={{ padding: '24px', color: '#a0a0a0', fontSize: '13px' }} role="status">
+      Loading…
+    </div>
   )
 }
 
 export default function Desktop() {
   const windows = useWindowStore((s) => s.windows)
+  const anyWindowOpen = Object.values(windows).some((w) => w.isOpen && appComponents[w.id])
 
   return (
     <div className={styles.desktop}>
       <RouteBridge />
+      {!anyWindowOpen ? (
+        <h1 className="sr-only">Azeem Ehtisham — desktop. Use the dock to open Portfolio or Terminal.</h1>
+      ) : null}
       {Object.values(windows).map((win) => {
         const AppComponent = appComponents[win.id]
         if (!AppComponent) return null // aichat is a dock modal, not a window

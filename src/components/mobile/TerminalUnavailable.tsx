@@ -17,7 +17,7 @@ export default function TerminalUnavailable() {
         It needs a keyboard and a larger screen. Everything it shows — projects,
         experience, links — is on the Portfolio too.
       </p>
-      <nav className={styles.actions}>
+      <nav className={styles.actions} aria-label="Continue to Portfolio">
         <Link to="/" className={`${styles.link} ${styles.linkPrimary}`}>
           Go to Portfolio
         </Link>

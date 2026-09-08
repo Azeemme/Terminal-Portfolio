@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import {
   profile,
   experience,
@@ -19,11 +19,13 @@ interface Props {
 }
 
 export default function Portfolio({ bare = false }: Props) {
-  const { route, openProject, goToPrimary } = useRouteControls()
+  const { route, goToPrimary } = useRouteControls()
   const { pathname } = useLocation()
   const projectsHeadingRef = useRef<HTMLHeadingElement>(null)
   const rootRef = useRef<HTMLElement>(null)
 
+  // Programmatic return to the list (Escape from a project detail). The visible
+  // control is a real <Link>.
   const backToList = useCallback(
     () => goToPrimary('portfolio', 'projects'),
     [goToPrimary],
@@ -51,10 +53,10 @@ export default function Portfolio({ bare = false }: Props) {
   } else if (route.type === 'project' || route.type === 'project-not-found') {
     content = (
       <div className={styles.detail}>
-        <button type="button" className={styles.backButton} onClick={backToList}>
+        <Link to="/projects" className={styles.backButton}>
           ← Back to projects
-        </button>
-        <h2 className={styles.detailHeading}>Project not found</h2>
+        </Link>
+        <h1 className={styles.detailHeading}>Project not found</h1>
         <p className={styles.prose}>
           There’s no project at that address. It may have been renamed or removed.
         </p>
@@ -102,7 +104,7 @@ export default function Portfolio({ bare = false }: Props) {
           </h2>
           <div className={styles.cardGrid}>
             {featuredProjects().map((project) => (
-              <ProjectCard key={project.slug} project={project} onOpen={openProject} />
+              <ProjectCard key={project.slug} project={project} />
             ))}
           </div>
         </section>
@@ -114,7 +116,7 @@ export default function Portfolio({ bare = false }: Props) {
           <div className={styles.list}>
             {experience.map((entry) => (
               <div key={entry.id}>
-                <div className={styles.entryRole}>{entry.role}</div>
+                <h3 className={styles.entryRole}>{entry.role}</h3>
                 <div className={styles.entryOrg}>{entry.organization}</div>
                 <p className={styles.entrySummary}>{entry.summary}</p>
               </div>
@@ -161,6 +163,7 @@ export default function Portfolio({ bare = false }: Props) {
   return (
     <main
       id="main"
+      tabIndex={-1}
       aria-label="Portfolio"
       className={bare ? styles.rootBare : styles.root}
       ref={rootRef}

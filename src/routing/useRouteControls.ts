@@ -5,6 +5,7 @@ import { projectSlugs } from '../data'
 import {
   parseRoute,
   primaryAppOf,
+  primaryFocusAction,
   pathForPrimary,
   nextPrimaryAfterClose,
   DESKTOP_PATH,
@@ -58,26 +59,18 @@ export function useRouteControls() {
   const focusWindow = useCallback(
     (id: string) => {
       const isRouted = id === 'portfolio' || id === 'terminal'
-      if (!isRouted) {
-        focusApp(id)
+      if (isRouted && currentPrimary !== id) {
+        goToPrimary(id, null, { replace: true })
         return
       }
-      if (currentPrimary === id) {
-        openApp(id)
-        return
-      }
-      goToPrimary(id, null, { replace: true })
+      // Already the primary app (or a non-routed window): raise/restore only if
+      // needed — this handler also fires on every internal focus move.
+      const { windows, topZ } = useWindowStore.getState()
+      const action = primaryFocusAction(windows[id], topZ)
+      if (action === 'open') openApp(id)
+      else if (action === 'focus') focusApp(id)
     },
     [currentPrimary, openApp, focusApp, goToPrimary],
-  )
-
-  /** Navigate to a project detail (card click). */
-  const openProject = useCallback(
-    (slug: string) => {
-      openApp('portfolio')
-      navigate(pathForPrimary('portfolio', slug))
-    },
-    [openApp, navigate],
   )
 
   /** Close a window; if it was the routed app, move focus + URL per plan §4. */
@@ -95,5 +88,5 @@ export function useRouteControls() {
     [closeApp, navigate, currentPrimary],
   )
 
-  return { route, currentPrimary, goToPrimary, focusWindow, openProject, closeWindow }
+  return { route, currentPrimary, goToPrimary, focusWindow, closeWindow }
 }

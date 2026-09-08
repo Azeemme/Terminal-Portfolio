@@ -11,6 +11,7 @@ interface WindowProps {
 
 export default function Window({ id, children }: WindowProps) {
   const win = useWindowStore((s) => s.windows[id])
+  const focusApp = useWindowStore((s) => s.focusApp)
   const minimizeApp = useWindowStore((s) => s.minimizeApp)
   const maximizeApp = useWindowStore((s) => s.maximizeApp)
   const updatePosition = useWindowStore((s) => s.updatePosition)
@@ -18,6 +19,15 @@ export default function Window({ id, children }: WindowProps) {
   const { focusWindow, closeWindow } = useRouteControls()
 
   if (!win || !win.isOpen) return null
+
+  // Title-bar controls: raise the window (z-order) without triggering a route
+  // navigation. `stopPropagation` also blocks react-rnd's drag-start and the
+  // frame's `focusWindow` (which would navigate on a background window) — so the
+  // explicit `focusApp` here restores baseline "click the title bar to raise".
+  const raiseOnly = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    focusApp(id)
+  }
 
   return (
     <Rnd
@@ -47,6 +57,7 @@ export default function Window({ id, children }: WindowProps) {
         updatePosition(id, { x: position.x, y: position.y })
       }}
       onMouseDown={() => focusWindow(id)}
+      onFocusCapture={() => focusWindow(id)}
       className={styles.windowFrame}
     >
       <div className={styles.windowWrapper}>
@@ -64,10 +75,7 @@ export default function Window({ id, children }: WindowProps) {
             )}
             <span className={styles.titleText}>{win.title}</span>
           </div>
-          <div
-            className={styles.titleRight}
-            onMouseDown={(e) => e.stopPropagation()}
-          >
+          <div className={styles.titleRight} onMouseDown={raiseOnly}>
             <button
               type="button"
               className={`${styles.controlButton}`}

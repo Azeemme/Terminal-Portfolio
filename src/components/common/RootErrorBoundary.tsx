@@ -29,7 +29,6 @@ export default class RootErrorBoundary extends Component<Props, State> {
 
     return (
       <main
-        role="alert"
         style={{
           position: 'fixed',
           inset: 0,
@@ -45,10 +44,15 @@ export default class RootErrorBoundary extends Component<Props, State> {
           fontFamily: "'JetBrains Mono', ui-monospace, monospace",
         }}
       >
-        <p style={{ fontSize: '18px', fontWeight: 700 }}>Something went wrong</p>
-        <p style={{ fontSize: '13px', color: '#a8b3c4', maxWidth: '40ch' }}>
-          The page hit an unexpected error. Reloading usually fixes it.
-        </p>
+        <div
+          role="alert"
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}
+        >
+          <h1 style={{ fontSize: '18px', fontWeight: 700 }}>Something went wrong</h1>
+          <p style={{ fontSize: '13px', color: '#aeb9c9', maxWidth: '40ch' }}>
+            The page hit an unexpected error. Reloading usually fixes it.
+          </p>
+        </div>
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
           <button
             type="button"

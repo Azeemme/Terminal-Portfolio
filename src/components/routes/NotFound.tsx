@@ -11,7 +11,7 @@ export default function NotFound() {
       <p className={styles.text}>
         That route doesn’t exist. Head back to the portfolio to explore featured work.
       </p>
-      <nav className={styles.actions}>
+      <nav className={styles.actions} aria-label="Recovery links">
         <Link to="/" className={`${styles.link} ${styles.linkPrimary}`}>
           Go to Portfolio
         </Link>

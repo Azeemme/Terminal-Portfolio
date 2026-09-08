@@ -1,9 +1,9 @@
+import { Link } from 'react-router-dom'
 import type { Project } from '../../../data'
 import styles from './Portfolio.module.css'
 
 interface Props {
   project: Project
-  onOpen: (slug: string) => void
 }
 
 const STATUS_LABEL: Record<Project['status'], string | null> = {
@@ -12,25 +12,25 @@ const STATUS_LABEL: Record<Project['status'], string | null> = {
   'coming-soon': 'Coming soon',
 }
 
-export default function ProjectCard({ project, onOpen }: Props) {
+/**
+ * A project card is a real link to `/projects/:slug` (plan §5 — project details
+ * are route-backed and shareable). The heading inside keeps the "Featured work"
+ * section navigable by heading.
+ */
+export default function ProjectCard({ project }: Props) {
   const badge = STATUS_LABEL[project.status]
 
   return (
-    <button
-      type="button"
-      className={styles.card}
-      onClick={() => onOpen(project.slug)}
-      aria-label={`${project.title} — ${project.category}. Open project details.`}
-    >
+    <Link to={`/projects/${project.slug}`} className={styles.card}>
       <span className={styles.cardMedia} aria-hidden="true">
         media placeholder
       </span>
       <span className={styles.cardTitleRow}>
-        <span className={styles.cardTitle}>{project.title}</span>
+        <h3 className={styles.cardTitle}>{project.title}</h3>
         {badge ? <span className={styles.badge}>{badge}</span> : null}
       </span>
       <span className={styles.cardCategory}>{project.category}</span>
       <span className={styles.cardSummary}>{project.summary}</span>
-    </button>
+    </Link>
   )
 }
