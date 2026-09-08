@@ -59,7 +59,7 @@
   gap: 8px;
   min-height: 52px;
   padding: 14px 18px;
-  border: 1px solid #3d4046;
+  border: 1px solid var(--btn-line);
   background: var(--surface-btn);
   color: #dfe2e6;
   text-decoration: none;
@@ -70,7 +70,7 @@
 }
 
 .link:hover {
-  border-color: var(--corner-tick);
+  border-color: #8b8e96;
 }
 
 .primary {

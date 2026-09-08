@@ -55,7 +55,7 @@
 }
 
 .iconButtonMuted {
-  color: #8b9099;
+  color: #9aa0a8;
 }
 
 .iconButtonActive,
@@ -134,14 +134,14 @@
 
 .closeButton {
   background: transparent;
-  border: 1px solid #3d4046;
+  border: 1px solid var(--btn-line);
   color: #dfe2e6;
-  width: 34px;
-  height: 28px;
+  width: 44px;
+  height: 32px;
   cursor: pointer;
   font-family: 'JetBrains Mono', ui-monospace, monospace;
 }
 
 .closeButton:hover {
-  border-color: #55565e;
+  border-color: #8b8e96;
 }

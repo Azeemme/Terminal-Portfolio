@@ -7,7 +7,7 @@ Stage 2 (design + content replacement) is **not started**.
 
 | Check | Result |
 |---|---|
-| `npm test` | PASS — 53 tests (`routes`, `data`, terminal `portfolio` commands) |
+| `npm test` | PASS — 55 tests (`routes` 35, `data` 14, terminal `portfolio` commands 6) |
 | `npm run lint` | PASS |
 | `npm run build` | PASS — **no chunk-size warning** (was a documented baseline issue) |
 | Bundle | entry JS 564 kB → **163 kB** (gzip 53 kB); xterm.js split to its own 365 kB lazy chunk; `Portfolio` 15 kB shared chunk; `Desktop` 56 kB; `/hi` ~1.4 kB |
@@ -271,7 +271,48 @@ Source for facts: `uploads/master_resume.typ` in the design project + the approv
 | S2-9 | Window 1250×858 + drop shadow + route-aware title; dock instrument restyle (teal active, indicator bar, divider); instrument scrollbar | `4eb6ff0` |
 | S2-10 | Portfolio responsive collapse (≤900 / ≤520); `/hi`, 404, TerminalUnavailable restyled to the vocabulary; `/hi` stays lightweight | `2c8a619` |
 | S2-11 | Terminal `experience`/`skills` on finalized data; stale-reference + README cleanup | `d034ea6` |
-| S2-12 | heading hierarchy (`2181e41`); independent a11y + regression review (running); final validation | in progress |
+| S2-12 | heading hierarchy (`2181e41`); a11y + regression review + fixes (`+ review-fix commit`); final validation | complete |
+
+### Independent review — Stage 2
+
+**Regression review:** no confirmed regressions. Routing core, route table, Terminal lazy/closed,
+zero new dependencies, GitHub Pages fallback, error boundaries, a11y anchors, dock semantics, and
+the 6 terminal-command tests all verified intact by inspection. Notes: `/` and `/projects` render
+the same view (Stage 1 behaviour — `/projects` moves focus to "Featured work"); `/hi` now shares
+the Archivo webfont request (still a ~1.5 kB JS chunk, no desktop/terminal code).
+
+**Accessibility review — findings & resolution:**
+
+| # | Finding | Resolution |
+|---|---|---|
+| 1 | Dock "open" indicator (teal bar) had no non-visual equivalent | `aria-label` gains "(open)" suffix; indicator marked `aria-hidden` |
+| 2 | project-not-found view didn't manage focus | focuses its `<h1 tabIndex={-1}>` on mount (matches the other two views) |
+| 3 | Secondary-button border `#3d4046` ≈1.8:1 (< 3:1, 1.4.11) | new `--btn-line: #6b6e76` (≥3.6:1 on dark) for all secondary buttons, `/hi` + 404 links, modal close; hover borders brightened |
+| 4 | AI-modal close button 34×28 | 44×32 + `--btn-line` border |
+| 5 | Unhidden `·` separators in the app header | `aria-hidden="true"` |
+| 6 | AI dock label `#8b9099` marginal on hover | → `#9aa0a8` |
+| 10 | Breadcrumb not a nav landmark; `/` announced as "slash" | `<nav aria-label="Breadcrumb">` + `aria-hidden` separator |
+| 11 | `<article>` cards had no accessible name | `aria-labelledby` → card `<h3>` |
+| 7 | Fallback rendered the full ~100-char alt sentence in a fixed-height frame | visible text → "Image pending"; full alt kept as `aria-label` |
+| 8, 9 | Teal-on-teal focus ring (offset gap carries it, AAA-only); `.detailRoot:focus` outline suppression on a `tabIndex=-1` container | accepted, documented |
+
+**Contrast — verified passing** (reviewer-computed): all `--text-meta` / green rail `#6a9955` /
+link-blue / chip / fact-cell / teal-value / primary-button pairings clear AA on their darkest
+backgrounds. `--amber` / `--text-dim` tokens are declared but currently unreferenced (amber is
+reserved for genuinely-unresolved info, of which the shipped content has none).
+
+## Stage 2 — needs manual verification (no browser)
+
+- All three project images are ABSENT (see blocker) → every card/hero shows the "Image pending"
+  graph-paper fallback. Drop the files into `public/projects/` to complete the visual pass.
+- Layout at the two breakpoints (≤900 / ≤520): single-column collapse of profile / flagship /
+  compact pair / detail grid / lower grid / system-flow; app-header + breadcrumb wrap.
+- Flagship + compact card equal-height alignment; capture crop focal points (`object-position`).
+- Instrument scrollbar rendering (webkit); dock active-tile + indicator bar; window drop shadow;
+  title bar "Portfolio — <Project>".
+- Mobile tap-target comfort: `.btnSm` (~34px) and stacked contact links clear 24px (2.5.8) but sit
+  below the 44px comfort target (2.5.5).
+- The 5-second recruiter test with real imagery.
 
 ### Implementation notes
 

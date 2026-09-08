@@ -32,6 +32,7 @@
   --border-window: #333;           /* outer window frame */
   --corner-tick: #55565e;          /* 7px L-shaped panel corner marks */
   --cell-border: #33333a;          /* metadata field cell border */
+  --btn-line: #6b6e76;             /* secondary-button boundary — ≥3:1 on dark (1.4.11) */
   --grid-line: rgba(255, 255, 255, 0.028);
   --grid-pitch: 24px;
 

@@ -37,6 +37,16 @@ export default function Portfolio({ bare = false }: Props) {
     if (onProjectsSection) projectsHeadingRef.current?.focus({ preventScroll: true })
   }, [onProjectsSection])
 
+  // project-not-found replaces the whole view; move focus so the change is
+  // announced and keyboard users don't land at the top of the tab order.
+  const notFoundHeadingRef = useRef<HTMLHeadingElement>(null)
+  const isNotFound =
+    route.type === 'project-not-found' ||
+    (route.type === 'project' && !getProject(route.slug))
+  useEffect(() => {
+    if (isNotFound) notFoundHeadingRef.current?.focus({ preventScroll: true })
+  }, [isNotFound])
+
   useEffect(() => {
     if (bare) window.scrollTo({ top: 0 })
     else rootRef.current?.scrollTo({ top: 0 })
@@ -67,7 +77,9 @@ export default function Portfolio({ bare = false }: Props) {
         <Link to="/projects" className={`${styles.btn} ${styles.btnSecondary} ${styles.btnSm}`}>
           ← Back to projects
         </Link>
-        <h1 className={styles.detailTitle}>Project not found</h1>
+        <h1 className={styles.detailTitle} tabIndex={-1} ref={notFoundHeadingRef}>
+          Project not found
+        </h1>
         <p className={styles.prose}>
           There’s no project at that address. It may have been renamed or removed.
         </p>
@@ -84,8 +96,8 @@ export default function Portfolio({ bare = false }: Props) {
           <span className={styles.appHeaderTick} aria-hidden="true" />
           <span className={styles.appHeaderLabel}>Work Index</span>
           <span className={styles.appHeaderMeta}>
-            <span className={styles.dot}>·</span> Purdue CIT{' '}
-            <span className={styles.dot}>·</span>{' '}
+            <span className={styles.dot} aria-hidden="true">·</span> Purdue CIT{' '}
+            <span className={styles.dot} aria-hidden="true">·</span>{' '}
             {profile.location.replace('Indiana', 'IN')}
           </span>
         </div>

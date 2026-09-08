@@ -86,12 +86,14 @@ export default function ProjectDetail({ project, onBack }: Props) {
       role="region"
       aria-labelledby="project-detail-heading"
     >
-      <div className={styles.breadcrumb}>
+      <nav className={styles.breadcrumb} aria-label="Breadcrumb">
         <div className={styles.breadcrumbTrail}>
           <Link to="/projects" className={styles.breadcrumbBack}>
             ← Projects
           </Link>
-          <span className={styles.breadcrumbSep}>/</span>
+          <span className={styles.breadcrumbSep} aria-hidden="true">
+            /
+          </span>
           <span className={styles.breadcrumbSlug}>{project.slug}</span>
         </div>
         {project.detailActions.length > 0 ? (
@@ -101,7 +103,7 @@ export default function ProjectDetail({ project, onBack }: Props) {
             ))}
           </div>
         ) : null}
-      </div>
+      </nav>
 
       <div className={styles.detailGrid}>
         <div className={styles.detailMain}>

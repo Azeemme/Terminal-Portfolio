@@ -37,9 +37,11 @@ function ActionButton({ action }: { action: ProjectAction }) {
  */
 export default function ProjectCard({ project, variant }: Props) {
   const cols = project.facts.length >= 3 ? '3' : '2'
+  const titleId = `project-card-${project.slug}`
 
   return (
     <article
+      aria-labelledby={titleId}
       className={`${styles.panel} ${styles.card} ${
         variant === 'flagship' ? styles.flagshipCard : ''
       }`}
@@ -56,7 +58,9 @@ export default function ProjectCard({ project, variant }: Props) {
           {project.tag ? <span className={styles.cardTag}>{project.tag}</span> : null}
         </div>
 
-        <h3 className={styles.cardTitle}>{project.title}</h3>
+        <h3 id={titleId} className={styles.cardTitle}>
+          {project.title}
+        </h3>
         <p className={styles.cardSummary}>{project.cardSummary}</p>
 
         <div className={styles.factGrid} data-cols={cols}>

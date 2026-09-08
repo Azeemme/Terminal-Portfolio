@@ -48,13 +48,13 @@ export default function Dock() {
           className={`${styles.iconButton}${
             currentPrimary === 'portfolio' ? ` ${styles.iconButtonActive}` : ''
           }`}
-          aria-label="Portfolio"
+          aria-label={portfolioActive ? 'Portfolio (open)' : 'Portfolio'}
           aria-pressed={currentPrimary === 'portfolio'}
           title="Portfolio"
           onClick={() => goToPrimary('portfolio', route.type === 'project' ? 'projects' : null)}
         >
           <span aria-hidden="true">▤</span>
-          {portfolioActive ? <span className={styles.indicator} /> : null}
+          {portfolioActive ? <span className={styles.indicator} aria-hidden="true" /> : null}
         </button>
 
         <button
@@ -62,13 +62,13 @@ export default function Dock() {
           className={`${styles.iconButton}${
             currentPrimary === 'terminal' ? ` ${styles.iconButtonActive}` : ''
           }`}
-          aria-label="Terminal"
+          aria-label={terminalActive ? 'Terminal (open)' : 'Terminal'}
           aria-pressed={currentPrimary === 'terminal'}
           title="Terminal"
           onClick={() => goToPrimary('terminal')}
         >
           <span className={styles.mono} aria-hidden="true">&gt;_</span>
-          {terminalActive ? <span className={styles.indicator} /> : null}
+          {terminalActive ? <span className={styles.indicator} aria-hidden="true" /> : null}
         </button>
 
         <span className={styles.dockDivider} aria-hidden="true" />

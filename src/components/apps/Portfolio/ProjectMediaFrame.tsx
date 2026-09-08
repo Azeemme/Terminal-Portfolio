@@ -24,7 +24,7 @@ export default function ProjectMediaFrame({ media, caption, className }: Props) 
     <div className={cls}>
       {failed ? (
         <div className={styles.captureFallback} role="img" aria-label={media.alt}>
-          <span aria-hidden="true">{media.alt}</span>
+          <span aria-hidden="true">Image pending</span>
         </div>
       ) : (
         <img
