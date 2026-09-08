@@ -32,7 +32,7 @@ export default function TerminalApp() {
   const inputBuffer = useRef<string>('')
   const currentPath = useRef<string[]>(['~'])
   const history = useRef<string[]>([])
-  const historyIndex = useRef<number>(history.current.length)
+  const historyIndex = useRef<number>(0)
   const promptString = useRef<string>(getPromptString(['~']))
 
   function buildContext(t: Terminal): TerminalContext {

@@ -82,8 +82,8 @@ export const lsCommand: Command = {
         }
 
         ctx.setCachedDir(key, entries)
-      } catch (err: any) {
-        const status = err?.status || 0
+      } catch (err: unknown) {
+        const status = (err as { status?: number })?.status || 0
         const msg = apiErrorMessage(status)
         if (msg) {
           ctx.writeError(msg)

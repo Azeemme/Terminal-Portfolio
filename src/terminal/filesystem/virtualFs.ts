@@ -44,7 +44,8 @@ export function isBinaryFile(filename: string): boolean {
 
 // Strip cursor-movement and erase ANSI sequences while preserving color/style sequences.
 export function sanitizeAnsi(text: string): string {
-  return text.replace(/\x1b\[[0-9;]*[ABCDEFGJKST]/g, '')
+  const ansiEscape = String.fromCharCode(0x1b)
+  return text.replace(new RegExp(`${ansiEscape}\\[[0-9;]*[ABCDEFGJKST]`, 'g'), '')
 }
 
 export function getRepoName(currentPath: string[]): string | null {

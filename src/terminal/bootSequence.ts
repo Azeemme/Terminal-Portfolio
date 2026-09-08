@@ -3,10 +3,11 @@ import { ASCII_ART } from '../assets/ascii-art'
 
 const ART_VISIBLE_WIDTH = 71 // visible char width of the art (no ANSI codes)
 const COL_GAP = 4            // gap between art and info panel
+const ANSI_ESCAPE = String.fromCharCode(0x1b)
 
 // Strip ANSI escape codes to get visible character count
 function visibleLength(line: string): number {
-  return line.replace(/\x1b\[[0-9;]*m/g, '').length
+  return line.replace(new RegExp(`${ANSI_ESCAPE}\\[[0-9;]*m`, 'g'), '').length
 }
 
 // Colorize a string with an ANSI 256 color
