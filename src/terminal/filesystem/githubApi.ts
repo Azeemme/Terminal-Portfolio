@@ -2,6 +2,19 @@ import type { DirEntry } from '../types'
 
 const BASE_URL = 'https://api.github.com'
 
+interface GitHubRepository {
+  name: string
+  node_id?: string
+  id: number
+}
+
+interface GitHubContent {
+  name: string
+  type: string
+  download_url?: string
+  sha: string
+}
+
 async function githubFetch(url: string, token: string): Promise<Response> {
   const headers: Record<string, string> = {
     Accept: 'application/vnd.github+json',
@@ -36,7 +49,7 @@ export async function fetchRepos(username: string): Promise<DirEntry[]> {
   const token = import.meta.env.VITE_GITHUB_TOKEN || ''
   const url = `${BASE_URL}/users/${username}/repos?per_page=100&sort=updated`
   const response = await githubFetch(url, token)
-  const repos: any[] = await response.json()
+  const repos = (await response.json()) as GitHubRepository[]
 
   return repos.map((repo) => ({
     name: repo.name,
@@ -55,7 +68,7 @@ export async function fetchRepoContents(
   const url = `${BASE_URL}/repos/${username}/${repo}/contents/${encodedPath}`
 
   const response = await githubFetch(url, token)
-  const data: any = await response.json()
+  const data = (await response.json()) as GitHubContent | GitHubContent[]
 
   // Defensive: if single object returned instead of array
   if (!Array.isArray(data)) {
@@ -69,7 +82,7 @@ export async function fetchRepoContents(
     ]
   }
 
-  return data.map((item: any) => ({
+  return data.map((item) => ({
     name: item.name,
     type: item.type === 'dir' ? ('dir' as const) : ('file' as const),
     download_url: item.download_url,

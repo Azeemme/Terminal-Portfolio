@@ -20,19 +20,25 @@ function replaceInputLine(terminal: Terminal, promptStr: string, newBuffer: stri
   terminal.write('\r\x1b[K' + promptStr + newBuffer)
 }
 
+// Module-level so they survive the window being closed and reopened (the window
+// unmounts this component). Keeps command history and — importantly — the GitHub
+// directory cache, so reopening the Terminal does not re-hit the API rate limit.
+const persistentDirCache = new Map<string, DirEntry[]>()
+const persistentHistory: string[] = []
+
 export default function TerminalApp() {
   const terminalRef = useRef<Terminal | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const fitAddonRef = useRef<FitAddon | null>(null)
   const hasBooted = useRef(false)
 
-  const dirCache = useRef<Map<string, DirEntry[]>>(new Map())
+  const dirCache = useRef<Map<string, DirEntry[]>>(persistentDirCache)
 
   // Mutable terminal state (not stored in xterm.js)
   const inputBuffer = useRef<string>('')
   const currentPath = useRef<string[]>(['~'])
-  const history = useRef<string[]>([])
-  const historyIndex = useRef<number>(history.current.length)
+  const history = useRef<string[]>(persistentHistory)
+  const historyIndex = useRef<number>(persistentHistory.length)
   const promptString = useRef<string>(getPromptString(['~']))
 
   function buildContext(t: Terminal): TerminalContext {

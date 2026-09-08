@@ -1,45 +1,83 @@
-# Terminal Portfolio
+# Portfolio
 
-> A browser-based personal portfolio presented as a Windows-style desktop shell — explore the owner's background by typing real terminal commands.
+> Azeem Ehtisham's personal portfolio — a functional Portfolio app framed by a
+> simulated desktop, with an optional interactive terminal.
 
 ## Overview
 
-Terminal Portfolio turns a developer portfolio into an interactive experience. Visitors land on a Windows 10/11-style desktop and open a terminal window that behaves like a real shell. The virtual filesystem at `~/` exposes injected profile files (`whoami.txt`, `contact.txt`, `resume.pdf`) alongside every public GitHub repository as a live, browsable directory. Type `ls`, `cd`, `cat`, and `open` to navigate — actual GitHub API responses power every listing and file read.
+The site opens on a **Portfolio** app inside a Windows-style desktop shell: hero,
+résumé / LinkedIn actions, featured project cards, and route-backed project
+detail pages. A **Terminal** is available as an optional second app — an
+xterm.js shell over a virtual filesystem that browses the owner's public GitHub
+repositories live.
 
-The project is fully static and deploys to Vercel with no backend.
+- The **URL is the source of truth** for the primary/focused app and the selected
+  project. Browser Back/Forward, refresh, and deep links all work.
+- On phones and small tablets the simulated desktop is **bypassed** — Portfolio
+  renders directly with normal scrolling.
+- Portfolio and Terminal share one data layer (`src/data/`), so profile copy,
+  links, projects, and experience stay consistent.
+- Fully static, no backend. Deploys to **GitHub Pages** at `azeemme.com`.
+
+> **Media:** the three project captures live in `public/projects/` as WebP. If a
+> file is ever missing the card/hero shows a labelled graph-paper placeholder (no
+> broken image, no layout shift). See `docs/project-media-handoff.md`.
+
+## Routes
+
+| Route | Content |
+|---|---|
+| `/` | Portfolio (default) |
+| `/desktop` | Bare desktop |
+| `/terminal` | Terminal |
+| `/projects` | Portfolio, project list |
+| `/projects/:slug` | Portfolio, project detail — `bioreactorxr`, `off-grid-telemetry`, `suits` |
+| `/hi` | Lightweight networking card |
+| `/resume` | Redirects to `/Resume.pdf` |
+| `/Resume.pdf` | Static résumé asset (never routed) |
+
+Unknown routes show a 404; unknown project slugs show an in-Portfolio
+"project not found". Production deep links resolve via a `404.html` copy of
+`index.html` (GitHub Pages SPA fallback).
 
 ## Features
 
-- Windows 10/11 chrome — draggable, resizable windows via react-rnd; minimize, maximize, and close controls on the right
-- xterm.js terminal on canvas with JetBrains Mono, blinking block cursor, and a VS Code-inspired color theme
-- Boot splash: ANSI color ASCII portrait rendered side-by-side with a live info panel
-- Virtual filesystem rooted at `~/` — fake profile files plus all public GitHub repos as directories
-- Live GitHub API browsing — `ls` and `cat` inside any repo directory fetch real contents
-- Session-scoped directory cache — repeated `ls` calls never re-fetch
-- Tab autocomplete — command names at the prompt; filenames and directory names for arguments; longest-common-prefix expansion for multiple matches
-- Command history — up/down arrow navigation, capped at 500 entries, no consecutive duplicates
-- Keyboard shortcuts — Ctrl+C (interrupt or copy selection), Ctrl+L (clear + replay boot)
-- Animated gradient desktop background with a subtle dot-grid overlay
-- Dock with open-app indicators; auto-hides when a window is maximized
-- Easter eggs behind `sudo`, `rm`, `hack`, `vim`, `vi`, `nano`, `exit`, and `apt`
+- Desktop shell — draggable, resizable windows via react-rnd; minimize, maximize,
+  close, focus/z-order; dock (`Portfolio | Terminal | Resume ↗ | AI`) that
+  auto-hides when a window is maximized
+- Route-backed navigation (react-router) with a single route→store bridge and
+  event-handler-only store→route wiring (no history/state sync loop)
+- Terminal (lazy-loaded, closed by default) — xterm.js on canvas, JetBrains Mono,
+  VS Code-inspired theme, ANSI ASCII boot splash
+- Virtual filesystem rooted at `~/` — profile files plus every public GitHub repo
+  as a live, browsable directory (`ls`, `cd`, `cat`, `open`); session-scoped cache
+- Tab autocomplete, command history (Up/Down, capped at 500), Ctrl+C / Ctrl+L
+- Portfolio data commands — `projects`, `experience`, `skills`, `contact`
+- Mobile bypass of the desktop metaphor; `/terminal` on mobile shows a
+  desktop-only notice (never loads xterm.js)
+- Accessibility — semantic landmarks/headings, keyboard-operable controls, focus
+  management for project details, visible focus styles, skip link
+- Open Graph / Twitter metadata; per-route `document.title`
+- Easter eggs behind `sudo`, `rm`, `hack`, `vim`, `vi`, `nano`, `exit`, `apt`
 
 ## Tech Stack
 
 | Layer | Library | Version |
 |---|---|---|
 | UI framework | React | ^18.3 |
+| Routing | react-router-dom | ^6.30 |
 | State management | Zustand | ^4.5 |
 | Window management | react-rnd | ^10.4 |
 | Terminal emulator | @xterm/xterm | ^5.5 |
-| Terminal addons | @xterm/addon-fit, @xterm/addon-web-links | ^0.10 / ^0.11 |
 | Build tool | Vite | ^5.4 |
+| Unit tests | Vitest | ^2.1 |
 | Language | TypeScript | ^5.5 |
 
 ## Prerequisites
 
 - Node.js 18 or later
-- npm 9 or later (or an equivalent package manager)
-- A GitHub Personal Access Token (optional, but raises the API rate limit from 60 to 5000 requests/hr)
+- A GitHub Personal Access Token (optional — raises the API rate limit from 60 to
+  5000 requests/hr for the Terminal's repo browsing)
 
 ## Installation
 
@@ -47,60 +85,29 @@ The project is fully static and deploys to Vercel with no backend.
 git clone https://github.com/Azeemme/Terminal-Portfolio.git
 cd Terminal-Portfolio
 npm install
+cp .env.example .env.local   # optional
 ```
 
-Copy the example environment file and fill in your values:
-
-```bash
-cp .env.example .env.local
-```
-
-Edit `.env.local`:
+`.env.local` (both variables optional):
 
 ```env
-# Read-only PAT scoped to public repos only.
-# This token is embedded in the browser bundle — keep it minimal scope.
+# Read-only PAT, public-repo scope only. Embedded in the browser bundle.
 VITE_GITHUB_TOKEN=ghp_yourTokenHere
-
-# GitHub username whose repositories appear as directories.
+# GitHub username whose repos appear in the Terminal filesystem
 VITE_GITHUB_USERNAME=Azeemme
 ```
 
-Both variables are optional. Without `VITE_GITHUB_TOKEN` the app falls back to the unauthenticated rate limit (60 requests/hr per IP). Without `VITE_GITHUB_USERNAME` it defaults to `Azeemme`.
-
-## Usage
-
-### Start the dev server
+## Scripts
 
 ```bash
-npm run dev
-```
-
-Open `http://localhost:5173` in a browser (1024px minimum viewport — no mobile layout).
-
-### Build for production
-
-```bash
-npm run build
-```
-
-Output lands in `dist/`. Deploy the `dist/` folder to any static host (Vercel, Netlify, GitHub Pages, etc.).
-
-### Preview the production build locally
-
-```bash
-npm run preview
-```
-
-### Lint
-
-```bash
-npm run lint
+npm run dev       # dev server
+npm test          # Vitest (route + data + terminal-command unit tests)
+npm run lint      # ESLint
+npm run build     # tsc -b && vite build  (also emits dist/404.html)
+npm run preview   # serve the production build
 ```
 
 ## Command Reference
-
-Commands available in the terminal:
 
 | Command | Description |
 |---|---|
@@ -108,97 +115,73 @@ Commands available in the terminal:
 | `cd [dir]` | Change directory (`cd ..`, `cd ~`, `cd ~/repo/src`) |
 | `cat [file]` | Display file contents; opens `resume.pdf` in a new tab |
 | `pwd` | Print current path |
-| `whoami` | Display bio |
-| `social` | Print GitHub, LinkedIn, photography, and email links |
-| `open [repo]` | Open a GitHub repository in the browser |
-| `help` | Show all available commands |
+| `whoami` | Bio |
+| `projects [slug]` | List featured projects, or show one |
+| `experience` | Work and research experience |
+| `skills` | Focus areas and technologies |
+| `contact` | Contact details |
+| `social` | GitHub, LinkedIn, photography, email |
+| `open [target]` | Open a GitHub repo, or `github` \| `linkedin` \| `resume` |
+| `resume` | Open the résumé PDF |
+| `help` | List commands |
 | `clear` | Clear the terminal |
-| `sudo` | Easter egg help menu |
-| `rm` | Easter egg (fake rm -rf /) |
-| `hack` | Easter egg |
-| `exit` / `vim` / `vi` / `nano` | Easter eggs |
-| `apt update` / `apt upgrade` | Easter eggs |
+| `sudo`, `rm`, `hack`, `exit`, `vim`, `vi`, `nano`, `apt …` | Easter eggs |
 
 ### Keyboard shortcuts
 
 | Key | Action |
 |---|---|
 | Tab | Autocomplete command name or argument |
-| Up / Down | Navigate command history |
-| Ctrl+C | Interrupt current input (or copy selected text) |
-| Ctrl+L | Clear screen and replay boot sequence |
-
-### Filesystem layout
-
-```
-~/
-├── whoami.txt        # Bio (hardcoded)
-├── contact.txt       # Contact links (hardcoded)
-├── resume.pdf        # Opens resume URL in a new tab
-├── Terminal-Portfolio/   # GitHub repo (live)
-├── <other-repo>/         # GitHub repo (live)
-└── ...
-```
-
-Inside any repo directory, `ls` and `cat` fetch live content from the GitHub Contents API. Results are cached per path for the duration of the browser session.
-
-## Configuration
-
-| Variable | Required | Default | Description |
-|---|---|---|---|
-| `VITE_GITHUB_TOKEN` | No | `""` | Read-only GitHub PAT; raises rate limit to 5000 req/hr |
-| `VITE_GITHUB_USERNAME` | No | `Azeemme` | GitHub username whose repos populate `~/` |
-
-Set both in `.env.local` (development) or in your hosting provider's environment variable settings (production). Never commit `.env.local` — it is in `.gitignore`.
+| Up / Down | Command history |
+| Ctrl+C | Interrupt input (or copy selection) |
+| Ctrl+L | Clear screen and replay boot |
 
 ## Project Structure
 
 ```
-Terminal-Portfolio/
-├── public/
-│   └── terminal-window-icon.png   # Title bar icon
-├── src/
-│   ├── assets/
-│   │   ├── Azeem-ascii-ansi.txt   # ANSI color ASCII portrait (boot splash)
-│   │   └── ascii-art.ts           # Re-exports the raw art as a string
-│   ├── components/
-│   │   ├── Desktop/               # Root layout, renders windows + dock
-│   │   ├── Dock/                  # Taskbar with app buttons and indicators
-│   │   ├── Window/                # react-rnd wrapper with Windows-style chrome
-│   │   └── apps/Terminal/         # xterm.js mount, input handler, all keybindings
-│   ├── store/
-│   │   └── windowStore.ts         # Zustand store — open/close/minimize/maximize/focus
-│   ├── terminal/
-│   │   ├── bootSequence.ts        # ASCII art + info panel rendered on mount
-│   │   ├── commandRegistry.ts     # Central registry; initializeCommands() populates it
-│   │   ├── types.ts               # Command, TerminalContext, DirEntry interfaces
-│   │   ├── commands/
-│   │   │   ├── filesystem.ts      # ls, cd, cat, pwd
-│   │   │   ├── info.ts            # help, whoami, social
-│   │   │   ├── actions.ts         # open, clear
-│   │   │   └── easter-eggs.ts     # sudo, rm, hack, exit, vim, vi, nano, apt
-│   │   └── filesystem/
-│   │       ├── fakeFiles.ts       # Hardcoded profile constants and fake DirEntry list
-│   │       ├── githubApi.ts       # Typed GitHub API client (fetchRepos, fetchRepoContents, fetchFileContent)
-│   │       └── virtualFs.ts       # Path utilities, binary file detection, ANSI sanitizer
-│   ├── App.tsx
-│   ├── main.tsx
-│   └── reset.css
-├── .env.example                   # Copy to .env.local and fill in values
-├── vite.config.ts
-├── tsconfig.app.json
-└── package.json
+src/
+├── data/                     # Shared data layer (single source of truth)
+│   ├── profile.ts  projects.ts  experience.ts  links.ts  index.ts
+├── routing/
+│   ├── routes.ts             # pure route logic (parseRoute, pathForPrimary, …) + tests
+│   ├── RouteBridge.tsx       # the one route → store effect
+│   ├── useRouteControls.ts   # store → route, from event handlers only
+│   ├── useIsMobile.ts  DocumentTitle.tsx
+├── store/windowStore.ts      # Zustand — open/close/minimize/maximize/focus/geometry
+├── components/
+│   ├── Desktop/  Dock/  Window/
+│   ├── apps/
+│   │   ├── Portfolio/        # Portfolio.tsx, ProjectCard.tsx, ProjectDetail.tsx
+│   │   └── Terminal/         # xterm.js mount (lazy)
+│   ├── mobile/               # MobileShell, TerminalUnavailable
+│   ├── routes/               # NotFound, ResumeRedirect, Hi
+│   └── common/               # AppErrorBoundary, RootErrorBoundary
+├── terminal/                 # command registry, virtual FS, GitHub client, boot
+├── App.tsx  main.tsx  reset.css
 ```
 
 ## Development Notes
 
-- **CSS Modules only** — no Tailwind, no styled-components. All styles live in `*.module.css` files co-located with their component.
-- **No mobile layout** — the app targets a minimum viewport of 1024px.
-- **No backend, no SSR** — fully static. The GitHub token is embedded in the browser bundle; use a minimal read-only scope.
-- **Adding a command** — implement the `Command` interface in `src/terminal/types.ts`, add the handler to the appropriate file under `src/terminal/commands/`, and register it via `registerCommand()` in `src/terminal/commandRegistry.ts`. Tab autocomplete picks it up automatically.
-- **Replacing the ASCII art** — generate a new ANSI art file with `ascii-image-converter -C` and overwrite `src/assets/Azeem-ascii-ansi.txt`. The boot sequence reads it as a raw Vite import.
-- **Resume URL** — set `RESUME_URL` in `src/terminal/filesystem/fakeFiles.ts` before deploying. It currently defaults to `'#'`.
+- **CSS Modules only** — no Tailwind, no styled-components. Styles co-located as
+  `*.module.css`. Shared design tokens (the "Console / instrumentation"
+  vocabulary — surfaces, rules, corner-tick panels, section rails, accents) live
+  as CSS custom properties in `src/styles/tokens.css`.
+- **Type** — Archivo (names / titles / summaries / body) + JetBrains Mono
+  (metadata / labels / tags / buttons / anything structural), one combined
+  Google Fonts request.
+- **URL ↔ window state** — the URL owns the primary app and selected project;
+  Zustand owns window open/minimize/maximize/geometry/z-order. `navigate()` is
+  called only from event handlers; `RouteBridge` is the only URL-reactive effect.
+- **Mobile** — below 768px (`useIsMobile`) the desktop shell, windows, and dock
+  are bypassed; Portfolio renders inline.
+- **No backend, no SSR** — fully static. The GitHub token is embedded in the
+  bundle; use a minimal read-only scope.
+- **Adding a command** — implement `Command` (`src/terminal/types.ts`), add it to
+  a file under `src/terminal/commands/`, register it in
+  `src/terminal/commandRegistry.ts`. Autocomplete picks it up automatically.
+- **Deploy** — GitHub Actions (`.github/workflows/deploy.yml`) builds on push to
+  `main` and publishes `dist/` to GitHub Pages; `public/CNAME` sets `azeemme.com`.
 
 ## License
 
-This project is not open-source licensed. All rights reserved by Azeem Ehtisham.
+Not open-source licensed. All rights reserved by Azeem Ehtisham.

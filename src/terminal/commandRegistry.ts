@@ -3,6 +3,12 @@ import { lsCommand, cdCommand, catCommand, pwdCommand } from './commands/filesys
 import { helpCommand, whoamiCommand, socialCommand } from './commands/info'
 import { clearCommand, openCommand, resumeCommand } from './commands/actions'
 import {
+  projectsCommand,
+  experienceCommand,
+  contactCommand,
+  skillsCommand,
+} from './commands/portfolio'
+import {
   aptUpdateCommand,
   exitCommand,
   hackCommand,
@@ -31,6 +37,12 @@ export function initializeCommands(): void {
   registerCommand(helpCommand)
   registerCommand(whoamiCommand)
   registerCommand(socialCommand)
+
+  // Portfolio data commands
+  registerCommand(projectsCommand)
+  registerCommand(experienceCommand)
+  registerCommand(contactCommand)
+  registerCommand(skillsCommand)
 
   // Action commands
   registerCommand(openCommand)

@@ -32,3 +32,11 @@
     50%  { background-position: 0 0, 0 0, 0 0, 5% 100%; }
     100% { background-position: 0 0, 0 0, 0 0, 96% 0%; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .desktop {
+        -webkit-animation: none;
+        -moz-animation: none;
+        animation: none;
+    }
+}
