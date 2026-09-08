@@ -13,6 +13,7 @@ export default function Hi() {
     <main className={styles.page}>
       <h1 className={styles.name}>{profile.name}</h1>
       <p className={styles.title}>{profile.title}</p>
+      <p className={styles.tagline}>{profile.tagline}</p>
       <p className={styles.edu}>{profile.education}</p>
 
       <nav className={styles.links} aria-label="Contact and profile links">
