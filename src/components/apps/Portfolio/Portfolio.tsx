@@ -111,9 +111,9 @@ export default function Portfolio({ bare = false }: Props) {
 
       <div className={styles.inner}>
         {/* ---- profile ---- */}
-        <section className={styles.section} aria-labelledby="pf-profile">
+        <section className={styles.section} aria-labelledby="pf-name">
           <div className={styles.rail}>
-            <span id="pf-profile" className={styles.railLabel}>
+            <span className={styles.railLabel} aria-hidden="true">
               Profile
             </span>
             <span className={styles.railLine} />
@@ -121,7 +121,7 @@ export default function Portfolio({ bare = false }: Props) {
 
           <div className={`${styles.panel} ${styles.profilePanel}`}>
             <div className={styles.profileMain}>
-              <h1 className={styles.name}>{profile.name}</h1>
+              <h1 id="pf-name" className={styles.name}>{profile.name}</h1>
               <div className={styles.role}>{profile.title}</div>
               <div className={styles.tagline}>
                 {profile.focusAreas.map((a, i) => (

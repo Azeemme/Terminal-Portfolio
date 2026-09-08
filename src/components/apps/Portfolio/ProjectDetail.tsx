@@ -12,7 +12,7 @@ interface Props {
 function Rail({ label }: { label: string }) {
   return (
     <div className={styles.rail}>
-      <span className={styles.railLabel}>{label}</span>
+      <h2 className={styles.railLabel}>{label}</h2>
       <span className={styles.railLine} />
     </div>
   )
