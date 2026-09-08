@@ -1,0 +1,121 @@
+/*
+ * Stage 2 design tokens — the "Console / instrumentation" visual vocabulary
+ * from the approved Claude Design project (Stage 2 Portfolio.dc.html).
+ *
+ * Instrumentation language = STRUCTURE, not decorative sci-fi:
+ * - dark application surfaces, darker graph-paper window interior
+ * - hard rectangular panels, minimal border radius, thin rules + section rails
+ * - monospace for metadata / labels / tags / buttons / technical structure
+ * - Archivo (sans) for names, project titles, summaries, body copy
+ * - restrained teal/green active accents, blue informational links
+ * - amber ONLY for genuinely unresolved / pending information
+ */
+
+:root {
+  /* ---- type ---- */
+  --font-sans: 'Archivo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Code', ui-monospace, 'SF Mono', monospace;
+
+  /* ---- surfaces ---- */
+  --surface-desktop: #0a1830;      /* body ground behind the shell */
+  --surface-app: #1f1f1f;          /* window title bar */
+  --surface-window: #131316;       /* Portfolio window interior (graph paper base) */
+  --surface-strip: #16161a;        /* app-header / breadcrumb strip */
+  --surface-panel: #1a1a1d;        /* hard rectangular panels */
+  --surface-cell: #202024;         /* metadata field cells */
+  --surface-btn: #1c1c20;          /* secondary buttons */
+
+  /* ---- rules / borders ---- */
+  --rule: #2e2e34;                 /* thin panel rules + section rails */
+  --rule-soft: #26262a;            /* faint list dividers */
+  --rule-dashed: #34343c;          /* dashed section breaks */
+  --border-window: #333;           /* outer window frame */
+  --corner-tick: #55565e;          /* 7px L-shaped panel corner marks */
+  --cell-border: #33333a;          /* metadata field cell border */
+  --grid-line: rgba(255, 255, 255, 0.028);
+  --grid-pitch: 24px;
+
+  /* ---- text ---- */
+  --text-primary: #ffffff;
+  --text-title: #f0f0f2;
+  --text-strong: #e8e8ea;
+  --text-body: #bcc1c8;
+  --text-body-bright: #c8ccd2;
+  --text-dim: #8a8a92;
+  --text-meta: #8b9099;            /* uppercase mono labels */
+  --text-cell: #d4d4d4;
+
+  /* ---- accents ---- */
+  --accent-teal: #4ec9b0;          /* active / primary */
+  --accent-teal-hover: #6fdcc6;
+  --accent-teal-ink: #0d1a18;      /* text on teal fill */
+  --accent-teal-value: #8fb8ae;    /* teal-highlighted cell values */
+  --accent-green: #6a9955;         /* section rail labels */
+  --link-blue: #569cd6;            /* informational links */
+  --amber: #d1a95f;                /* genuinely unresolved / pending ONLY */
+
+  /* ---- technology chips ---- */
+  --chip-text: #9dc4ba;
+  --chip-border: #33413e;
+  --chip-bg: #1b2523;
+
+  /* ---- ghost-teal action ---- */
+  --ghost-teal-border: #2f5f57;
+  --ghost-teal-bg: #16302c;
+}
+
+/* Graph-paper ground on the same 24px pitch as the desktop grid. */
+.dc-grid-paper {
+  background-color: var(--surface-window);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: var(--grid-pitch) var(--grid-pitch);
+}
+
+/* Hard rectangular panel with corner ticks. */
+.dc-panel {
+  position: relative;
+  border: 1px solid var(--rule);
+  background: var(--surface-panel);
+}
+.dc-panel::before,
+.dc-panel::after {
+  content: '';
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  pointer-events: none;
+}
+.dc-panel::before {
+  left: -1px;
+  top: -1px;
+  border-left: 1px solid var(--corner-tick);
+  border-top: 1px solid var(--corner-tick);
+}
+.dc-panel::after {
+  right: -1px;
+  bottom: -1px;
+  border-right: 1px solid var(--corner-tick);
+  border-bottom: 1px solid var(--corner-tick);
+}
+
+/* Uppercase mono section-rail label followed by a full-width thin rule. */
+.dc-rail {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.dc-rail > .dc-rail-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent-green);
+  white-space: nowrap;
+}
+.dc-rail > .dc-rail-line {
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}

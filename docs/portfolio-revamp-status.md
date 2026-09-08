@@ -206,7 +206,80 @@ Live deploy:
 - `social`/`contact` terminal output uses the shared GitHub username, not `VITE_GITHUB_USERNAME`.
 - Third featured project slug `stylegentsia` chosen from the plan's two options; Stage 2 confirms.
 
-## Checkpoint commits
+---
+
+# Stage 2 — Design + content replacement (IN PROGRESS)
+
+Visual source of truth: approved Claude Design project `b811976a-…` →
+`Stage 2 Portfolio.dc.html` ("Console / instrumentation" direction, Turn 4).
+Architecture/behaviour source of truth: this repo + Stage 1 invariants (unchanged).
+
+## BLOCKER — design image assets not retrievable
+
+The approved design references three project images plus two secondary SUITS assets
+(`bioreactorxr-shot.png`, `offgrid-dashboard.png`, `suits-hardware.png`, `suits-diagram.png`,
+`suits-team-strip.png`). They live in the Claude Design project under `assets/`. The `DesignSync`
+`get_file` tool is capped at 256 KiB and returns `truncated: true` for these PNGs, so the binary
+files **cannot be pulled into the repo from this session** (verified directly).
+
+**Handoff:** the implementation wires the expected paths and degrades gracefully when a file is
+absent (see `public/projects/README.md`). To finish the visual pass, drop these files into
+`public/projects/`:
+
+| File | Used as | Design `alt` / caption |
+|---|---|---|
+| `public/projects/bioreactorxr.png` | Project 01 flagship card + detail hero | "BioreactorXR — component inspection panel open on the peristaltic feed pumps" · object-position `center 42%` |
+| `public/projects/offgrid-dashboard.png` | Project 02 card + detail hero | "Off-Grid Telemetry dashboard — live battery, solar and temperature readings" · object-position `top center` |
+| `public/projects/suits-hardware.png` | Project 03 card + detail hero | "VISOR — HoloLens 2 head-mounted display worn, and the wrist-mounted display on the forearm" |
+
+Until the files exist, cards/detail heroes show a labelled graph-paper placeholder (no broken image,
+no layout shift).
+
+## Verified-fact decisions (design vs. resume, resolved once)
+
+Source for facts: `uploads/master_resume.typ` in the design project + the approved design text.
+
+- **Profile `NOW` field:** design shows "Research Team Lead / U.S. Space Force · Purdue Data Mine".
+  Per the master resume that role (Team Lead / Scrum Master, The Data Mine – U.S. Space Force) ran
+  **Jan – Jul 2026** and has ended (today is 2026-09-08). A field labelled `NOW` must be current, so
+  it carries the **Undergraduate Research Fellow** role (Purdue SURF / OUR Scholars, May 2026 –
+  Present, which the resume and the design's own Experience section both mark current). The Space
+  Force credential stays on the page as a completed **Experience** entry. Documented deviation.
+- **Experience section:** design shows 2 entries; implemented as 3 (added the completed Data Mine /
+  U.S. Space Force lead role) so the prestige credential remains visible and the `NOW` field stays
+  accurate. Still compressed; "Full resume ↗" covers the rest (Elanco, SUITS role, hackathons).
+- **Rule applied to design "Placeholder" cells:** implement the design exactly, EXCEPT omit any cell
+  the design itself marks `Placeholder` and drop both amber "PLACEHOLDER —" warning blocks
+  (task: "Do not ship placeholder warnings publicly"). Concretely dropped: Off-Grid system-flow
+  `02 Collect` stage; Off-Grid facts-rail `Role` field; both amber warning blocks.
+- **Kept from the approved design** (facts about the user's own project, not marked unresolved):
+  Off-Grid `11 endpoints`, `6 pages`, `Shared · FTP deploy`, `Build step: None`, `Docker` chip;
+  "a solar-powered cabin in the Ozarks"; SUITS "VISOR" interface name, wrist-mounted display, voice
+  assistant, `2025 – Present`, HoloLens 2 · Pi, RAG.
+- **BioreactorXR `Repository ↗` link:** design shows it on the detail page; the repo URL is not in
+  the task's verified list and could not be confirmed → **omitted**. Re-add if a public repo is
+  confirmed.
+- `suits-diagram.png` / `suits-team-strip.png` exist in the project but are **not referenced by the
+  approved Stage 2 design** → not used; SUITS detail is built on the shared 2b/2c detail shell.
+
+## Stage 2 checkpoints
+
+| # | Scope | Commit |
+|---|---|---|
+| S2-1 | Shared visual tokens (`src/styles/tokens.css`), Archivo + JetBrains Mono, grid-paper helper | pending |
+| S2-2 | Portfolio window sizing + Work Index / Profile structure | — |
+| S2-3 | BioreactorXR flagship homepage treatment | — |
+| S2-4 | Off-Grid + NASA SUITS secondary homepage treatments | — |
+| S2-5 | Experience / About / Contact lower layout | — |
+| S2-6 | BioreactorXR project detail | — |
+| S2-7 | Off-Grid project detail | — |
+| S2-8 | NASA SUITS project detail | — |
+| S2-9 | Scrollbar / dock / title-bar polish | — |
+| S2-10 | Responsive / mobile treatment | — |
+| S2-11 | Real-content + placeholder cleanup, Terminal shared-data sync | — |
+| S2-12 | Accessibility, regression, performance validation | — |
+
+## Stage 1 checkpoint commits
 
 | Batch | Commit |
 |---|---|
