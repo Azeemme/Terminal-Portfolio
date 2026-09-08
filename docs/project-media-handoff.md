@@ -1,20 +1,21 @@
-# Project media handoff
+# Project media
 
-Three approved Stage 2 project images are not yet in the repo. Drop them into
-`public/projects/`. Until a file is present, the Portfolio shows a labelled
-graph-paper placeholder in its place (no broken image, no layout shift) — add
-the file and the site picks it up with no code change.
+The three Stage 2 project captures live in `public/projects/` as WebP:
 
-| File | Used as | Notes |
+| File | Used as | Crop |
 |---|---|---|
-| `public/projects/bioreactorxr.png` | BioreactorXR — flagship card + detail hero | wide capture; focal point ~42% from top (`object-position: center 42%`) |
-| `public/projects/offgrid-dashboard.png` | Off-Grid Telemetry — card + detail hero | dashboard screenshot; anchored to top (`object-position: top center`) |
-| `public/projects/suits-hardware.png` | NASA SUITS — card + detail hero | HoloLens 2 HMD + wrist-mounted display |
+| `bioreactorxr.webp` | BioreactorXR — flagship card + detail hero | `object-position: center 42%` |
+| `offgrid-dashboard.webp` | Off-Grid Telemetry — card + detail hero | `object-position: top center` |
+| `suits-hardware.webp` | NASA SUITS — card + detail hero | `object-position: center 58%` (full VISOR poster, portrait) |
 
-Recommended: ~1600×900 or wider, `.png` or `.webp` (update the `src` in
-`src/data/projects.ts` if you use a different extension), kept under ~400 KB
-each. These are decorative captures — the case-study copy stands on its own —
-so they are lazy-loaded and never block the Portfolio.
+They were re-encoded from the originals (PNG, 0.4–1.3 MB) to WebP q82
+(63 / 108 / 171 KB). They are decorative, lazy-loaded, and never block the
+Portfolio — `ProjectMediaFrame` falls back to a labelled graph-paper panel if a
+file is missing.
 
-The handoff doc lives outside `public/` on purpose: anything under `public/`
-is deployed verbatim, and `/projects/...` is a live client route.
+To swap one: drop a replacement at the same path (keep `.webp`, or change the
+extension in `src/data/projects.ts` → `media.src`). Recommended ~1600 px wide,
+under ~250 KB.
+
+This doc lives outside `public/` on purpose: everything under `public/` is
+deployed verbatim, and `/projects/...` is a live client route.

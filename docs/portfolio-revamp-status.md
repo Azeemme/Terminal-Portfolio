@@ -217,26 +217,23 @@ Visual source of truth: approved Claude Design project `b811976a-…` →
 `Stage 2 Portfolio.dc.html` ("Console / instrumentation" direction, Turn 4).
 Architecture/behaviour source of truth: this repo + Stage 1 invariants (unchanged).
 
-## BLOCKER — design image assets not retrievable
+## Image assets — RESOLVED
 
-The approved design references three project images plus two secondary SUITS assets
-(`bioreactorxr-shot.png`, `offgrid-dashboard.png`, `suits-hardware.png`, `suits-diagram.png`,
-`suits-team-strip.png`). They live in the Claude Design project under `assets/`. The `DesignSync`
-`get_file` tool is capped at 256 KiB and returns `truncated: true` for these PNGs, so the binary
-files **cannot be pulled into the repo from this session** (verified directly).
+The `DesignSync` `get_file` tool is capped at 256 KiB, so the design's project images could not be
+pulled from this session (they returned `truncated: true`). The user supplied the three captures
+directly on 2026-09-08. They were re-encoded to WebP (`bioreactorxr.webp` 63 KB, `offgrid-dashboard.webp`
+108 KB, `suits-hardware.webp` 171 KB — from 384 / 818 / 1250 KB PNG) and committed to `public/projects/`.
+`src/data/projects.ts` points at the `.webp` paths; `ProjectMediaFrame` still degrades to the
+labelled graph-paper placeholder if a file is ever missing.
 
-**Handoff:** the implementation wires the expected paths and degrades gracefully when a file is
-absent (see `docs/project-media-handoff.md`). To finish the visual pass, drop these files into
-`public/projects/`:
-
-| File | Used as | Design `alt` / caption |
+| File | Used as | Notes |
 |---|---|---|
-| `public/projects/bioreactorxr.png` | Project 01 flagship card + detail hero | "BioreactorXR — component inspection panel open on the peristaltic feed pumps" · object-position `center 42%` |
-| `public/projects/offgrid-dashboard.png` | Project 02 card + detail hero | "Off-Grid Telemetry dashboard — live battery, solar and temperature readings" · object-position `top center` |
-| `public/projects/suits-hardware.png` | Project 03 card + detail hero | "VISOR — HoloLens 2 head-mounted display worn, and the wrist-mounted display on the forearm" |
+| `public/projects/bioreactorxr.webp` | Project 01 flagship card + detail hero | in-headset capture, Peristaltic Feed Pumps panel open; object-position `center 42%` |
+| `public/projects/offgrid-dashboard.webp` | Project 02 card + detail hero | live "Mud Hut Dashboard" screenshot; object-position `top center` |
+| `public/projects/suits-hardware.webp` | Project 03 card + detail hero | full VISOR competition poster (portrait); object-position `center 58%` lands the crop on the astronaut-interface diagram + HMD/WMD photo — **NEEDS MANUAL VERIFICATION** that the wide/short card crop reads acceptably |
 
-Until the files exist, cards/detail heroes show a labelled graph-paper placeholder (no broken image,
-no layout shift).
+`suits-diagram.png` / `suits-team-strip.png` from the design are still unused (not referenced by the
+approved Stage 2 layout).
 
 ## Verified-fact decisions (design vs. resume, resolved once)
 
@@ -306,8 +303,9 @@ reserved for genuinely-unresolved info, of which the shipped content has none).
 
 ## Stage 2 — needs manual verification (no browser)
 
-- All three project images are ABSENT (see blocker) → every card/hero shows the "Image pending"
-  graph-paper fallback. Drop the files into `public/projects/` to complete the visual pass.
+- Project images are in place (`public/projects/*.webp`). Verify each card/detail-hero crop:
+  BioreactorXR `center 42%`, Off-Grid `top center`, SUITS `center 58%` (portrait poster in a
+  wide/short frame — the crop needs a real visual check).
 - Layout at the two breakpoints (≤900 / ≤520): single-column collapse of profile / flagship /
   compact pair / detail grid / lower grid / system-flow; app-header + breadcrumb wrap.
 - Flagship + compact card equal-height alignment; capture crop focal points (`object-position`).

@@ -19,9 +19,9 @@ repositories live.
   links, projects, and experience stay consistent.
 - Fully static, no backend. Deploys to **GitHub Pages** at `azeemme.com`.
 
-> **Media:** three project images go in `public/projects/` — see
-> `docs/project-media-handoff.md`. If a file is absent the card/hero shows a
-> labelled graph-paper placeholder (no broken image, no layout shift).
+> **Media:** the three project captures live in `public/projects/` as WebP. If a
+> file is ever missing the card/hero shows a labelled graph-paper placeholder (no
+> broken image, no layout shift). See `docs/project-media-handoff.md`.
 
 ## Routes
 

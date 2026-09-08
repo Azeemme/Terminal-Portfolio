@@ -127,7 +127,7 @@ export const projects: Project[] = [
       DETAIL_LINK('bioreactorxr'),
     ],
     media: {
-      src: '/projects/bioreactorxr.png',
+      src: '/projects/bioreactorxr.webp',
       alt: 'BioreactorXR — inspecting the peristaltic feed pumps on a life-size virtual bioreactor',
       objectPosition: 'center 42%',
       caption: 'Capture 01 · component inspection',
@@ -187,7 +187,7 @@ export const projects: Project[] = [
       },
     ],
     media: {
-      src: '/projects/offgrid-dashboard.png',
+      src: '/projects/offgrid-dashboard.webp',
       alt: 'Off-Grid Telemetry dashboard — live battery, solar and temperature readings',
       objectPosition: 'top center',
       caption: 'Live dashboard',
@@ -239,13 +239,13 @@ export const projects: Project[] = [
     technologies: ['HoloLens 2', 'Raspberry Pi', 'RAG', 'HW/SW integration'],
     actions: [DETAIL_LINK('suits')],
     media: {
-      src: '/projects/suits-hardware.png',
-      alt: 'VISOR — HoloLens 2 head-mounted display worn, and the wrist-mounted display on the forearm',
-      objectPosition: 'center center',
-      caption: 'HoloLens 2 HMD + wrist-mounted display',
+      src: '/projects/suits-hardware.webp',
+      alt: 'VISOR project poster — astronaut-interface architecture linking suit telemetry, mission control, a Raspberry Pi edge node and the HoloLens 2 headset, with a photo of the head-mounted and wrist-mounted displays worn',
+      objectPosition: 'center 58%',
+      caption: 'Astronaut interface — architecture + HMD/WMD',
     },
     detailActions: [],
-    detailCaption: 'Capture 01 · HoloLens 2 HMD + wrist-mounted display',
+    detailCaption: 'VISOR — astronaut interface architecture + HMD/WMD',
     detailFacts: [
       { label: 'Role', value: 'Team Lead' },
       { label: 'Since', value: 'Sep 2025', highlight: true },
