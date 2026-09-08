@@ -15,7 +15,7 @@ export default function ProjectDetail({ project, onBack }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    containerRef.current?.focus()
+    containerRef.current?.focus({ preventScroll: true })
   }, [project.slug])
 
   useEffect(() => {

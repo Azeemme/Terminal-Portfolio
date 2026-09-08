@@ -282,12 +282,46 @@ Changed:
 - **NEEDS MANUAL VERIFICATION:** `projects` / `experience` / `skills` / `contact` output formatting
   in the real xterm view.
 
+## Batch 5 — Mobile bypass + `/hi` (COMPLETE)
+
+- `src/routing/useIsMobile.ts` — `matchMedia('(max-width: 820px)')` hook, reactive to
+  resize/orientation. Breakpoint is tunable in Stage 2.
+- `src/components/mobile/MobileShell.tsx` — below the breakpoint the desktop shell, draggable
+  windows, and dock are bypassed (plan §6). Renders `<Portfolio bare />` for
+  portfolio/project/project-not-found/desktop routes; `<TerminalUnavailable />` for `/terminal`.
+- `src/components/mobile/TerminalUnavailable.tsx` — lightweight "Terminal is built for desktop"
+  state, one tap back to Portfolio, never loads xterm.js.
+- `Portfolio` gained a `bare` prop: `.rootBare` (document scroll, `min-height:100vh`, safe-area
+  padding, single-column cards under 480px) vs the windowed `.root` (internal scroll). Scroll reset
+  and focus calls use `preventScroll` / `window.scrollTo` in bare mode.
+- `src/App.tsx` — `isMobile ? <MobileShell/> : <Desktop/>` for desktop-family routes. Standalone
+  routes (`/hi`, 404, `/resume`) are already breakpoint-agnostic.
+- BioreactorXR "Desktop Demo" labelling + keyboard/mouse note + no embedded WebGL: already in
+  `ProjectDetail` (Batch 2), shown identically on mobile.
+- `/hi` (from Batch 2) meets plan §14: name, Purdue (education line), Portfolio, Résumé, LinkedIn,
+  GitHub, Email; mobile-first; own ~1.5 kB chunk importing only `profile` + `links`.
+
+### Validation
+
+- npm test: PASS (53/53). npm run lint: PASS. npm run build: PASS.
+- Code-splitting improved further: `Portfolio` is now a shared 14.7 kB chunk, `Desktop` down to
+  55.7 kB, `MobileShell` 0.84 kB.
+
+### Manual verification (added)
+
+- **NEEDS MANUAL VERIFICATION:** mobile bypass actually triggers at ≤820px and renders Portfolio
+  with normal scrolling, no window chrome, no dock.
+- **NEEDS MANUAL VERIFICATION:** rotate/resize across the breakpoint swaps shells cleanly.
+- **NEEDS MANUAL VERIFICATION:** `/terminal` on a phone shows the desktop-only notice (no xterm).
+- **NEEDS MANUAL VERIFICATION:** mobile Portfolio spacing / tap targets / single-column cards.
+
 ## Completed
 
 - [x] Batch 0 - Repository reconnaissance
 - [x] Batch 1 - Shared data + route core + tests
 - [x] Batch 2+3 - Portfolio application + routing/window state integration
 - [x] Batch 4 - Terminal integration
+- [x] Batch 5 - Mobile and /hi
 - [ ] Batch 4 - Terminal integration
 - [ ] Batch 5 - Mobile and /hi
 - [ ] Batch 6 - Accessibility, errors, metadata, deployment
@@ -322,4 +356,5 @@ None beyond documented baseline.
 - Baseline: `b3ed9e5`
 - Batch 1: `fb4f616`
 - Batch 2+3: `42cb136`
-- Batch 4: pending checkpoint commit
+- Batch 4: `908da37`
+- Batch 5: pending checkpoint commit

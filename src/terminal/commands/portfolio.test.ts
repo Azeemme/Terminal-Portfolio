@@ -16,7 +16,8 @@ function mockCtx() {
     writeError: (t: string) => err.push(t),
   } as unknown as TerminalContext
   // Strip ANSI for assertions.
-  const plain = () => out.join('\n').replace(/\x1b\[[0-9;]*m/g, '')
+  const ansi = new RegExp(String.fromCharCode(0x1b) + '\\[[0-9;]*m', 'g')
+  const plain = () => out.join('\n').replace(ansi, '')
   return { ctx, out, err, plain }
 }
 

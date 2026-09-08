@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 import {
   profile,
   experience,
@@ -7,13 +8,17 @@ import {
   getProject,
   links,
 } from '../../../data'
-import { useLocation } from 'react-router-dom'
 import { useRouteControls } from '../../../routing/useRouteControls'
 import ProjectCard from './ProjectCard'
 import ProjectDetail from './ProjectDetail'
 import styles from './Portfolio.module.css'
 
-export default function Portfolio() {
+interface Props {
+  /** Mobile bypass (plan §6): render inline with document scrolling, no window chrome. */
+  bare?: boolean
+}
+
+export default function Portfolio({ bare = false }: Props) {
   const { route, openProject, goToPrimary } = useRouteControls()
   const { pathname } = useLocation()
   const projectsHeadingRef = useRef<HTMLHeadingElement>(null)
@@ -24,54 +29,40 @@ export default function Portfolio() {
     [goToPrimary],
   )
 
-  // On /projects, move focus/scroll to the project list (plan §10).
+  // On /projects, move focus to the project list (plan §10).
   const onProjectsSection =
     route.type === 'portfolio' && route.section === 'projects'
   useEffect(() => {
-    if (onProjectsSection) projectsHeadingRef.current?.focus()
+    if (onProjectsSection) {
+      projectsHeadingRef.current?.focus({ preventScroll: true })
+    }
   }, [onProjectsSection])
 
   // Reset scroll on any Portfolio URL change (home ⇆ list ⇆ any detail).
   useEffect(() => {
-    rootRef.current?.scrollTo({ top: 0 })
-  }, [pathname])
+    if (bare) window.scrollTo({ top: 0 })
+    else rootRef.current?.scrollTo({ top: 0 })
+  }, [pathname, bare])
 
-  if (route.type === 'project') {
-    const project = getProject(route.slug)
-    if (project) {
-      return (
-        <div className={styles.root} ref={rootRef}>
-          <div className={styles.inner}>
-            <ProjectDetail project={project} onBack={backToList} />
-          </div>
-        </div>
-      )
-    }
-  }
+  let content
 
-  if (route.type === 'project' || route.type === 'project-not-found') {
-    return (
-      <div className={styles.root} ref={rootRef}>
-        <div className={styles.inner}>
-          <div className={styles.detail}>
-            <button type="button" className={styles.backButton} onClick={backToList}>
-              ← Back to projects
-            </button>
-            <h2 className={styles.detailHeading}>Project not found</h2>
-            <p className={styles.prose}>
-              There’s no project at that address. It may have been renamed or removed.
-            </p>
-          </div>
-        </div>
+  if (route.type === 'project' && getProject(route.slug)) {
+    content = <ProjectDetail project={getProject(route.slug)!} onBack={backToList} />
+  } else if (route.type === 'project' || route.type === 'project-not-found') {
+    content = (
+      <div className={styles.detail}>
+        <button type="button" className={styles.backButton} onClick={backToList}>
+          ← Back to projects
+        </button>
+        <h2 className={styles.detailHeading}>Project not found</h2>
+        <p className={styles.prose}>
+          There’s no project at that address. It may have been renamed or removed.
+        </p>
       </div>
     )
-  }
-
-  const featured = featuredProjects()
-
-  return (
-    <div className={styles.root} ref={rootRef}>
-      <div className={styles.inner}>
+  } else {
+    content = (
+      <>
         <header className={styles.hero}>
           <h1 className={styles.name}>{profile.name}</h1>
           <p className={styles.positioning}>
@@ -101,11 +92,16 @@ export default function Portfolio() {
         </header>
 
         <section className={styles.section} aria-labelledby="portfolio-featured">
-          <h2 id="portfolio-featured" className={styles.sectionHeading} ref={projectsHeadingRef} tabIndex={-1}>
+          <h2
+            id="portfolio-featured"
+            className={styles.sectionHeading}
+            ref={projectsHeadingRef}
+            tabIndex={-1}
+          >
             Featured work
           </h2>
           <div className={styles.cardGrid}>
-            {featured.map((project) => (
+            {featuredProjects().map((project) => (
               <ProjectCard key={project.slug} project={project} onOpen={openProject} />
             ))}
           </div>
@@ -158,7 +154,13 @@ export default function Portfolio() {
             ))}
           </div>
         </section>
-      </div>
+      </>
+    )
+  }
+
+  return (
+    <div className={bare ? styles.rootBare : styles.root} ref={rootRef}>
+      <div className={styles.inner}>{content}</div>
     </div>
   )
 }
