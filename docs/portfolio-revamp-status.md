@@ -266,18 +266,27 @@ Source for facts: `uploads/master_resume.typ` in the design project + the approv
 
 | # | Scope | Commit |
 |---|---|---|
-| S2-1 | Shared visual tokens (`src/styles/tokens.css`), Archivo + JetBrains Mono, grid-paper helper | pending |
-| S2-2 | Portfolio window sizing + Work Index / Profile structure | — |
-| S2-3 | BioreactorXR flagship homepage treatment | — |
-| S2-4 | Off-Grid + NASA SUITS secondary homepage treatments | — |
-| S2-5 | Experience / About / Contact lower layout | — |
-| S2-6 | BioreactorXR project detail | — |
-| S2-7 | Off-Grid project detail | — |
-| S2-8 | NASA SUITS project detail | — |
-| S2-9 | Scrollbar / dock / title-bar polish | — |
-| S2-10 | Responsive / mobile treatment | — |
-| S2-11 | Real-content + placeholder cleanup, Terminal shared-data sync | — |
-| S2-12 | Accessibility, regression, performance validation | — |
+| S2-1 | Shared visual tokens (`src/styles/tokens.css`), Archivo + JetBrains Mono, grid-paper helper | `b37f5db` |
+| S2-2…8 | Data model + Portfolio homepage (Work Index / Profile / flagship 01 / pair 02-03 / Experience-About-Contact) + all three project-detail pages (project-file layout, system-flow strip, demo notice, facts rail) | `13f0ccd` |
+| S2-9 | Window 1250×858 + drop shadow + route-aware title; dock instrument restyle (teal active, indicator bar, divider); instrument scrollbar | `4eb6ff0` |
+| S2-10 | Portfolio responsive collapse (≤900 / ≤520); `/hi`, 404, TerminalUnavailable restyled to the vocabulary; `/hi` stays lightweight | `2c8a619` |
+| S2-11 | Terminal `experience`/`skills` on finalized data; stale-reference + README cleanup | `d034ea6` |
+| S2-12 | heading hierarchy (`2181e41`); independent a11y + regression review (running); final validation | in progress |
+
+### Implementation notes
+
+- **Design system** in `src/styles/tokens.css` (global, entry CSS). Portfolio interior + mobile
+  bypass both render the 24px graph-paper ground from one shared token block.
+- **Cards are not wrapping links** (the design shows explicit CTAs and nested interactive elements
+  are invalid) — the flagship + compact cards are `<article>` panels whose "View Project →" is the
+  shareable `<Link to="/projects/:slug">`. Deep links unchanged.
+- **Window title bar** reflects the routed project ("Portfolio — BioreactorXR"), derived read-only
+  from `useRouteControls().route` in `Window.tsx` — no store write, no new effect.
+- **Project images**: `ProjectMediaFrame` renders `<img loading="lazy" onError→placeholder>`. The
+  three files are not in the repo (blocker above); the site is fully functional without them.
+- **Off-Grid system flow** renumbered to 4 stages (design's `02 Collect` "Placeholder" cell dropped).
+- **NASA SUITS** has no approved detail mockup — built on the shared project-file shell; system-flow
+  (TSS → Mission control → Pi → HoloLens 2) and the "Contribution" section are from the résumé.
 
 ## Stage 1 checkpoint commits
 
