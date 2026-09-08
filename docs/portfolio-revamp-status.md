@@ -126,7 +126,7 @@ anti-loop routing design is sound. Findings and resolutions:
 | 2 | Card `aria-label` suppressed the summary | Removed; name derives from content |
 | 3 | No `<h1>` on detail / not-found views | Promoted to `<h1>` |
 | 4/5 | Infinite bg animation + `scroll-behavior: smooth`, no reduced-motion | Global `@media (prefers-reduced-motion)` + explicit `.desktop` rule |
-| 7 | Background windows focusable while occluded, URL not synced on keyboard focus | `onFocusCapture` → `focusWindow` (guarded by `primaryFocusAction`) |
+| 7 | Background windows focusable while occluded | `onFocusCapture` → `raiseWindow` (raise/restore only, never navigates — avoids any mount-time-focus navigation risk). Pointer clicks still sync the URL via `focusWindow`. |
 | 8 | Experience roles / card titles were non-heading elements | `<h3>` |
 | 9/10 | AI dialog semantics on backdrop; title not a heading; no `aria-expanded` | Moved to content, `aria-labelledby` an `<h2>`, `aria-expanded` added |
 | 11 | Low-contrast metadata / placeholder greys | Bumped (`#808080`/`#6a6a6a`/`#666` → `#9a9a9a`–`#a0a0a0`) |
@@ -167,8 +167,8 @@ anti-loop routing design is sound. Findings and resolutions:
 | `/terminal` explicit desktop-only mobile behaviour | PASS (`TerminalUnavailable`) |
 | Terminal not required for mobile usability | PASS |
 | Unknown routes / project slugs fail gracefully | PASS (`NotFound`, in-Portfolio project-not-found; tested) |
-| Production deep links work on refresh | PASS by construction (`dist/404.html`) — MANUAL (live) |
-| Static assets not broken by fallback | PASS (`dist/Resume.pdf`, `dist/og-image.png` verified) |
+| Production deep links work on refresh | PASS by construction — `dist/404.html` == `index.html`, and every asset ref in it is root-absolute (`/assets/...`), so it resolves from any URL depth — MANUAL (live confirm) |
+| Static assets not broken by fallback | PASS (`dist/Resume.pdf`, `dist/og-image.png`, `favicon.ico` verified in `dist/`) |
 | Metadata + social previews, no SSR | PASS (`index.html` + `DocumentTitle`) — MANUAL (unfurl) |
 | `/hi` lightweight + one-tap | PASS (own ~1.4 kB chunk) — MANUAL (layout) |
 | README matches architecture | PASS (rewritten) |

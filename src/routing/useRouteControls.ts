@@ -56,6 +56,23 @@ export function useRouteControls() {
    *   navigation milestone, and this avoids a spurious extra history entry when
    *   the same gesture also triggers a card click (mousedown then click).
    */
+  /**
+   * Raise/restore a window to the top without ever navigating. Safe to call from
+   * `onFocusCapture` (fires on programmatic mount-time focus too) — it only acts
+   * when the window is actually behind or minimized.
+   */
+  const raiseWindow = useCallback((id: string) => {
+    const { windows, topZ } = useWindowStore.getState()
+    const action = primaryFocusAction(windows[id], topZ)
+    if (action === 'open') openApp(id)
+    else if (action === 'focus') focusApp(id)
+  }, [openApp, focusApp])
+
+  /**
+   * Raw pointer click on a window frame. A routed app that is not the URL primary
+   * becomes the primary (replace navigation — focus-follow is not a deliberate
+   * navigation milestone). Otherwise just raise/restore.
+   */
   const focusWindow = useCallback(
     (id: string) => {
       const isRouted = id === 'portfolio' || id === 'terminal'
@@ -63,14 +80,9 @@ export function useRouteControls() {
         goToPrimary(id, null, { replace: true })
         return
       }
-      // Already the primary app (or a non-routed window): raise/restore only if
-      // needed — this handler also fires on every internal focus move.
-      const { windows, topZ } = useWindowStore.getState()
-      const action = primaryFocusAction(windows[id], topZ)
-      if (action === 'open') openApp(id)
-      else if (action === 'focus') focusApp(id)
+      raiseWindow(id)
     },
-    [currentPrimary, openApp, focusApp, goToPrimary],
+    [currentPrimary, goToPrimary, raiseWindow],
   )
 
   /** Close a window; if it was the routed app, move focus + URL per plan §4. */
@@ -88,5 +100,5 @@ export function useRouteControls() {
     [closeApp, navigate, currentPrimary],
   )
 
-  return { route, currentPrimary, goToPrimary, focusWindow, closeWindow }
+  return { route, currentPrimary, goToPrimary, focusWindow, raiseWindow, closeWindow }
 }

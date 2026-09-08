@@ -16,7 +16,7 @@ export default function Window({ id, children }: WindowProps) {
   const maximizeApp = useWindowStore((s) => s.maximizeApp)
   const updatePosition = useWindowStore((s) => s.updatePosition)
   const updateSize = useWindowStore((s) => s.updateSize)
-  const { focusWindow, closeWindow } = useRouteControls()
+  const { focusWindow, raiseWindow, closeWindow } = useRouteControls()
 
   if (!win || !win.isOpen) return null
 
@@ -57,7 +57,7 @@ export default function Window({ id, children }: WindowProps) {
         updatePosition(id, { x: position.x, y: position.y })
       }}
       onMouseDown={() => focusWindow(id)}
-      onFocusCapture={() => focusWindow(id)}
+      onFocusCapture={() => raiseWindow(id)}
       className={styles.windowFrame}
     >
       <div className={styles.windowWrapper}>
