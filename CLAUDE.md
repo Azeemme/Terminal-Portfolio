@@ -39,6 +39,40 @@ After each batch:
 
 Do not proceed to the next batch until the current batch is in a validated state.
 
+## UI verification
+
+Browser automation is intentionally unavailable during Stage 1.
+
+Do not block implementation waiting for browser access.
+
+Verify behavior through:
+
+- static inspection
+- automated tests where practical
+- lint
+- production build
+- route/state tests
+- focused regression review
+
+For requirements that cannot be fully verified without rendering the UI, record
+them in `docs/portfolio-revamp-status.md` under a manual verification section
+rather than claiming they were visually verified.
+
+Do not mark visual or interaction-specific acceptance criteria as confirmed
+unless they can actually be established without browser access.
+
+Examples:
+
+- **PASS:** route logic covered by tests
+- **PASS:** build succeeds
+- **PASS:** focus handler exists and is tested
+- **NEEDS MANUAL VERIFICATION:** Portfolio window visually centered
+- **NEEDS MANUAL VERIFICATION:** project cards are not clipped
+- **NEEDS MANUAL VERIFICATION:** mobile spacing looks correct
+- **NEEDS MANUAL VERIFICATION:** dock appearance
+- **NEEDS MANUAL VERIFICATION:** modal sizing
+- **NEEDS MANUAL VERIFICATION:** responsive breakpoints feel right
+
 ## Scope control
 
 Complete Stage 1 autonomously. Do not begin Stage 2.
