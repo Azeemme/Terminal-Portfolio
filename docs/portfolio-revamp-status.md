@@ -1,10 +1,10 @@
 # Portfolio Revamp Status
 
-Stage 1 (technical foundation) is **complete** on branch `feature/portfolio-revamp`.
-Stage 2 (design + content replacement) is **complete** on the same branch
-(checkpoints S2-1 … S2-12, last commit `d99c006`). One outstanding handoff:
-three project image files (see the BLOCKER section) — the site degrades
-gracefully without them.
+Stage 1 (technical foundation) and Stage 2 (design + content replacement) are
+both **complete, merged to `main` (`3f8ac25`), and deployed** to
+`azeemme.com` via GitHub Pages (2026-09-08). Project images are in the repo
+(`public/projects/*.webp`). Remaining: manual visual verification of the
+SUITS poster crop (see the image-assets section).
 
 ## Validation (current, at Stage 2 completion)
 
