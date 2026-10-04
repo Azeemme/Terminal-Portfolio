@@ -576,7 +576,9 @@ class Component extends DCLogic {
   }
   onTS(e) {
     const t = e.touches[0];
-    this._tch = { x: t.clientX, y: t.clientY, py: t.clientY, top: this.scTop(), axis: null,
+    const S = this.state, L = this._L;
+    this._tch = { x: t.clientX, y: t.clientY, py: t.clientY, top: this.scTop(), axis: null, pt: performance.now(), prev: 0, v: 0,
+      arc: S.phase === 'field' && S.mode === 'field' && !!L && L.mob && !this._animating && this.inArc(t.clientX, t.clientY),
       g: { touch: true, coarse: false, acc: 0, amt: 0, base: null, kind: 'page', used: !!this._animating } };
   }
   onTM(e) {
@@ -585,10 +587,25 @@ class Component extends DCLogic {
     if (!c.axis && Math.hypot(dx, dy) > 8) c.axis = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
     const g = c.g;
     if (this._animating || g.used) { e.preventDefault(); return; }
+    if (c.arc && S.mode === 'field') {
+      e.preventDefault();
+      if (c.axis === 'v') {
+        // vertical swipe on the identity wheel turns it (one identity per row of travel)
+        this.user(); this._suppress = true;
+        const turns = cl(-dy / (60 * this._L.u), -2.4, 2.4), now = performance.now(), dt = Math.max(1, now - c.pt);
+        c.v = c.v * .5 + ((turns - c.prev) / dt) * .5; c.prev = turns; c.pt = now;
+        this.setState({ drag: turns, dragging: true });
+      }
+      return;
+    }
     if (S.mode !== 'reading') { e.preventDefault(); if (c.axis === 'v') this.scrubInput(inc, g); return; }
     if (c.axis === 'v' && c.top <= 1 && this.scTop() <= 1 && (g.base === 1 || dy > 0)) { e.preventDefault(); this.scrubInput(inc, g); }
   }
-  onTE() { const c = this._tch; this._tch = null; if (c) this.gestureEnd(c.g); }
+  onTE() {
+    const c = this._tch; this._tch = null; if (!c) return;
+    if (c.arc && this.state.dragging && c.axis === 'v') { this.settle(cl(c.v * 160, -1, 1)); setTimeout(() => { this._suppress = false; }, 0); return; }
+    this.gestureEnd(c.g);
+  }
 
   /* identity input */
   turnBy(n, auto) {
