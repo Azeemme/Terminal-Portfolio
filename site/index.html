@@ -603,7 +603,7 @@ class Component extends DCLogic {
   }
   onTE() {
     const c = this._tch; this._tch = null; if (!c) return;
-    if (c.arc && this.state.dragging && c.axis === 'v') { this.settle(cl(c.v * 160, -1, 1)); setTimeout(() => { this._suppress = false; }, 0); return; }
+    if (c.arc && this.state.dragging && c.axis === 'v') { this.settle(cl(c.v * 60, -.5, .5)); setTimeout(() => { this._suppress = false; }, 0); return; }
     this.gestureEnd(c.g);
   }
 
