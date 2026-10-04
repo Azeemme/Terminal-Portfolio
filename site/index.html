@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Azeem Ehtisham — Researcher, Builder, Designer, Leader, Photographer</title>
+<meta name="description" content="Portfolio of Azeem Ehtisham, Computer Information Technology student at Purdue: NASA SUITS team lead, mixed-reality research, systems and photography.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Azeem Ehtisham">
+<meta property="og:description" content="NASA SUITS team lead, mixed-reality research, systems and photography at Purdue.">
+<meta property="og:url" content="https://azeemme.com/">
+<meta property="og:image" content="https://azeemme.com/assets/suits-hololens-test.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A0A09'/%3E%3Ctext x='32' y='44' font-family='Arial Narrow,Arial,sans-serif' font-weight='700' font-size='30' fill='%23EDEBE6' text-anchor='middle'%3EAE%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#0A0A09;color:#EDEBE6;}
+body{font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;}
+a{color:#EDEBE6;text-decoration:none;}
+a:hover{color:#FFFFFF;}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:left;}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="position:relative;width:100%;height:{{ rootH }};cursor:{{ cursor }};overflow:hidden;background:#0A0A09;color:#EDEBE6;font-family:'Archivo',sans-serif;user-select:{{ us }};touch-action:{{ ta }};">
+
+  <div ref="{{ measRef }}" aria-hidden="true" style="position:absolute;left:-9999px;top:0;visibility:hidden;white-space:nowrap;display:flex;">
+    <sc-for list="{{ measWords }}" as="mw" hint-placeholder-count="5"><span style="font-size:100px;font-weight:600;font-stretch:72%;text-transform:uppercase;">{{ mw.w }}</span></sc-for>
+    <span style="font-size:100px;letter-spacing:.14em;">I AM A</span>
+  </div>
+
+  <div ref="{{ waterRef }}" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1400ms ease;"></div>
+
+  <div ref="{{ scRef }}" style="position:absolute;inset:0;overflow-x:hidden;overflow-y:{{ ovY }};overscroll-behavior:contain;scrollbar-width:none;opacity:{{ scOp }};transition:opacity 260ms;">
+
+    <sc-if value="{{ isCurious }}" hint-placeholder-val="{{ true }}">
+      <section id="top" data-screen-label="Field / flagship" style="position:relative;height:{{ H }}px;">
+        <div style="position:relative;height:{{ H }}px;overflow:hidden;">
+          <div onClick="{{ toReading }}" style="position:absolute;left:{{ imL }}px;top:{{ imT }}px;width:{{ imW }}px;height:{{ imH }}px;overflow:hidden;clip-path:inset(0 0 {{ revealClip }}% 0);transition:{{ revealTrans }};cursor:{{ imCursor }};">
+            <sc-for list="{{ imgs }}" as="i" hint-placeholder-count="5">
+              <div data-asset-slot="{{ i.slot }}" style="position:absolute;inset:0;background-color:{{ i.tone }};background-image:{{ i.hatch }};clip-path:{{ i.clip }};z-index:{{ i.z }};transition:{{ i.trans }};">
+                <div role="{{ i.role }}" aria-label="{{ i.alt }}" style="position:absolute;inset:0;background-image:{{ i.bg }};background-size:{{ i.fit }};background-repeat:no-repeat;background-position:{{ i.pos }};"></div>
+                <sc-if value="{{ i.noSrc }}">
+                  <div style="position:absolute;left:{{ capPad }}px;bottom:{{ capPad }}px;display:flex;flex-direction:column;gap:6px;text-transform:uppercase;letter-spacing:.12em;">
+                    <span style="font-size:{{ capF }}px;color:#A9A6A0;">{{ i.slotName }}</span>
+                    <span style="font-size:{{ capF }}px;color:#77746E;">{{ i.label }}</span>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <div style="position:absolute;left:{{ tX }}px;top:{{ tY }}px;width:{{ tW }}px;opacity:{{ revealOp }};transition:opacity 600ms 450ms;">
+            <div style="position:absolute;left:0;bottom:100%;padding-bottom:{{ numGap }}px;font-size:{{ smF }}px;letter-spacing:.14em;color:#77746E;opacity:{{ numOp }};">01</div>
+            <div style="display:grid;font-size:{{ tFs }}px;line-height:.95;font-weight:600;font-stretch:72%;letter-spacing:-.005em;">
+              <sc-for list="{{ titles }}" as="t" hint-placeholder-count="3">
+                <div style="grid-area:1/1;align-self:start;overflow:hidden;padding-bottom:.06em;">
+                  <button onClick="{{ toReading }}" tabIndex="-1" style="display:block;transform:translateY({{ t.y }}%);transition:{{ t.trans }};text-wrap:balance;">{{ t.t }}</button>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="position:absolute;left:{{ lX }}px;top:{{ lY }}px;width:{{ lW }}px;display:grid;font-size:{{ lFs }}px;line-height:1.45;color:#C9C6BF;opacity:{{ revealOp }};transition:opacity 600ms 550ms;">
+            <sc-for list="{{ lines }}" as="l" hint-placeholder-count="5"><span style="grid-area:1/1;align-self:start;text-wrap:pretty;opacity:{{ l.op }};transition:{{ l.trans }};">{{ l.text }}</span></sc-for>
+          </div>
+          <div style="position:absolute;left:{{ evX }}px;top:{{ evY }}px;width:{{ evW }}px;display:grid;opacity:{{ evOp }};">
+            <sc-for list="{{ evs }}" as="e" hint-placeholder-count="5">
+              <div style="grid-area:1/1;align-self:start;display:flex;flex-direction:column;gap:{{ evGap }}px;font-size:{{ evF }}px;line-height:1.4;color:#A9A6A0;opacity:{{ e.op }};transition:{{ e.trans }};">
+                <span style="font-size:{{ smF }}px;letter-spacing:.14em;color:#77746E;padding-bottom:{{ s4 }}px;">{{ e.head }}</span>
+                <sc-for list="{{ e.items }}" as="x" hint-placeholder-count="3"><span>{{ x.v }}</span></sc-for>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ isHiring }}">
+      <section id="suits" data-screen-label="Hiring" style="min-height:{{ H }}px;box-sizing:border-box;padding:{{ heroPad }};display:grid;grid-template-columns:{{ gCols }};grid-template-areas:{{ heroAreas }};grid-template-rows:{{ gRows }};column-gap:{{ gGap }}px;row-gap:{{ rowGap }}px;align-content:start;">
+        <div style="grid-area:t;display:flex;flex-direction:column;gap:{{ s18 }}px;">
+          <h1 style="margin:0;font-size:{{ nameF }}px;line-height:.9;font-weight:600;font-stretch:72%;letter-spacing:-.005em;">AZEEM EHTISHAM</h1>
+          <p style="margin:0;font-size:{{ posF }}px;line-height:1.45;color:#C9C6BF;max-width:30ch;text-wrap:pretty;">I design and build mixed-reality and systems work, and lead the teams that ship it.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:{{ s22 }}px;font-size:{{ smF }}px;letter-spacing:.14em;">
+            <a href="https://azeemme.com/Resume.pdf" target="_blank" style="border-bottom:1px solid #EDEBE6;padding-bottom:3px;">RÉSUMÉ ↗</a>
+            <a href="mailto:aehtisha@purdue.edu" style="padding-bottom:3px;">EMAIL</a>
+            <a href="https://linkedin.com/in/azeemehtisham" target="_blank" style="padding-bottom:3px;">LINKEDIN</a>
+          </div>
+        </div>
+        <a href="https://purduesearch.org/software/" target="_blank" style="grid-area:i;display:block;position:relative;height:{{ heroImgH }}px;margin:{{ imgBleed }};background-color:#1C2129;background-image:url(&quot;assets/suits-hololens-test.jpg&quot;);background-size:cover;background-position:center 8%;" role="img" aria-label="NASA SUITS night test, HoloLens 2 at the UIA panel">
+        </a>
+        <div style="grid-area:l;display:flex;flex-direction:column;gap:{{ s8 }}px;">
+          <div style="display:flex;gap:{{ s12 }}px;align-items:baseline;"><span style="font-size:{{ smF }}px;letter-spacing:.14em;color:#77746E;">01</span><a href="https://purduesearch.org/software/" target="_blank" style="font-size:{{ capTF }}px;line-height:1;font-weight:600;font-stretch:72%;">NASA SUITS</a></div>
+          <p style="margin:0;font-size:{{ evF }}px;line-height:1.5;color:#A9A6A0;max-width:40ch;text-wrap:pretty;">AR system for astronauts performing spacewalk tasks. Team lead across 5 subteams; co-authored the 40+ page technical proposal.</p>
+        </div>
+        <div style="grid-area:e;display:flex;flex-direction:column;gap:{{ s6 }}px;font-size:{{ evF }}px;line-height:1.45;color:#A9A6A0;">
+          <span style="font-size:{{ smF }}px;letter-spacing:.14em;color:#77746E;">NOW</span>
+          <span>NASA SUITS Team Lead, SEARCH</span>
+          <span>Undergraduate Research Fellow, Purdue SURF</span>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ full }}" hint-placeholder-val="{{ true }}">
+    <div style="opacity:{{ momOp }};transition:opacity 240ms;">
+      <sc-for list="{{ moments }}" as="mo" hint-placeholder-count="2">
+        <section id="{{ mo.id }}" style="display:grid;grid-template-columns:{{ gCols }};grid-template-areas:{{ gAreas }};grid-template-rows:{{ gRows }};column-gap:{{ gGap }}px;row-gap:{{ rowGap }}px;padding:{{ secPad }};align-items:start;">
+          <div style="grid-area:t;display:flex;flex-direction:column;gap:{{ s10 }}px;">
+            <span style="font-size:{{ smF }}px;letter-spacing:.14em;color:#77746E;">{{ mo.num }}</span>
+            <a href="{{ mo.href }}" target="{{ mo.target }}" style="font-size:{{ mTF }}px;line-height:.95;font-weight:600;font-stretch:72%;letter-spacing:-.005em;text-wrap:balance;">{{ mo.title }}</a>
+            <span style="font-size:{{ metaF }}px;color:#77746E;">{{ mo.meta }}</span>
+          </div>
+          <div style="grid-area:i;display:flex;gap:{{ s10 }}px;height:{{ mImgH }}px;margin:{{ imgBleed }};">
+            <sc-for list="{{ mo.imgs }}" as="im" hint-placeholder-count="1">
+              <a href="{{ im.href }}" target="{{ im.target }}" style="display:block;flex:{{ im.flex }};position:relative;background-color:{{ im.tone }};background-image:{{ im.hatch }};">
+                <div role="{{ im.role }}" aria-label="{{ im.alt }}" style="position:absolute;inset:0;background-image:{{ im.bg }};background-size:{{ im.fit }};background-repeat:no-repeat;background-position:{{ im.pos }};"></div>
+                <sc-if value="{{ im.noSrc }}"><span style="position:absolute;left:{{ capPad }}px;bottom:{{ capPad }}px;font-size:{{ capF }}px;letter-spacing:.12em;text-transform:uppercase;color:#8F8C86;">{{ im.label }}</span></sc-if>
+              </a>
+            </sc-for>
+          </div>
+          <p style="grid-area:l;margin:0;font-size:{{ mLF }}px;line-height:1.45;color:#C9C6BF;max-width:36ch;text-wrap:pretty;">{{ mo.line }}</p>
+          <div style="grid-area:e;display:flex;flex-direction:column;gap:{{ evGap }}px;font-size:{{ evF }}px;line-height:1.4;color:#A9A6A0;">
+            <sc-for list="{{ mo.ev }}" as="x" hint-placeholder-count="3"><span>{{ x.v }}</span></sc-for>
+          </div>
+        </section>
+      </sc-for>
+
+      <section style="padding:{{ secPad }};display:flex;flex-direction:column;gap:{{ s22 }}px;">
+        <span style="font-size:{{ smF }}px;letter-spacing:.14em;color:#77746E;">MORE WORK</span>
+        <div style="display:flex;flex-direction:column;gap:{{ s18 }}px;">
+          <sc-for list="{{ more }}" as="mw" hint-placeholder-count="5">
+            <a id="{{ mw.id }}" href="{{ mw.href }}" target="{{ mw.target }}" style="cursor:{{ mw.cur }};display:grid;grid-template-columns:{{ listCols }};column-gap:{{ gGap }}px;row-gap:4px;align-items:baseline;">
+              <span style="font-size:{{ listTF }}px;line-height:1.05;font-weight:600;font-stretch:72%;">{{ mw.title }}</span>
+              <span style="font-size:{{ evF }}px;line-height:1.45;color:#A9A6A0;max-width:60ch;">{{ mw.line }}</span>
+            </a>
+          </sc-for>
+        </div>
+      </section>
+    </div>
+
+    <section id="resume" style="padding:{{ secPad }};display:flex;flex-direction:column;gap:{{ s22 }}px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:20px;">
+        <span style="font-size:{{ smF }}px;letter-spacing:.14em;color:#77746E;">EXPERIENCE</span>
+        <a href="https://azeemme.com/Resume.pdf" target="_blank" style="font-size:{{ smF }}px;letter-spacing:.14em;border-bottom:1px solid #EDEBE6;padding-bottom:3px;">FULL RÉSUMÉ ↗</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:{{ s18 }}px;">
+        <sc-for list="{{ exp }}" as="x" hint-placeholder-count="6">
+          <div style="display:grid;grid-template-columns:{{ expCols }};column-gap:{{ gGap }}px;row-gap:4px;align-items:baseline;">
+            <span style="font-size:{{ expTF }}px;line-height:1.1;font-weight:600;font-stretch:72%;">{{ x.role }}</span>
+            <span style="font-size:{{ evF }}px;line-height:1.45;color:#A9A6A0;">{{ x.org }}. {{ x.note }}</span>
+            <span style="font-size:{{ metaF }}px;color:#77746E;">{{ x.dates }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section id="contact" style="padding:{{ footPad }};display:flex;flex-direction:column;gap:{{ s18 }}px;">
+      <span style="font-size:{{ smF }}px;letter-spacing:.14em;color:#77746E;">CONTACT</span>
+      <a href="mailto:aehtisha@purdue.edu" style="font-size:{{ mailF }}px;line-height:1;font-weight:600;font-stretch:72%;word-break:break-word;">aehtisha@purdue.edu</a>
+      <div style="display:flex;flex-wrap:wrap;gap:{{ s22 }}px;font-size:{{ smF }}px;letter-spacing:.14em;">
+        <a href="https://linkedin.com/in/azeemehtisham" target="_blank">LINKEDIN</a>
+        <a href="https://github.com/Azeemme" target="_blank">GITHUB</a>
+        <a href="https://azeemme.com/Resume.pdf" target="_blank">RÉSUMÉ ↗</a>
+        <span style="color:#77746E;">WEST LAFAYETTE, IN</span>
+      </div>
+      <sc-if value="{{ isHiring }}">
+        <button onClick="{{ takeLongWay }}" style="margin-top:{{ s22 }}px;font-size:{{ capTF }}px;font-weight:600;font-stretch:72%;color:#A9A6A0;min-height:44px;" style-hover="color:#EDEBE6;">Take the long way →</button>
+      </sc-if>
+    </section>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ showEntry }}">
+    <div style="position:absolute;inset:0;z-index:10;opacity:{{ entryOp }};transition:opacity 500ms;pointer-events:{{ entryPe }};">
+      <div style="position:absolute;left:{{ enX }}px;top:{{ enY }}px;display:flex;gap:.24em;font-size:{{ enF }}px;line-height:.95;font-weight:600;font-stretch:72%;white-space:nowrap;">
+        <span style="display:block;overflow:hidden;padding-bottom:.04em;"><span style="display:block;transform:translateY({{ whoY }}%);transition:{{ enTrans }};">WHO</span></span>
+        <span style="display:block;position:relative;overflow:hidden;padding-bottom:.04em;">
+          <span style="display:block;visibility:hidden;">ARE YOU?</span>
+          <span style="position:absolute;left:0;top:0;transform:translateY({{ rollA }}%);transition:{{ enTrans }};">ARE YOU?</span>
+          <span style="position:absolute;left:0;top:0;transform:translateY({{ rollB }}%);transition:{{ enTrans }};">AM I?</span>
+        </span>
+      </div>
+      <div style="position:absolute;left:{{ enX }}px;top:{{ optY }}px;display:grid;grid-template-columns:auto auto;column-gap:{{ s22 }}px;row-gap:{{ s8 }}px;align-items:center;opacity:{{ optsOp }};transition:opacity 400ms;">
+        <button onClick="{{ onHire }}" onMouseEnter="{{ hHire }}" onMouseLeave="{{ hNone }}" onFocus="{{ hHire }}" onBlur="{{ hNone }}" style="font-size:{{ optF }}px;line-height:1;min-height:44px;font-weight:500;font-stretch:80%;letter-spacing:.02em;opacity:{{ hireOp }};transition:opacity 300ms;" style-focus="text-decoration:underline;text-underline-offset:.2em;text-decoration-thickness:1px;">I’M HIRING</button>
+        <span style="font-size:{{ hintF }}px;color:#8C8A85;opacity:{{ hintHire }};transition:opacity 300ms;">the short version</span>
+        <button onClick="{{ onCurious }}" onMouseEnter="{{ hCur }}" onMouseLeave="{{ hNone }}" onFocus="{{ hCur }}" onBlur="{{ hNone }}" style="font-size:{{ optF }}px;line-height:1;min-height:44px;font-weight:500;font-stretch:80%;letter-spacing:.02em;opacity:{{ curOp }};transition:opacity 300ms;" style-focus="text-decoration:underline;text-underline-offset:.2em;text-decoration-thickness:1px;">I’M CURIOUS</button>
+        <span style="font-size:{{ hintF }}px;color:#8C8A85;opacity:{{ hintCur }};transition:opacity 300ms;">the long version</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <div style="position:absolute;inset:0;z-index:20;pointer-events:none;">
+    <div style="position:absolute;left:0;right:0;top:0;height:{{ bandH }}px;background:rgba(0,0,0,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:{{ bandOp }};transition:opacity 200ms;"></div>
+    <a href="#top" onClick="{{ onName }}" style="position:absolute;left:{{ m }}px;top:{{ nameY }}px;font-size:{{ hdrF }}px;line-height:1;letter-spacing:.14em;font-weight:500;pointer-events:auto;" style-focus="text-decoration:underline;text-underline-offset:4px;">AZEEM EHTISHAM</a>
+    <a href="https://azeemme.com/Resume.pdf" target="_blank" style="position:absolute;right:{{ m }}px;top:{{ nameY }}px;font-size:{{ hdrF }}px;line-height:1;letter-spacing:.14em;font-weight:500;pointer-events:auto;" style-focus="text-decoration:underline;text-underline-offset:4px;">RÉSUMÉ</a>
+    <sc-if value="{{ showLongWay }}">
+      <button onClick="{{ takeLongWay }}" style="position:absolute;left:50%;transform:translateX(-50%);top:{{ nameY }}px;font-size:{{ hdrF }}px;line-height:1;letter-spacing:.14em;color:#8C8A85;pointer-events:auto;" style-hover="color:#EDEBE6;" style-focus="color:#EDEBE6;text-decoration:underline;text-underline-offset:4px;">TAKE THE LONG WAY →</button>
+    </sc-if>
+    <div onMouseEnter="{{ selEnter }}" onMouseLeave="{{ selLeave }}" style="position:absolute;left:{{ bdX }}px;top:{{ bdY }}px;width:{{ bdW }}px;height:{{ bdH }}px;background:#0A0A09;opacity:{{ bdOp }};transition:height 450ms cubic-bezier(.6,0,.1,1), opacity 250ms;pointer-events:{{ bdPe }};"></div>
+    <div aria-hidden="true" style="position:absolute;left:50%;bottom:{{ cueB }}px;transform:translate(-50%,{{ cueY }}px);opacity:{{ cueOp }};transition:{{ cueTrans }};">
+      <svg width="{{ cueA }}" height="{{ cueH }}" viewBox="0 0 40 12" fill="none" stroke="#EDEBE6" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" style="display:block;overflow:visible;"><polyline points="1,1 20,11 39,1" vector-effect="non-scaling-stroke"></polyline></svg>
+    </div>
+    <div style="position:absolute;left:0;top:0;font-size:{{ labF }}px;line-height:1;letter-spacing:.14em;color:#77746E;white-space:nowrap;transform:translate({{ labX }}px,{{ labY }}px);opacity:{{ labOp }};transition:opacity 600ms 300ms;">I AM A</div>
+    <sc-for list="{{ words }}" as="w" hint-placeholder-count="5">
+      <button onClick="{{ w.go }}" onMouseEnter="{{ selEnter }}" onMouseLeave="{{ selLeave }}" onFocus="{{ selFocus }}" onBlur="{{ selBlur }}" tabIndex="{{ w.tab }}" aria-label="{{ w.aria }}" aria-current="{{ w.cur }}" style="position:absolute;left:0;top:0;white-space:nowrap;font-size:{{ F }}px;line-height:.9;font-weight:600;font-stretch:72%;text-transform:uppercase;transform-origin:0 0;transform:translate({{ w.x }}px,{{ w.y }}px) scale({{ w.s }});opacity:{{ w.op }};transition:{{ w.trans }};pointer-events:{{ w.pe }};outline:none;" style-focus="text-decoration:underline;text-decoration-thickness:.05em;text-underline-offset:.1em;">{{ w.word }}</button>
+    </sc-for>
+  </div>
+
+  <sc-if value="{{ mSelOpen }}">
+    <div role="dialog" aria-label="Choose an identity" style="position:absolute;inset:0;z-index:30;background:#0A0A09;display:flex;flex-direction:column;padding:{{ m }}px;box-sizing:border-box;">
+      <div style="display:flex;justify-content:space-between;align-items:center;min-height:44px;font-size:{{ hdrF }}px;letter-spacing:.14em;">
+        <span style="color:#77746E;">I AM A</span>
+        <button onClick="{{ closeSel }}" style="min-height:44px;letter-spacing:.14em;">CLOSE</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:{{ s6 }}px;margin-top:{{ mSelTop }}px;">
+        <sc-for list="{{ mSelList }}" as="o" hint-placeholder-count="5">
+          <button onClick="{{ o.go }}" aria-current="{{ o.cur }}" style="font-size:{{ mSelF }}px;line-height:1;min-height:48px;font-weight:600;font-stretch:72%;text-transform:uppercase;opacity:{{ o.op }};">{{ o.word }}</button>
+        </sc-for>
+      </div>
+      <a href="https://azeemme.com/Resume.pdf" target="_blank" style="margin-top:auto;font-size:{{ hdrF }}px;letter-spacing:.14em;min-height:44px;display:flex;align-items:center;">RÉSUMÉ ↗</a>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;start&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;entry&quot;,&quot;field&quot;,&quot;reading&quot;,&quot;hiring&quot;],&quot;default&quot;:&quot;entry&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;identity&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Researcher&quot;,&quot;Builder&quot;,&quot;Designer&quot;,&quot;Leader&quot;,&quot;Photographer&quot;],&quot;default&quot;:&quot;Builder&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;reduceMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const IDS = ['Researcher','Builder','Designer','Leader','Photographer'];
+const EASE = 'cubic-bezier(.6,0,.1,1)';
+// All input tuning lives here.
+const TUNE = {
+  lineHeightPx: 16,        // deltaMode 1 (lines) → px
+  gestureGapMs: 180,       // silence that ends a wheel gesture (and its momentum)
+  classifyMs: 40,          // a second event inside this window = sustained stream (precision input)
+  arcStepMs: 90,           // coarse wheel: min time between identity steps
+  finePxPerIdentity: 140,  // trackpad: travel per identity before settling
+  scrubPx: 80,             // wheel/trackpad travel mapped onto the direct-scrub range
+  touchScrubPx: 110,       // finger travel mapped onto the same range
+  scrubMax: .22,           // share of field → reading under direct control
+  commitAt: .12,           // progress needed at gesture end to finish instead of returning
+  followMs: 45,            // smoothing while scrubbing (trackpad / touch)
+  coarseFollowMs: 110,     // smoothing for a wheel notch's brief scrub
+  finishMs: 680,           // auto-completion after commit
+  returnMs: 260,           // spring back when intent was too small
+  arcTolPx: 80,            // invisible ribbon around visible identity words (scaled, clamped 80–120px)
+  cueFadeAt: .12,          // transition progress at which the ↓ cue is fully gone
+  cueIdleMs: 2500          // idle time before the ↓ cue brightens slightly
+};
+const mod = (a, n) => ((a % n) + n) % n;
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, t) => a + (b - a) * t;
+const sm = t => t * t * (3 - 2 * t);
+const r2 = x => Math.round(x * 100) / 100;
+
+// Asset slots: set src to an image path (e.g. 'assets/suits-builder.jpg') to replace a placeholder.
+const P = {
+  suits: { title:'NASA SUITS', meta:'SEARCH · NASA challenge · 2025–26', primary:'Designer', url:'https://purduesearch.org/software/', lens:{
+    Builder:{ src:'assets/suits-hololens-test.jpg', pos:'center 8%', fieldFit:'contain', img:'night test — HoloLens 2 at the UIA panel', tone:'#0F1112', line:'Building the edge hardware behind a lunar EVA interface: a Raspberry Pi 5 node linking telemetry, Mission Control and the HoloLens 2.', ev:['Raspberry Pi 5 edge node','On-device LLM for decision support','TSS · Mission Control · HMD data flow'] },
+    Designer:{ src:'assets/suits-interface.png', fieldFit:'contain', img:'VISOR astronaut interface — system diagram and HMD/WMD hardware', tone:'#2B2B2C', line:'Designing a HoloLens 2 interface astronauts can read mid-task, with controls kept under 2 seconds of latency.', ev:['HoloLens 2 UX/UI architecture','Grouped mission-critical controls','Low cognitive load for EVA tasks'] },
+    Leader:{ src:'assets/suits-team-jsc.jpg', img:'VISOR team with the NASA S.U.I.T.S. award', tone:'#2A221C', line:'As team lead, I aligned 5 subteams on one architecture and directed live system testing for NASA evaluators.', ev:['Team lead · 5 subteams','40+ page technical proposal','Live testing for NASA evaluators'] } } },
+  bxr: { title:'BioreactorXR', meta:'Purdue SURF · OUR Scholars · 2026', primary:'Researcher', url:'https://bioreactxr.azeemme.com/', lens:{
+    Researcher:{ src:'assets/bxr-vessel.png', img:'BioreactorXR — bioreactor vessel scene', tone:'#1E2320', line:'A mixed-reality training app that lets students place, scale and inspect a full-scale industrial bioreactor in real space.', ev:['Undergraduate Research Fellowship','Meta Quest 3 · passthrough','Bioengineering curriculum'] },
+    Designer:{ src:'assets/bxr-part-info.png', img:'BioreactorXR — selected part with info panel', tone:'#1B2221', line:'35 teachable components as AR hotspots, each opening a head-locked panel with function, operating conditions and safety data.', ev:['35 interactive hotspots','Head-locked information HUD','Fresnel rim-highlight shader'] },
+    Builder:{ src:'assets/bxr-vessel.png', img:'BioreactorXR — Unity scene of the vessel', tone:'#20231F', line:'Unity 6.2 build with multiplayer co-presence across up to 5 headsets and one-click hotspot generation from FBX geometry.', ev:['Unity 6.2 · URP · C#','Unity Relay · up to 5 headsets','Editor tooling for 38 assets'] } } },
+  ogt: { title:'Off-Grid Telemetry Platform', meta:'Systems · Infrastructure · 2026', primary:'Builder', url:'https://ziae.net/app/dashboard-light.html', lens:{
+    Builder:{ src:'assets/ogt-live-readings.png', fit:'contain', img:'Mud Hut dashboard — live panel and battery readings', tone:'#23241F', line:'A self-hosted pipeline that collects, stores and visualizes sensor data with no cloud dependency.', ev:['Python · Docker','Prometheus · Grafana','No cloud dependency'] },
+    Researcher:{ src:'assets/ogt-battery-voltage.png', fit:'contain', img:'Battery 1 voltage — one-day window, 992 points', tone:'#212421', line:'Testing how much reliability survives low-power, intermittent links.', ev:['Low-power, intermittent links','Self-hosted pipeline'] },
+    Designer:{ src:'assets/ogt-charts.png', fit:'contain', img:'Mud Hut dashboard — charts', tone:'#1F2224', line:'Dashboards built so the health of the whole system reads in one look.', ev:['One-look system health'] } } },
+  cyber: { title:'Resilient Cyber Defense Ecosystem', meta:'The Data Mine × U.S. Space Force · 2026', primary:'Leader', url:'https://static1.squarespace.com/static/6810ba591faec6020c63fabc/t/6927c7e63117820b7dd95712/1764214758279/USSF+HQ+S6+final+slides.pdf', lens:{
+    Leader:{ src:'assets/cyber-ecosystem.png', fit:'contain', img:'Ecosystem overview — ground station, satellite, IDPS and ML engine', tone:'#1F2226', line:'As Team Lead and Scrum Master, I led 12 students across 3 subteams to deliver a cyber defense ecosystem on schedule.', ev:['Team Lead · Scrum Master','12 students · 3 subteams','100% milestone completion'] },
+    Researcher:{ src:'assets/cyber-ecosystem.png', fit:'contain', img:'Ecosystem overview — ground station, satellite, IDPS and ML engine', tone:'#1E2125', line:'Coordinated work on NIST-standard quantum-resistant cryptography, autonomous intrusion detection and an ML analytics engine.', ev:['Quantum-resistant cryptography','Autonomous IDPS','ML analytics engine'] },
+    Builder:{ src:'assets/cyber-ecosystem.png', fit:'contain', img:'Ecosystem overview — ground station, satellite, IDPS and ML engine', tone:'#202226', line:'Oversaw a radiation fault-injection framework and the integration of Suricata and Snort into virtualized spacecraft environments.', ev:['Suricata · Snort','Radiation fault injection','Virtualized spacecraft'] } } },
+  gen: { title:'Feline Antibody Genomics', meta:'The Data Mine × Elanco · 2025', primary:'Researcher', url:'https://datamine.purdue.edu/elanco/', lens:{
+    Researcher:{ src:'assets/elanco-poster.png', fit:'contain', img:'TDM Symposium 2026 poster — feline immunoglobulin V-gene diversity', tone:'#212320', line:'Classified CDR and framework regions of feline antibody V genes with Elanco scientists, in R (dplyr) and Python.', ev:['R (dplyr) · Python · SQL','FASTQ → BAM/BAI','Queries cut to under 10 s'] },
+    Builder:{ src:'assets/elanco-poster.png', fit:'contain', img:'TDM Symposium 2026 poster — feline immunoglobulin V-gene diversity', tone:'#202320', line:'Automated terabyte-scale genomic ingestion and processing across 128+ cores on the Anvil supercomputer.', ev:['128+ core jobs on Anvil','90% less manual processing','80 TB redundant storage removed'] },
+    Leader:{ src:'assets/elanco-poster.png', fit:'contain', img:'TDM Symposium 2026 poster — feline immunoglobulin V-gene diversity', tone:'#252320', line:'Led a 4-researcher automation and data collection subteam inside a larger corporate research group.', ev:['Subteam lead · 4 researchers','Aug – Dec 2025'] } } },
+  bb: { title:'BarBabes', meta:'InnovateHer hackathon · 2026', primary:'Builder', url:'https://devpost.com/software/barbabes', lens:{
+    Builder:{ src:'assets/barbabes-hero.png', fit:'contain', img:'BarBabes — Sip Smart app screens', tone:'#26221F', line:'React Native app on a FastAPI and MongoDB backend, with Gemini and NFC, built by a team of 4 in under 36 hours.', ev:['1st Place Overall','Best Use of AI (Reach Capital)','React Native · FastAPI · MongoDB'] } } },
+  nav: { title:'VISOR Team Site', meta:'Purdue SEARCH · Team lead · 2026', primary:'Designer', url:'https://purduesearch.org/software/', lens:{
+    Designer:{ src:'assets/visor-site.png', fit:'contain', img:'VISOR field-notebook page on purduesearch.org', tone:'#1F2320', line:'Designed the look of the VISOR team page: a field-notebook layout for the team, its NASA SUITS history and recruiting.', ev:['Visual design','Team lead','purduesearch.org'] } } },
+  lab: { title:'Homelab Infrastructure', meta:'Personal infrastructure · ongoing', primary:'Builder', lens:{
+    Builder:{ src:'assets/homelab-proxmox.png', fit:'contain', img:'Proxmox node summary — 179 days uptime', tone:'#222322', line:'Proxmox VE host running 15+ LXCs and 4+ VMs, a 4 TB RAID 1 NAS, WireGuard access and Grafana/Prometheus monitoring.', ev:['15+ LXCs · 4+ VMs','99.9% uptime over 12 months'] } } },
+  brand: { title:'Purdue Brand Studio', meta:'Boiler Ambassador Photographer · 2024–', primary:'Photographer', url:'https://ehtishamphoto.pixieset.com/', lens:{
+    Photographer:{ src:'assets/photo-concert-wide.jpg', pos:'70% 80%', img:'PSUB concert — Dreamer Isioma and the crowd, Fall 2025', tone:'#0D0C0C', line:'Campus events for Purdue’s brand team: 25–50 edits per assignment, 5,000+ images a semester.', ev:['5,000+ images a semester','25–50 edits per assignment','Boiler Ambassador · 2024–'] } } }
+};
+const ORDER = { Researcher:['bxr','gen','ogt'], Builder:['suits','ogt','bb'], Designer:['suits','bxr','nav'], Leader:['suits','cyber','gen'], Photographer:['brand','gallery'] };
+const EVH = { Researcher:'STUDY', Builder:'SYSTEM', Designer:'INTERFACE', Leader:'TEAM', Photographer:'PRACTICE' };
+const HIRE = ['suits','bxr','ogt'];
+const FLAG = IDS.map(id => P[ORDER[id][0]].title).filter((t, i, a) => a.indexOf(t) === i);
+const EXP = [
+  { role:'NASA SUITS Team Lead', org:'SEARCH', note:'Led 5 subteams; co-authored 40+ page technical proposal', dates:'Sep 2025 – now' },
+  { role:'Undergraduate Research Fellow', org:'Purdue SURF / OUR Scholars', note:'Meta Quest 3 mixed-reality training app', dates:'May 2026 – now' },
+  { role:'Team Lead / Scrum Master', org:'The Data Mine × U.S. Space Force', note:'Led 12 students on a cyber defense ecosystem', dates:'Jan – Jul 2026' },
+  { role:'Undergraduate Data Science Researcher', org:'The Data Mine × Elanco', note:'Led automation subteam on a genomic pipeline', dates:'Aug – Dec 2025' },
+  { role:'Boiler Ambassador Photographer', org:'Purdue Brand Studio', note:'Campus events, 5,000+ images per semester', dates:'Oct 2024 – now' }
+];
+const V = { F:150, fit:.37,
+  tx:[.90,.80,.69,.60,.68,.79,.89], ty:[-.15,-.02,.14,.33,.58,.745,.90], ts:[.25,.34,.5,1,.5,.34,.25], to:[0,.13,.28,1,.28,.13,0],
+  img0:[.04,.12,.55,.76], t0:[.04,.80,44,.32], l0:[.04,null,.40,16],
+  img1:[.04,.10,.96,.74], t1:[.04,.80,44,.32], l1:[.38,.805,.30,18], ev1:[.72,.795,.24],
+  en:[.04,.33,130], mF:58, mOp:[0,.12,.28,1,.28,.12,0],
+  g:{ cols:'minmax(0,.30fr) minmax(0,.30fr) minmax(0,.24fr)', areas:'"i i i" "t l e"', rows:'auto auto', imgH:.64, heroImgH:.56, tF:44, lF:18, nameF:64, list:'minmax(0,.30fr) minmax(0,.58fr)' } };
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    let start = props.start || 'entry', ident = props.identity || 'Builder', jump = null;
+    if (typeof location !== 'undefined' && location.hash) {
+      const hs = decodeURIComponent(location.hash.slice(1)).toLowerCase();
+      const idm = IDS.find(i => i.toLowerCase() === hs);
+      if (hs === 'hiring') start = 'hiring';
+      else if (idm) { start = 'reading'; ident = idm; }
+      else if (P[hs]) { start = 'reading'; ident = P[hs].primary; if (ORDER[ident][0] !== hs) jump = hs; }
+    }
+    this._jump = jump;
+    const idx = Math.max(0, IDS.indexOf(ident)), reading = start === 'reading';
+    this.state = { phase: start === 'hiring' ? 'hiring' : start === 'entry' ? 'entry' : 'field', mode: reading ? 'reading' : 'field', p: reading ? 1 : 0,
+      revealed: start === 'field' || reading, entryGone: start !== 'entry', turn: idx, drag: 0, nudge: 0, dragging: false, st: 0, W: 1440, H: 900,
+      hover: false, focus: false, hot: false, mSel: false, eHover: null, arcHover: false, momId: IDS[idx], momOp: 1, scOp: 1, measured: 0,
+      cueReady: false, cueIdle: false, cueNudge: false, seenReading: reading };
+    this.rootRef = React.createRef(); this.scRef = React.createRef(); this.measRef = React.createRef();
+    this.waterRef = React.createRef();
+    this._rat = IDS.map(w => w.length * .47); this._labRat = .62;
+    this._prevD = {}; this._prevR = {}; this._tr = { cur: null, prev: null }; this._T = [];
+    this._taught = start !== 'entry';
+  }
+  get rm() { return !!(this.props.reduceMotion || (this._rmQ && this._rmQ.matches)); }
+  T(ms, fn) { this._T.push(setTimeout(fn, ms)); }
+  scTop() { const s = this.scRef.current; return s ? s.scrollTop : 0; }
+  componentDidMount() {
+    this._rmQ = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+    const root = this.rootRef.current, sc = this.scRef.current;
+    const size = () => { const r = this.rootRef.current; if (!r) return; const W = r.clientWidth, H = r.clientHeight; if (W && H && (W !== this.state.W || H !== this.state.H)) this.setState({ W, H }); };
+    this._size = size;
+    this._ro = new ResizeObserver(size); this._ro.observe(root); size();
+    window.addEventListener('resize', size);
+    this.T(50, size); this.T(400, size); if (document.fonts) document.fonts.ready.then(size);
+    const meas = () => { const el = this.measRef.current; if (!el) return; const c = el.children; if (c.length < 6) return;
+      this._rat = IDS.map((_, i) => c[i].offsetWidth / 100); this._labRat = c[5].offsetWidth / 100; this.setState(s => ({ measured: s.measured + 1 })); };
+    meas(); if (document.fonts) document.fonts.ready.then(meas);
+    this._h = {
+      key: e => this.onKey(e), wheel: e => this.onWheelN(e), pd: e => this.onPDH(e),
+      ts: e => this.onTS(e), tm: e => this.onTM(e), te: () => this.onTE(), scroll: () => this.setState({ st: this.scTop() }),
+      mm: e => { const S = this.state, a = S.phase === 'field' && S.mode === 'field' && !!this._L && !this._L.mob && this.inArc(e.clientX, e.clientY); if (a !== S.arcHover) this.setState({ arcHover: a }); },
+      ml: () => { if (this.state.arcHover) this.setState({ arcHover: false }); }
+    };
+    window.addEventListener('keydown', this._h.key);
+    root.addEventListener('wheel', this._h.wheel, { passive: false });
+    root.addEventListener('pointerdown', this._h.pd);
+    root.addEventListener('touchstart', this._h.ts, { passive: true });
+    root.addEventListener('touchmove', this._h.tm, { passive: false });
+    root.addEventListener('touchend', this._h.te); root.addEventListener('touchcancel', this._h.te);
+    root.addEventListener('mousemove', this._h.mm); root.addEventListener('mouseleave', this._h.ml);
+    sc.addEventListener('scroll', this._h.scroll, { passive: true });
+    if (this.state.phase === 'field' && this.state.mode === 'field') this.readyCue(1200);
+    this.water();
+    if (this._jump) this.T(150, () => { const s = this.scRef.current, el = s && s.querySelector('#' + this._jump); if (el) s.scrollTop = el.offsetTop - this._L.bandH; });
+  }
+  water() {
+    const el = this.waterRef.current, quiet = this.state.phase === 'entry' ? 0 : 1;
+    if (el && !this._wEl) {
+      this._wEl = el; this._wTok = {}; const tok = this._wTok;
+      import(new URL('water-bg.js', document.baseURI).href)
+        .then(m => { const dsp = m.mountWater(el, { reduced: this.rm, mix: this.state.phase === 'entry' ? 0 : 1 }); if (this._wTok === tok) { this._wDisp = dsp; dsp.setMix(this.state.phase === 'entry' ? 0 : 1); } else dsp(); })
+        .catch(err => console.warn('water background unavailable', err));
+    } else if (this._wDisp && this._wQ !== quiet) this._wDisp.setMix(quiet);
+    this._wQ = quiet;
+  }
+  componentWillUnmount() {
+    this._wTok = null; if (this._wDisp) this._wDisp();
+    this._T.forEach(clearTimeout); [this._ht, this._wt, this._lt, this._momT, this._pT, this._gEnd, this._idleT, this._g && this._g.dT].forEach(clearTimeout); cancelAnimationFrame(this._pRaf); cancelAnimationFrame(this._fRaf);
+    if (this._ro) this._ro.disconnect(); if (this._size) window.removeEventListener('resize', this._size);
+    const root = this.rootRef.current, sc = this.scRef.current, h = this._h;
+    window.removeEventListener('keydown', h.key); window.removeEventListener('pointermove', this._pm); window.removeEventListener('pointerup', this._pu);
+    if (root) { root.removeEventListener('wheel', h.wheel); root.removeEventListener('pointerdown', h.pd); root.removeEventListener('touchstart', h.ts); root.removeEventListener('touchmove', h.tm); root.removeEventListener('touchend', h.te); root.removeEventListener('touchcancel', h.te); root.removeEventListener('mousemove', h.mm); root.removeEventListener('mouseleave', h.ml); }
+    if (sc) sc.removeEventListener('scroll', h.scroll);
+  }
+  componentDidUpdate() {
+    this.water();
+    if (this.state.phase !== 'hiring' && this._sel && this._sel !== this.state.momId && !this._momT) {
+      this.setState({ momOp: 0 });
+      this._momT = setTimeout(() => { this._momT = null; this.setState({ momId: this._sel, momOp: 1 }); }, this.rm ? 0 : 240);
+    }
+  }
+  user() {
+    this._lastUser = Date.now();
+    if (this.state.cueIdle) this.setState({ cueIdle: false });
+    clearTimeout(this._idleT); this._idleT = setTimeout(() => this.setState({ cueIdle: true }), TUNE.cueIdleMs);
+  }
+  readyCue(ms) {
+    this.T(ms, () => {
+      this.setState({ cueReady: true });
+      clearTimeout(this._idleT); this._idleT = setTimeout(() => this.setState({ cueIdle: true }), TUNE.cueIdleMs);
+      if (this._cueNudged || this.rm) return;
+      this._cueNudged = true;
+      this.T(1600, () => { this.setState({ cueNudge: true }); this.T(450, () => this.setState({ cueNudge: false })); });
+    });
+  }
+
+  /* entry */
+  startCurious() {
+    this.user(); const rm = this.rm;
+    this.setState({ phase: 'who', eHover: 'cur' });
+    this.T(rm ? 500 : 1300, () => this.setState({ phase: 'reveal' }));
+    this.T(rm ? 550 : 1850, () => this.setState({ phase: 'field', mode: 'field', p: 0, revealed: true }));
+    this.T(rm ? 600 : 2500, () => { this.setState({ entryGone: true }); if (this._kbd) this.focusActive(); });
+    if (!rm) this.T(4000, () => this.teach());
+    this.readyCue(rm ? 700 : 2900);
+  }
+  goEntry() {
+    this.user(); this._g = null;
+    this.setState({ scOp: 0 });
+    this.T(this.rm ? 0 : 280, () => {
+      const s = this.scRef.current; if (s) s.scrollTop = 0;
+      this.setState({ phase: 'entry', entryGone: false, mode: 'field', p: 0, revealed: false, st: 0, eHover: null, cueReady: false, scOp: 1 });
+    });
+  }
+  startHiring() { this.user(); this.setState({ phase: 'hiring' }); this.T(this.rm ? 0 : 600, () => this.setState({ entryGone: true })); }
+  teach() {
+    if (this._taught || this.rm || this.state.phase !== 'field' || this.state.mode !== 'field' || Date.now() - (this._lastUser || 0) < 1500) return;
+    this._taught = true; this.setState({ nudge: .28 }); this.T(760, () => this.setState({ nudge: 0 }));
+  }
+  takeLongWay() {
+    this.user(); this.setState({ scOp: 0 });
+    this.T(this.rm ? 0 : 280, () => {
+      const s = this.scRef.current; if (s) s.scrollTop = 0;
+      this.setState({ phase: 'field', mode: 'field', p: 0, revealed: false, st: 0, scOp: 1 });
+      this.T(80, () => { this.setState({ revealed: true }); if (this._kbd) this.T(60, () => this.focusActive()); });
+      this.readyCue(1900);
+      this._taught = false; this.T(1800, () => this.teach());
+    });
+  }
+
+  /* 2a <-> 2d: the first part of a gesture scrubs directly, then the transition commits and finishes */
+  commit(dir) {
+    const S = this.state; if (S.phase !== 'field') return;
+    const to = dir > 0 ? 1 : 0;
+    if (!this._animating && ((to === 1 && S.mode === 'reading') || (to === 0 && S.mode === 'field'))) return;
+    if (this._g) this._g.used = true;
+    this.finish(to);
+  }
+  finish(to, cancel) {
+    this.user(); clearTimeout(this._ht); this.stopFollow();
+    const s = this.scRef.current; if (to === 0 && s) s.scrollTop = 0;
+    this.setState({ hover: false, hot: false, mSel: false, arcHover: false, mode: 'moving' });
+    this.animP(to, cancel ? TUNE.returnMs : TUNE.finishMs, () => { this.setState(to === 1 ? { mode: 'reading', seenReading: true } : { mode: 'field' }); if (to === 0 && !cancel && this._kbd) this.focusActive(); });
+  }
+  animP(to, base, done) {
+    cancelAnimationFrame(this._pRaf); clearTimeout(this._pT);
+    const from = this.state.p;
+    if (this.rm || Math.abs(from - to) < .002) { this._animating = false; this.setState({ p: to }); done(); return; }
+    this._animating = true;
+    const t0 = performance.now(), dur = base * (.35 + .65 * Math.abs(to - from));
+    const fin = () => { if (!this._animating) return; this._animating = false; cancelAnimationFrame(this._pRaf); clearTimeout(this._pT); this.setState({ p: to }); done(); };
+    const step = () => { const k = cl((performance.now() - t0) / dur); if (k >= 1) { fin(); return; } this.setState({ p: from + (to - from) * (1 - Math.pow(1 - k, 3)) }); this._pRaf = requestAnimationFrame(step); };
+    this._pRaf = requestAnimationFrame(step);
+    this._pT = setTimeout(fin, dur + 120);
+  }
+  follow(target, tau, arrive) {
+    this._fT = target; this._fTau = tau; this._fArrive = arrive || null;
+    if (this._fRaf) return;
+    let last = performance.now();
+    const step = now => {
+      const dt = Math.min(48, now - last); last = now;
+      const p = this.state.p, t = this._fT, k = 1 - Math.exp(-dt / this._fTau);
+      const np = Math.abs(t - p) < .003 ? t : p + (t - p) * k;
+      this.setState({ p: np });
+      if (np === t) { this._fRaf = null; const cb = this._fArrive; this._fArrive = null; if (cb) cb(); return; }
+      this._fRaf = requestAnimationFrame(step);
+    };
+    this._fRaf = requestAnimationFrame(step);
+  }
+  openField() {
+    const s = this.scRef.current;
+    if (s && s.scrollTop > this.state.H * .6 && !this.rm) {
+      this.setState({ scOp: 0 });
+      this.T(220, () => { s.scrollTop = 0; this.setState({ scOp: 1, st: 0 }); this.commit(-1); });
+    } else this.commit(-1);
+  }
+  stopFollow() { cancelAnimationFrame(this._fRaf); this._fRaf = null; this._fArrive = null; }
+  scrubInput(d, g) {
+    const S = this.state;
+    if (g.base == null) { g.base = S.mode === 'reading' ? 1 : 0; g.acc = 0; }
+    g.acc = Math.max(0, g.acc + d * (g.base === 0 ? 1 : -1));
+    const amt = cl(g.acc / (g.touch ? TUNE.touchScrubPx : TUNE.scrubPx)) * TUNE.scrubMax;
+    g.amt = amt;
+    const to = 1 - g.base;
+    if (this.rm) { if (amt >= TUNE.commitAt) { g.used = true; this.finish(to); } return; }
+    if (S.mode !== 'scrub') this.setState({ mode: 'scrub', hover: false, hot: false, arcHover: false });
+    const target = g.base === 0 ? amt : 1 - amt;
+    const decisive = amt >= TUNE.scrubMax - 1e-6 || (g.coarse && amt >= TUNE.commitAt);
+    if (decisive) {
+      g.used = true;
+      if (g.coarse) this.follow(target, TUNE.coarseFollowMs, () => this.finish(to));
+      else this.finish(to);
+      return;
+    }
+    this.follow(target, g.coarse ? TUNE.coarseFollowMs : TUNE.followMs);
+  }
+  gestureEnd(g) {
+    if (!g || g.ended) return; g.ended = true;
+    if (g.kind === 'arc' && this.state.dragging) this.settle(0);
+    if (g.used || g.base == null || this.state.mode !== 'scrub') return;
+    if (g.amt >= TUNE.commitAt) this.finish(1 - g.base); else this.finish(g.base, true);
+  }
+  inArc(cx, cy) {
+    const r = this.rootRef.current, L = this._L; if (!r || !L) return false;
+    const bb = r.getBoundingClientRect(), k = (bb.width / r.offsetWidth) || 1, x = (cx - bb.left) / k, y = (cy - bb.top) / k;
+    if (L.mob) return y < L.img0.t - 8 * L.u;
+    if (y <= L.bandH) return false;
+    const t = cl(TUNE.arcTolPx * L.u, 80, 120);
+    return (this._wb || []).some(b => x > b.x - t && x < b.x + b.w + t && y > b.y - t && y < b.y + b.h + t);
+  }
+  // Classify by gesture shape, never from one delta. Locked once decided for the whole gesture.
+  classify(g, e, dx, dy, iv) {
+    const vert = Math.abs(dy) >= Math.abs(dx), d = vert ? dy : dx, wd = (vert ? e.wheelDeltaY : e.wheelDeltaX) || 0;
+    const hint = e.deltaMode !== 0 || (wd !== 0 && wd % 120 === 0 && Math.abs(wd + 3 * d) > .5);
+    if (g.n === 1) g.hint = hint;
+    g.allHint = g.allHint && hint;
+    if (!g.cls) {
+      if (e.deltaMode !== 0) g.cls = 'coarse';
+      else if (!hint && (d % 1 !== 0 || (dx && dy) || Math.abs(d) < 8)) g.cls = 'fine';
+      else if (g.n >= 2 && iv < TUNE.classifyMs) g.cls = (g.allHint || (Math.abs(d) >= 50 && Math.abs(Math.abs(d) - g.prevMag) < 1)) ? 'coarse' : 'fine';
+    }
+    g.prevMag = Math.abs(d);
+  }
+  resolvePend(g) {
+    const d = g.pend; g.pend = 0;
+    if (g.cls === 'coarse') { g.kind = 'arc'; g.coarse = true; if (this.state.mode === 'field') this.arcInput(d, g, performance.now()); }
+    else { g.kind = 'page'; g.coarse = false; this.scrubInput(d, g); }
+  }
+  wv(d, g) { return g.hint && Math.abs(d) < 40 ? Math.sign(d) * 50 : d; }
+  arcInput(d, g, now) {
+    this.user();
+    if (g.coarse) { if (now - g.lastStep < TUNE.arcStepMs) return; g.lastStep = now; this.turnBy(d > 0 ? 1 : -1); return; }
+    this.setState({ drag: cl(this.state.drag + d / TUNE.finePxPerIdentity, -2.4, 2.4), dragging: true });
+  }
+  onWheelN(e) {
+    if (this._size) this._size();
+    const S = this.state; if (S.phase !== 'field') return;
+    const now = performance.now();
+    let dx = e.deltaX, dy = e.deltaY;
+    if (e.deltaMode === 1) { dx *= TUNE.lineHeightPx; dy *= TUNE.lineHeightPx; } else if (e.deltaMode === 2) { dx *= S.H; dy *= S.H; }
+    if (e.shiftKey && !dx) { dx = dy; dy = 0; }
+    let g = this._g;
+    if (!g || g.ended || now - g.last > TUNE.gestureGapMs) {
+      if (g) clearTimeout(g.dT);
+      g = this._g = { last: now, n: 0, cls: null, hint: false, allHint: true, prevMag: 0, pend: 0, dT: null, coarse: false,
+        acc: 0, amt: 0, base: null, kind: null, used: !!this._animating, top: this.scTop(), lastStep: -1e9 };
+    }
+    const iv = now - g.last; g.last = now; g.n++;
+    this.classify(g, e, dx, dy, iv);
+    clearTimeout(this._gEnd); this._gEnd = setTimeout(() => this.gestureEnd(g), TUNE.gestureGapMs);
+    const horiz = Math.abs(dx) > Math.abs(dy) * 1.2;
+    if (g.used || this._animating) { e.preventDefault(); return; }
+    if (S.mode !== 'reading') {
+      e.preventDefault();
+      if (!g.kind) {
+        if (horiz) { g.kind = 'arc'; g.coarse = g.cls === 'coarse'; }
+        else if (S.mode === 'field' && this.inArc(e.clientX, e.clientY)) g.kind = g.cls === 'fine' ? 'page' : g.cls === 'coarse' ? 'arc' : 'pend';
+        else g.kind = 'page';
+        if (g.kind === 'arc' && !horiz) g.coarse = true;
+      }
+      if (g.kind === 'pend') {
+        g.pend += dy;
+        if (!g.cls) { if (!g.dT) g.dT = setTimeout(() => { g.dT = null; if (g.kind !== 'pend' || g.used || this._animating) return; g.cls = 'coarse'; this.resolvePend(g); }, TUNE.classifyMs); return; }
+        clearTimeout(g.dT); g.dT = null; this.resolvePend(g); return;
+      }
+      if (g.kind === 'arc') { if (S.mode === 'field') this.arcInput(horiz ? dx : dy, g, now); return; }
+      if (!horiz) { g.coarse = g.cls === 'coarse' || g.hint; this.scrubInput(this.wv(dy, g), g); }
+      return;
+    }
+    if (horiz || g.kind === 'arc') return;
+    if (g.base === 1 || (dy < 0 && g.top <= 1 && this.scTop() <= 1)) { e.preventDefault(); g.kind = 'page'; g.coarse = g.cls === 'coarse' || g.hint; this.scrubInput(this.wv(dy, g), g); }
+  }
+  onTS(e) {
+    const t = e.touches[0];
+    this._tch = { x: t.clientX, y: t.clientY, py: t.clientY, top: this.scTop(), axis: null,
+      g: { touch: true, coarse: false, acc: 0, amt: 0, base: null, kind: 'page', used: !!this._animating } };
+  }
+  onTM(e) {
+    const c = this._tch, S = this.state; if (!c || S.phase !== 'field') return;
+    const t = e.touches[0], dx = t.clientX - c.x, dy = t.clientY - c.y, inc = c.py - t.clientY; c.py = t.clientY;
+    if (!c.axis && Math.hypot(dx, dy) > 8) c.axis = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
+    const g = c.g;
+    if (this._animating || g.used) { e.preventDefault(); return; }
+    if (S.mode !== 'reading') { e.preventDefault(); if (c.axis === 'v') this.scrubInput(inc, g); return; }
+    if (c.axis === 'v' && c.top <= 1 && this.scTop() <= 1 && (g.base === 1 || dy > 0)) { e.preventDefault(); this.scrubInput(inc, g); }
+  }
+  onTE() { const c = this._tch; this._tch = null; if (c) this.gestureEnd(c.g); }
+
+  /* identity input */
+  turnBy(n, auto) {
+    if (!auto) this.user();
+    this.setState(s => ({ turn: s.turn + n }));
+    if (this.state.mode === 'reading') { this.setState({ hot: true }); clearTimeout(this._ht); this._ht = setTimeout(() => this.setState({ hot: false }), 1500); }
+    if (this.state.focus) this.T(0, () => this.focusActive());
+  }
+  select(k) { const cur = mod(Math.round(this.state.turn), 5); const d = mod(k - cur + 2, 5) - 2; if (d) this.turnBy(d); }
+  focusActive() { const r = this.rootRef.current, b = r && r.querySelector('button[aria-current="true"]'); if (b) b.focus({ preventScroll: true }); }
+  go(k) {
+    if (this._suppress) return;
+    const S = this.state; if (S.phase !== 'field' || S.mode === 'moving' || S.mode === 'scrub') return;
+    const cur = mod(Math.round(S.turn + S.drag), 5);
+    if (S.mode === 'reading') { if (k === cur) { if (this._L.mob) { this.setState({ mSel: true }); this.T(30, () => { const r = this.rootRef.current, b = r && r.querySelector('[role=dialog] button[aria-current="true"]'); if (b) b.focus(); }); } else this.openField(); } else this.select(k); }
+    else if (k !== cur) this.select(k);
+  }
+  settle(extra) { const n = Math.round(this.state.drag + (extra || 0)); this.setState(s => ({ turn: s.turn + n, drag: 0, dragging: false })); }
+  onPDH(e) {
+    this._kbd = false; this.user();
+    const S = this.state;
+    if (S.phase !== 'field' || S.mode !== 'field' || this._animating || e.button !== 0) return;
+    if (e.target.closest && e.target.closest('a')) return;
+    if (e.pointerType === 'mouse' && !this._L.mob && !this.inArc(e.clientX, e.clientY)) return;
+    this._pd = { x: e.clientX, y: e.clientY, moved: false, t: performance.now(), prev: 0, v: 0, touch: e.pointerType !== 'mouse' };
+    this._pm = ev => this.onPM(ev); this._pu = () => this.onPU();
+    window.addEventListener('pointermove', this._pm); window.addEventListener('pointerup', this._pu); window.addEventListener('pointercancel', this._pu);
+  }
+  onPM(e) {
+    const d = this._pd; if (!d) return;
+    const dx = e.clientX - d.x, dy = e.clientY - d.y;
+    if (!d.moved) {
+      if (Math.hypot(dx, dy) < 7) return;
+      if (d.touch && Math.abs(dy) > Math.abs(dx)) { this._pd = null; this.onPU(); return; }
+      d.moved = true; this._suppress = true;
+    }
+    const L = this._L;
+    const turns = cl((L.mob || d.touch) ? -dx / L.dragU : -(dx * L.vx + dy * L.vy) / (L.vx * L.vx + L.vy * L.vy), -2.4, 2.4);
+    const now = performance.now(), dt = Math.max(1, now - d.t);
+    d.v = d.v * .5 + ((turns - d.prev) / dt) * .5; d.prev = turns; d.t = now;
+    this.setState({ drag: turns, dragging: true });
+  }
+  onPU() {
+    window.removeEventListener('pointermove', this._pm); window.removeEventListener('pointerup', this._pu); window.removeEventListener('pointercancel', this._pu);
+    const d = this._pd; this._pd = null;
+    if (d && d.moved) { this.settle(cl(d.v * 160, -1, 1)); setTimeout(() => { this._suppress = false; }, 0); }
+  }
+  onKey(e) {
+    this._kbd = true;
+    const a = document.activeElement; if (a && /INPUT|TEXTAREA|SELECT/.test(a.tagName)) return;
+    const S = this.state;
+    if (e.key === 'Escape') {
+      if (S.mSel) { this.setState({ mSel: false }); this.T(20, () => this.focusActive()); }
+      else if (S.hover || S.focus || S.hot) { this.setState({ hover: false, hot: false }); if (a && a.blur) a.blur(); }
+      return;
+    }
+    if (S.phase !== 'field' || this._animating || S.mSel) return;
+    const onBtn = a && (a.tagName === 'BUTTON' || a.tagName === 'A');
+    if (S.mode === 'field') {
+      if (e.key === 'ArrowRight') { e.preventDefault(); this.turnBy(1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); this.turnBy(-1); }
+      else if (e.key === 'ArrowDown' || e.key === 'PageDown' || (e.key === ' ' && !onBtn)) { e.preventDefault(); this.commit(1); }
+      return;
+    }
+    if (S.focus && /^Arrow/.test(e.key)) { e.preventDefault(); this.turnBy(e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1); return; }
+    if ((e.key === 'ArrowUp' || e.key === 'PageUp') && this.scTop() <= 1) { e.preventDefault(); this.commit(-1); }
+  }
+
+  trackAt(L, d) {
+    const dd = cl(d, -3, 3) + 3, i = Math.min(5, Math.floor(dd)), f = dd - i, a = L.track[i], b = L.track[i + 1];
+    return { x: lerp(a.x, b.x, f), y: lerp(a.y, b.y, f), s: lerp(a.s, b.s, f), op: lerp(a.op, b.op, f) };
+  }
+  layout(W, H, mob) {
+    const v = V, lab = this._labRat, avg = this._rat.reduce((a, b) => a + b, 0) / 5;
+    if (!mob) {
+      const u = Math.min(W / 1440, H / 900), m = .04 * W, F = v.F * u;
+      const track = v.tx.map((x, i) => ({ x: x * W, y: v.ty[i] * H, s: v.ts[i], op: v.to[i] }));
+      const Rr = a => ({ l: a[0] * W, t: a[1] * H, w: (a[2] - a[0]) * W, h: (a[3] - a[1]) * H });
+      const Tt = a => ({ x: a[0] * W, y: a[1] * H, fs: a[2] * u, w: a[3] * W });
+      const Ll = a => ({ x: a[0] * W, y: a[1] == null ? null : a[1] * H, w: a[2] * W, fs: a[3] * u });
+      const labF = 12 * u, wF = 18 * u, labX = W / 2 - (lab * labF + 8 * u + avg * wF) / 2;
+      return { mob, u, m, F, fitW: v.fit * W, track, labF, lab0: { x: track[3].x + 3 * u, y: track[3].y - 25 * u },
+        head: { labX, labY: 28 * u, wX: labX + lab * labF + 8 * u, wY: 25 * u, wF, rowH: 26 * u },
+        img0: Rr(v.img0), img1: Rr(v.img1), t0: Tt(v.t0), t1: Tt(v.t1), l0: Ll(v.l0), l1: Ll(v.l1),
+        ev1: { x: v.ev1[0] * W, y: v.ev1[1] * H, w: v.ev1[2] * W }, evF: 14.5 * u,
+        dragU: 180 * u, vx: (v.tx[4] - v.tx[3]) * W, vy: (v.ty[4] - v.ty[3]) * H,
+        nameY: 28 * u, hdrF: 12 * u, bandH: 64 * u, en: { x: v.en[0] * W, y: v.en[1] * H, f: v.en[2] * u }, optF: 24 * u, hintF: 14 * u };
+    }
+    const u = W / 390, m = 20 * u, y0 = .21 * H, F = v.mF * u, dy = [-124, -90, -54, 0, 70, 106, 134], ts = [.25, .32, .45, 1, .45, .32, .25];
+    const track = dy.map((y, i) => ({ x: m, y: y0 + y * u, s: ts[i], op: v.mOp[i] }));
+    const labF = 11 * u, iw = W - 2 * m;
+    const img0 = { l: m, t: y0 + 152 * u, w: iw, h: iw * .64 }, img1 = { l: 0, t: 96 * u, w: W, h: W * .84 };
+    return { mob, u, m, F, fitW: iw, track, labF, lab0: { x: m, y: y0 - 19 * u },
+      head: { labX: m, labY: 60 * u, wX: m + lab * labF + 7 * u, wY: 55.5 * u, wF: 22 * u, rowH: 0 },
+      img0, img1, t0: { x: m, y: img0.t + img0.h + 16 * u, fs: 26 * u, w: iw }, t1: { x: m, y: img1.t + img1.h + 22 * u, fs: 40 * u, w: iw },
+      l0: { x: m, y: null, w: iw, fs: 14.5 * u }, l1: { x: m, y: null, w: iw, fs: 16 * u }, ev1: { x: m, y: null, w: iw }, evF: 13.5 * u,
+      dragU: 80 * u, vx: 1, vy: 0, nameY: 20 * u, hdrF: 11 * u, bandH: 88 * u, en: { x: m, y: .28 * H, f: 58 * u }, optF: 22 * u, hintF: 13 * u };
+  }
+  renderVals() {
+    const rr = this.rootRef.current;
+    if (rr && rr.clientWidth && (rr.clientWidth !== this.state.W || rr.clientHeight !== this.state.H)) this.T(0, () => this._size && this._size());
+    const S = this.state, v = V, W = S.W, H = S.H, mob = W < 720;
+    const L = this.layout(W, H, mob); this._L = L;
+    const u = L.u, m = L.m, F = L.F, rm = this.rm;
+    const hiring = S.phase === 'hiring', curious = !hiring, ph = S.phase;
+    const p = ph === 'field' ? S.p : 0;
+    const eW = sm(p), eI = sm(p), eT = sm(p);
+    const pos = S.turn + S.drag + S.nudge, k0 = mod(Math.round(pos), 5), sel = IDS[k0]; this._sel = sel;
+    const moving = S.dragging || this._animating || S.mode === 'scrub';
+    const reading = curious && S.mode === 'reading';
+    const expanded = reading && !mob && (S.hover || S.focus || S.hot);
+    const rv = S.revealed && curious;
+    if (rv && !this._rvPrev) this._revAt = Date.now(); this._rvPrev = rv;
+    const revealing = Date.now() - (this._revAt || 0) < 1700;
+
+    const rs = L.head.wF / F;
+    const words = IDS.map((word, k) => {
+      const d = mod(k - pos + 2.5, 5) - 2.5, dr = mod(k - Math.round(pos) + 2, 5) - 2, r = mod(dr, 5);
+      const fit = Math.min(1, L.fitW / (this._rat[k] * F));
+      const tp = this.trackAt(L, rv ? d : d + .9);
+      const x = lerp(tp.x, L.head.wX, eW), y = lerp(tp.y, L.head.wY + (expanded ? r * L.head.rowH : 0), eW), s = lerp(tp.s * fit, rs, eW);
+      const ro = r === 0 ? 1 : (expanded ? .45 : 0);
+      let op = !rv ? 0 : dr === 0 ? 1 : lerp(tp.op, ro, reading ? 1 : cl(p / .45));
+      if (rv && dr !== 0 && S.arcHover && S.mode === 'field') op = Math.min(1, op + (Math.abs(dr) === 1 ? .08 : .05));
+      const pd = this._prevD[k], pR = this._prevR[k];
+      const wrap = (pd != null && Math.abs(d - pd) > 2.5) || (reading && pR != null && Math.abs(r - pR) > 2);
+      this._prevD[k] = d; this._prevR[k] = r;
+      const dur = reading ? 600 : 850, delay = revealing && !reading ? 150 + Math.abs(dr) * 110 : 0;
+      const trans = (moving || wrap || rm) ? 'none' : 'transform ' + dur + 'ms ' + EASE + ' ' + delay + 'ms, opacity ' + (reading ? 300 : 600) + 'ms ease ' + delay + 'ms';
+      const live = op > .08 && rv && S.mode !== 'moving' && S.mode !== 'scrub';
+      return { word, x: r2(x), y: r2(y), s: Math.round(s * 1e4) / 1e4, op: r2(op), trans, pe: live ? 'auto' : 'none', tab: live ? 0 : -1,
+        cur: dr === 0 ? 'true' : 'false', aria: dr === 0 ? (reading ? 'I am a ' + word.toLowerCase() + '. Open identity field' : 'I am a ' + word.toLowerCase()) : 'Switch to ' + word.toLowerCase(), go: () => this.go(k) };
+    });
+
+    this._wb = words.filter(w => w.op > .1).map(w => ({ x: w.x, y: w.y, w: this._rat[IDS.indexOf(w.word)] * F * w.s, h: F * .9 * w.s }))
+      .concat([{ x: L.lab0.x, y: L.lab0.y, w: this._labRat * L.labF, h: L.labF }]);
+    const cueOn = curious && ph === 'field' && S.cueReady && !S.seenReading && S.mode !== 'reading';
+    const cueOp = r2((cueOn ? (S.cueIdle ? .24 : .15) : 0) * (1 - cl(p / TUNE.cueFadeAt)));
+
+    const HATCH = 'repeating-linear-gradient(135deg,rgba(237,235,230,.045) 0 1px,transparent 1px 11px)';
+    const fl = id => { const pid = ORDER[id][0]; return { pid, P: P[pid], ln: P[pid].lens[id] }; };
+    const curT = fl(sel).P.title;
+    if (this._tr.cur !== curT) this._tr = { prev: this._tr.cur, cur: curT };
+    const titles = FLAG.map(t => ({ t, y: t === curT ? 0 : t === this._tr.prev ? -115 : 115, trans: rm ? 'none' : (t === curT || t === this._tr.prev) ? 'transform 820ms ' + EASE : 'none' }));
+    const nL = (s, fs, w, k) => Math.max(1, Math.ceil(s.length * k * fs / w));
+    const lyOf = (lo, to) => lo.y != null ? lo.y : to.y + nL(curT, to.fs, to.w, .45) * to.fs * .95 + 16 * u;
+    const curLine = fl(sel).ln.line, ly1 = lyOf(L.l1, L.t1);
+    const evY = L.ev1.y != null ? L.ev1.y : ly1 + nL(curLine, L.l1.fs, L.l1.w, .5) * L.l1.fs * 1.45 + 18 * u;
+    const fade = rm ? 'none' : 'opacity 420ms ease 80ms';
+
+    const lensOf = (pid, id) => P[pid].lens[id] || P[pid].lens[P[pid].primary];
+    const mk = (pid, id, n) => {
+      if (pid === 'gallery') return { id: 'selected-frames', num: n, title: 'Selected frames', meta: 'Purdue Brand Studio · 2024–', line: 'Portraits, crowds and details from campus assignments.', ev: [],
+        imgs: [{ tone: '#2A2522', label: 'grad portrait — Purdue gateway', src: 'assets/photo-grad.jpg', pos: 'center 45%', flex: 1 }, { tone: '#24221F', label: 'Aurum Models — runway, winged look', src: 'assets/photo-aurum.jpg', pos: 'center 40%', flex: 1.5 }, { tone: '#2B2724', label: 'Diwali — ticket table from above', src: 'assets/photo-diwali.jpg', pos: 'center 55%', flex: 1 }].map(x => ({ ...x, bg: x.src ? 'url("' + x.src + '")' : 'none', fit: 'cover', pos: x.pos || 'center', hatch: x.src ? 'none' : HATCH, href: 'https://ehtishamphoto.pixieset.com/', target: '_blank', noSrc: !x.src, role: x.src ? 'img' : 'presentation', alt: x.src ? x.label : '' })) };
+      const ln = lensOf(pid, id);
+      const url = P[pid].url, ctn = ln.src && ln.fit === 'contain';
+      return { id: pid, num: n, title: P[pid].title, href: url || '#' + pid, target: url ? '_blank' : '_self', meta: P[pid].meta, line: ln.line, ev: (ln.ev || []).map(x => ({ v: x })), imgs: [{ tone: ctn ? 'transparent' : ln.tone, hatch: ctn ? 'none' : HATCH, pos: ctn ? 'left center' : (ln.pos || 'center'), href: url || '#' + pid, target: url ? '_blank' : '_self', label: ln.img, flex: 1, bg: ln.src ? 'url("' + ln.src + '")' : 'none', fit: ln.fit || 'cover', noSrc: !ln.src, role: ln.src ? 'img' : 'presentation', alt: P[pid].title + ': ' + ln.img }] };
+    };
+    const moments = hiring ? HIRE.slice(1).map((pid, i) => mk(pid, P[pid].primary, '0' + (i + 2))) : ORDER[S.momId].slice(1).map((pid, i) => mk(pid, S.momId, '0' + (i + 2)));
+    const used = hiring ? HIRE : ORDER[S.momId];
+    const more = Object.keys(P).filter(pid => !used.includes(pid)).map(pid => ({ id: pid, title: P[pid].title, line: P[pid].lens[P[pid].primary].line, href: P[pid].url, target: P[pid].url ? '_blank' : undefined, cur: P[pid].url ? 'pointer' : 'default' }));
+
+    const g = v.g;
+    const im = { l: lerp(L.img0.l, L.img1.l, eI), t: lerp(L.img0.t, L.img1.t, eI), w: lerp(L.img0.w, L.img1.w, eI), h: lerp(L.img0.h, L.img1.h, eI) };
+    const maxW = Math.max(...this._rat) * L.head.wF;
+    const selEnter = () => { clearTimeout(this._lt); if (this.state.mode === 'reading' && !this.state.hover) this.setState({ hover: true }); };
+    const selLeave = () => { clearTimeout(this._lt); this._lt = setTimeout(() => this.setState({ hover: false }), 260); };
+    const s = n => r2(n * u);
+
+    return {
+      rootRef: this.rootRef, scRef: this.scRef, measRef: this.measRef, waterRef: this.waterRef,
+      rootH: '100vh', H, m: r2(m), F: r2(F), cursor: S.dragging ? 'grabbing' : (S.arcHover && S.mode === 'field' ? 'grab' : 'auto'),
+      us: ph === 'field' && S.mode !== 'reading' ? 'none' : 'auto', ta: ph === 'field' && S.mode !== 'reading' ? 'none' : 'auto',
+      ovY: (hiring || (ph === 'field' && S.mode === 'reading')) ? 'auto' : 'hidden',
+      measWords: IDS.map(w => ({ w })),
+      scOp: S.scOp, full: true, isCurious: curious, isHiring: hiring,
+
+      imL: r2(im.l), imT: r2(im.t), imW: r2(im.w), imH: r2(im.h),
+      revealClip: rv ? 0 : 100, revealTrans: rm ? 'none' : 'clip-path 1000ms ' + EASE + ' 250ms', revealOp: rv ? 1 : 0,
+      imCursor: (S.mode === 'field' || fl(sel).P.url) ? 'pointer' : 'default',
+      toReading: () => { if (this.state.mode === 'field') this.commit(1); else { const u = fl(this.state.sel ?? sel).P.url; if (u) window.open(u, '_blank', 'noopener'); } },
+      imgs: IDS.map((id, k) => { const f = fl(id), on = k === k0, src = f.ln.src || '';
+        return { pos: f.ln.pos || 'center', fit: f.ln.fieldFit || 'cover', hatch: src ? 'none' : HATCH, slot: f.pid + '-' + id.toLowerCase(), slotName: f.P.title + ' · ' + id + ' image', bg: src ? 'url("' + src + '")' : 'none', role: src ? 'img' : 'presentation', noSrc: !src, alt: f.P.title + ': ' + f.ln.img,
+          tone: f.ln.tone, label: f.ln.img, clip: on ? 'inset(0 0 0 0)' : 'inset(0 0 100% 0)', z: on ? 2 : 1, trans: rm ? 'none' : on ? 'clip-path 900ms ' + EASE : 'clip-path 0s 950ms' }; }),
+      capF: s(mob ? 10 : 11), capPad: s(mob ? 12 : 16),
+      tX: r2(lerp(L.t0.x, L.t1.x, eT)), tY: r2(lerp(L.t0.y, L.t1.y, eT)), tW: r2(lerp(L.t0.w, L.t1.w, eT)), tFs: r2(lerp(L.t0.fs, L.t1.fs, eT)),
+      titles, numOp: r2(sm(cl((p - .5) / .4))), numGap: s(10), smF: s(mob ? 11 : 12), s4: s(4),
+      lX: r2(lerp(L.l0.x, L.l1.x, eT)), lY: r2(lerp(lyOf(L.l0, L.t0), ly1, eT)), lW: r2(lerp(L.l0.w, L.l1.w, eT)), lFs: r2(lerp(L.l0.fs, L.l1.fs, eT)),
+      lines: IDS.map((id, k) => ({ text: fl(id).ln.line, op: k === k0 ? 1 : 0, trans: fade })),
+      evX: r2(L.ev1.x), evY: r2(evY), evW: r2(L.ev1.w), evF: r2(L.evF), evGap: s(6), evOp: rv ? r2(sm(cl((p - .6) / .4))) : 0,
+      evs: IDS.map((id, k) => ({ head: EVH[id], items: (fl(id).ln.ev || []).map(x => ({ v: x })), op: k === k0 ? 1 : 0, trans: fade })),
+
+      gCols: mob ? 'minmax(0,1fr)' : g.cols, gAreas: mob ? '"i" "t" "l" "e"' : g.areas, heroAreas: mob ? '"t" "i" "l" "e"' : g.areas, gRows: mob ? 'auto' : g.rows,
+      gGap: mob ? 0 : r2(.04 * W), rowGap: s(mob ? 16 : 24), mImgH: r2(mob ? W * .8 : g.imgH * H), heroImgH: r2(mob ? W * .72 : g.heroImgH * H),
+      imgBleed: mob ? '0 ' + (-r2(m)) + 'px' : '0', secPad: r2(mob ? 72 * u : .14 * H) + 'px ' + r2(m) + 'px 0', footPad: r2(mob ? 72 * u : .14 * H) + 'px ' + r2(m) + 'px ' + r2(mob ? 72 * u : .12 * H) + 'px',
+      heroPad: s(mob ? 76 : 88) + 'px ' + r2(m) + 'px ' + s(24) + 'px',
+      mTF: s(mob ? 40 : g.tF), mLF: s(mob ? 16 : g.lF), metaF: s(mob ? 12 : 12.5), nameF: s(mob ? 54 : g.nameF), posF: s(mob ? 17 : 19), capTF: s(mob ? 24 : 26),
+      listCols: mob ? 'minmax(0,1fr)' : g.list, listTF: s(mob ? 22 : 26), expCols: mob ? 'minmax(0,1fr)' : 'minmax(0,.30fr) minmax(0,.44fr) minmax(0,.18fr)', expTF: s(mob ? 20 : 24), mailF: s(mob ? 40 : 72),
+      s6: s(6), s8: s(8), s10: s(10), s12: s(12), s18: s(18), s22: s(22),
+      moments, momOp: hiring ? 1 : S.momOp, more, exp: EXP,
+
+      showEntry: !S.entryGone, entryOp: (ph === 'entry' || ph === 'who' || ph === 'reveal') ? 1 : 0, entryPe: ph === 'entry' ? 'auto' : 'none',
+      enX: r2(L.en.x), enY: r2(L.en.y), enF: r2(L.en.f), optY: r2(L.en.y + L.en.f * 1.3), optF: r2(L.optF), hintF: r2(L.hintF),
+      whoY: (ph === 'reveal' || ph === 'field') ? -115 : 0, rollA: (ph === 'entry' || hiring) ? 0 : -115, rollB: (ph === 'entry' || hiring) ? 115 : ph === 'who' ? 0 : -115,
+      enTrans: rm ? 'none' : 'transform 800ms ' + EASE, optsOp: ph === 'entry' ? 1 : 0,
+      hireOp: S.eHover === 'cur' ? .3 : 1, curOp: S.eHover === 'hire' ? .3 : 1, hintHire: S.eHover === 'hire' ? 1 : 0, hintCur: S.eHover === 'cur' ? 1 : 0,
+      onHire: () => this.startHiring(), onCurious: () => this.startCurious(),
+      hHire: () => this.setState({ eHover: 'hire' }), hCur: () => this.setState({ eHover: 'cur' }), hNone: () => this.setState({ eHover: null }),
+
+      bandH: r2(curious ? L.bandH : (mob ? 46 * u : L.bandH)), bandOp: (S.st > 4 || (curious && ph === 'field' && p > .5)) ? 1 : 0,
+      nameY: r2(L.nameY), hdrF: r2(L.hdrF),
+      onName: e => { e.preventDefault(); this.goEntry(); },
+      showLongWay: hiring && !mob, takeLongWay: () => this.takeLongWay(),
+      bdX: r2(L.head.labX - 18 * u), bdY: r2(L.head.wY - 14 * u), bdW: r2(L.head.wX - L.head.labX + maxW + 36 * u), bdH: r2(expanded ? 5 * L.head.rowH + 20 * u : L.head.rowH + 12 * u),
+      bdOp: expanded ? 1 : 0, bdPe: reading && !mob ? 'auto' : 'none', selEnter, selLeave,
+      selFocus: () => this.setState({ focus: true }), selBlur: () => this.setState({ focus: false }),
+      labF: r2(L.labF), labX: r2(lerp(L.lab0.x, L.head.labX, eW)), labY: r2(lerp(L.lab0.y, L.head.labY, eW)), labOp: rv ? 1 : 0,
+      words,
+      cueOp, cueY: S.cueNudge ? s(5) : 0, cueB: s(mob ? 24 : 30), cueA: s(40), cueH: s(12),
+      cueTrans: (p > 0 || rm) ? 'transform 450ms ease' : 'opacity 900ms ease, transform 450ms ease',
+
+      mSelOpen: S.mSel, mSelF: s(52), mSelTop: r2(.14 * H),
+      closeSel: () => { this.setState({ mSel: false }); this.T(20, () => this.focusActive()); },
+      mSelList: IDS.map((w, k) => ({ word: w, op: k === k0 ? 1 : .36, cur: k === k0 ? 'true' : 'false', go: () => { this.select(k); this.setState({ mSel: false }); } }))
+    };
+  }
+}
+</script>
+</body>
+</html>
